@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — Inscription</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --orange:#ff8c00; --orange-l:#ffaa33; --cyan:#00c8ff;
+  --navy:#0a0f1e; --card:#111827; --card2:#0f1b2d;
+  --border:rgba(255,255,255,0.08); --text:#e8f0ff;
+  --muted:rgba(255,255,255,0.38); --error:#ff4d6d; --ok:#00e5a0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(0,85,200,.18) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 100% 100%,rgba(255,140,0,.1) 0%,transparent 60%);pointer-events:none;}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;}
+
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 16px 52px;}
+
+/* LOGO */
+.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:26px;animation:fadeD .7s cubic-bezier(.16,1,.3,1) both;}
+.lrow{display:flex;align-items:center;gap:10px;}
+.lbars{display:flex;align-items:flex-end;gap:3px;height:28px;}
+.lb{width:5px;border-radius:2px 2px 1px 1px;animation:bpop .6s cubic-bezier(.34,1.56,.64,1) both;}
+.lb1{height:28px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.1s;}
+.lb2{height:17px;background:linear-gradient(180deg,rgba(0,200,255,.6),rgba(0,68,255,.6));animation-delay:.15s;}
+.lb3{height:24px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.2s;}
+.lb4{height:12px;background:linear-gradient(180deg,rgba(0,200,255,.3),rgba(0,68,255,.3));animation-delay:.25s;}
+.lb5{height:28px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.3s;box-shadow:0 0 10px rgba(0,200,255,.5);}
+@keyframes bpop{from{transform:scaleY(0);transform-origin:bottom;}to{transform:scaleY(1);transform-origin:bottom;}}
+.lnnp{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;line-height:1;background:linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 12px rgba(0,200,255,.3));}
+.lsub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3.5px;color:rgba(0,200,255,.45);text-transform:uppercase;}
+
+/* CARD */
+.card{width:100%;max-width:480px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:24px;padding:32px 28px 36px;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 60px rgba(0,40,120,.3),0 32px 64px rgba(0,0,0,.5);animation:fadeU .8s cubic-bezier(.16,1,.3,1) .1s both;}
+.card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.7;}
+.cn{position:absolute;width:14px;height:14px;}
+.ctl{top:12px;left:12px;border-top:1.5px solid rgba(255,140,0,.4);border-left:1.5px solid rgba(255,140,0,.4);}
+.ctr{top:12px;right:12px;border-top:1.5px solid rgba(255,140,0,.4);border-right:1.5px solid rgba(255,140,0,.4);}
+.cbl{bottom:12px;left:12px;border-bottom:1.5px solid rgba(0,200,255,.3);border-left:1.5px solid rgba(0,200,255,.3);}
+.cbr{bottom:12px;right:12px;border-bottom:1.5px solid rgba(0,200,255,.3);border-right:1.5px solid rgba(0,200,255,.3);}
+
+.ctitle{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-bottom:3px;}
+.ctitle span{color:var(--orange);}
+.cstep{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:22px;}
+
+/* ALERT */
+.alert{padding:11px 14px;border-radius:12px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:16px;animation:slin .3s ease;}
+.alert.err{display:flex;background:rgba(255,77,109,.09);border:1px solid rgba(255,77,109,.25);color:#ff8fa3;}
+.alert.ok {display:flex;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.22);color:var(--ok);}
+@keyframes slin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* FORM */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.f{display:flex;flex-direction:column;gap:6px;}
+.f.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.48);text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.req{color:var(--orange);font-size:13px;line-height:1;}
+.iw{position:relative;}
+.iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;opacity:.5;}
+input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 13px 12px 40px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;}
+select{cursor:pointer;padding-right:36px;}
+option{background:#111827;color:#fff;}
+.sa{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4;font-size:11px;}
+input::placeholder{color:rgba(255,255,255,.18);font-weight:400;}
+input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow:0 0 0 3px rgba(255,140,0,.1);}
+.eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px;}
+.eye:hover{color:var(--orange);}
+
+/* REFERRAL */
+.rb{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:20px;background:rgba(0,229,160,.1);color:var(--ok);border:1px solid rgba(0,229,160,.2);text-transform:uppercase;display:none;font-family:'DM Mono',monospace;font-weight:600;}
+.rb.on{display:block;}
+
+/* SUBMIT */
+.btn{width:100%;padding:15px;margin-top:6px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 28px rgba(255,140,0,.35);}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s;}
+.btn:hover::before{left:100%;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 36px rgba(255,140,0,.5);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.bi{display:flex;align-items:center;justify-content:center;gap:10px;}
+.sp{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.cfooter{margin-top:18px;text-align:center;font-size:13px;font-weight:600;color:var(--muted);}
+.cfooter a{color:var(--cyan);text-decoration:none;}
+.cfooter a:hover{text-decoration:underline;}
+
+.srow{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px;}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.2);text-transform:uppercase;}
+
+@keyframes fadeU{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeD{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:480px){.card{padding:28px 18px 32px;}.fg{grid-template-columns:1fr;}.f.full{grid-column:1;}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+<div class="page">
+
+  <div class="lhdr">
+    <div class="lrow">
+      <div class="lbars"><div class="lb lb1"></div><div class="lb lb2"></div><div class="lb lb3"></div><div class="lb lb4"></div><div class="lb lb5"></div></div>
+      <div class="lnnp">NNP</div>
+    </div>
+    <div class="lsub">New Numeric Platform</div>
+  </div>
+
+  <div class="card">
+    <div class="cn ctl"></div><div class="cn ctr"></div><div class="cn cbl"></div><div class="cn cbr"></div>
+
+    <div class="ctitle">Créer un <span>compte</span></div>
+    <div class="cstep">📋 Informations personnelles</div>
+
+    <div id="ab" class="alert"></div>
+
+    <div class="fg">
+
+      <div class="f full">
+        <label><span class="req">*</span> Nom complet</label>
+        <div class="iw"><span class="ic">👤</span><input type="text" id="nom" placeholder="Ex: Jean Dupont"></div>
+      </div>
+
+      <div class="f full">
+        <label><span class="req">*</span> Numéro de téléphone</label>
+        <div class="iw"><span class="ic">📱</span><input type="tel" id="tel" placeholder="+225 07 00 00 00 00"></div>
+      </div>
+
+      <div class="f full">
+        <label><span class="req">*</span> Adresse e-mail</label>
+        <div class="iw"><span class="ic">✉️</span><input type="email" id="email" placeholder="exemple@mail.com"></div>
+      </div>
+
+      <div class="f full">
+        <label><span class="req">*</span> Pays de résidence</label>
+        <div class="iw">
+          <span class="ic">🌍</span>
+          <select id="pays">
+            <option value="">— Sélectionner votre pays —</option>
+            <optgroup label="🌍 Afrique de l'Ouest">
+              <option>Bénin</option><option>Burkina Faso</option><option>Cabo Verde</option><option>Côte d'Ivoire</option><option>Gambie</option><option>Ghana</option><option>Guinée</option><option>Guinée-Bissau</option><option>Liberia</option><option>Mali</option><option>Mauritanie</option><option>Niger</option><option>Nigeria</option><option>Sénégal</option><option>Sierra Leone</option><option>Togo</option>
+            </optgroup>
+            <optgroup label="🌍 Afrique Centrale">
+              <option>Cameroun</option><option>Congo</option><option>Gabon</option><option>Guinée équatoriale</option><option>RD Congo</option><option>Tchad</option><option>République centrafricaine</option>
+            </optgroup>
+            <optgroup label="🌍 Afrique de l'Est">
+              <option>Burundi</option><option>Djibouti</option><option>Éthiopie</option><option>Kenya</option><option>Madagascar</option><option>Maurice</option><option>Mozambique</option><option>Ouganda</option><option>Rwanda</option><option>Tanzanie</option><option>Zambie</option><option>Zimbabwe</option>
+            </optgroup>
+            <optgroup label="🌍 Afrique du Nord">
+              <option>Algérie</option><option>Égypte</option><option>Libye</option><option>Maroc</option><option>Tunisie</option>
+            </optgroup>
+            <optgroup label="🌍 Afrique Australe">
+              <option>Afrique du Sud</option><option>Angola</option><option>Botswana</option><option>Namibie</option>
+            </optgroup>
+            <optgroup label="🌐 Europe">
+              <option>Belgique</option><option>France</option><option>Italie</option><option>Portugal</option><option>Royaume-Uni</option><option>Suisse</option><option>Espagne</option><option>Allemagne</option><option>Autre Europe</option>
+            </optgroup>
+            <optgroup label="🌎 Amériques">
+              <option>Canada</option><option>États-Unis</option><option>Haïti</option><option>Autre Amériques</option>
+            </optgroup>
+            <optgroup label="🌏 Autre">
+              <option>Autre pays</option>
+            </optgroup>
+          </select>
+          <span class="sa">▼</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <label><span class="req">*</span> Mot de passe</label>
+        <div class="iw"><span class="ic">🔒</span><input type="password" id="mdp" placeholder="••••••••"><button class="eye" type="button" onclick="tp('mdp',this)">👁</button></div>
+      </div>
+
+      <div class="f">
+        <label><span class="req">*</span> Confirmer</label>
+        <div class="iw"><span class="ic">🔑</span><input type="password" id="conf" placeholder="••••••••"><button class="eye" type="button" onclick="tp('conf',this)">👁</button></div>
+      </div>
+
+      <div class="f full">
+        <label>🎁 Code parrainage <span style="color:var(--muted);font-size:9px;letter-spacing:0;text-transform:none;font-weight:400;">(optionnel)</span></label>
+        <div class="iw"><span class="ic">🎁</span><input type="text" id="ref" placeholder="Ex: NNP-ABC123" style="text-transform:uppercase" oninput="chkRef(this)"><span class="rb" id="rb">✓ Valide</span></div>
+      </div>
+
+    </div>
+
+    <button class="btn" id="sbtn" onclick="go()">
+      <div class="bi"><div class="sp" id="sp"></div><span id="bt">🚀 Créer mon compte</span></div>
+    </button>
+
+    <div class="cfooter">Déjà inscrit ? <a href="nnp-login.html">Se connecter →</a></div>
+  </div>
+
+  <div class="srow">
+    <div class="si">🔐 Sécurisé</div>
+    <div class="si">⚡ Activation rapide</div>
+    <div class="si">🌍 Mondial</div>
+  </div>
+</div>
+
+<script>
+const {createClient}=supabase;
+const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
+
+function tp(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
+function chkRef(el){document.getElementById('rb').classList.toggle('on',el.value.trim().length>=6);}
+function alert2(msg,type='err'){const b=document.getElementById('ab');b.className='alert '+type;b.innerHTML=(type==='err'?'⚠️ ':'✅ ')+msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function setLoad(on){const btn=document.getElementById('sbtn'),sp=document.getElementById('sp'),tx=document.getElementById('bt');btn.disabled=on;sp.style.display=on?'block':'none';tx.textContent=on?'Création en cours...':'🚀 Créer mon compte';}
+
+async function go(){
+  const nom=document.getElementById('nom').value.trim();
+  const tel=document.getElementById('tel').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const pays=document.getElementById('pays').value;
+  const mdp=document.getElementById('mdp').value;
+  const conf=document.getElementById('conf').value;
+  const ref=document.getElementById('ref').value.trim().toUpperCase();
+
+  if(!nom) return alert2('Veuillez entrer votre nom complet.');
+  if(!tel) return alert2('Veuillez entrer votre numéro de téléphone.');
+  if(!email||!email.includes('@')) return alert2('Adresse e-mail invalide.');
+  if(!pays) return alert2('Veuillez sélectionner votre pays de résidence.');
+  if(mdp.length<6) return alert2('Le mot de passe doit contenir au moins 6 caractères.');
+  if(mdp!==conf) return alert2('Les mots de passe ne correspondent pas.');
+
+  setLoad(true);
+  try{
+    const{data,error}=await sb.auth.signUp({email,password:mdp,options:{data:{nom,tel,pays,ref}}});
+    if(error) throw error;
+    await sb.from('utilisateurs').insert([{id:data.user?.id,nom,telephone:tel,email,pays,code_parrainage:ref||null,statut:'en_attente',created_at:new Date().toISOString()}]);
+    alert2('Compte créé avec succès ! Redirection...','ok');
+    setTimeout(()=>{window.location.href='nnp-activation.html';},2000);
+  }catch(e){
+    const m=e.message||'';
+    if(m.includes('already')||m.includes('registered')) alert2('Cet e-mail est déjà utilisé. <a href="nnp-login.html" style="color:var(--cyan)">Se connecter</a>');
+    else alert2('Erreur : '+(m||'Veuillez réessayer.'));
+    setLoad(false);
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+</script>
+</body>
+</html>
