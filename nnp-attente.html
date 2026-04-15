@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — En attente de validation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(0,85,200,.12) 0%,transparent 65%);pointer-events:none;}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;text-align:center;}
+
+/* PULSE ANIMATION */
+.pulse-ring{position:relative;width:110px;height:110px;margin:0 auto 28px;animation:fadeU .7s ease both;}
+.pulse-ring::before,.pulse-ring::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:1.5px solid rgba(0,200,255,.2);animation:ringPulse 2s ease-out infinite;}
+.pulse-ring::after{animation-delay:1s;}
+.pulse-icon{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,rgba(0,85,200,.3),rgba(0,200,255,.2));border:2px solid rgba(0,200,255,.3);display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 0 30px rgba(0,200,255,.15);}
+@keyframes ringPulse{0%{transform:scale(1);opacity:.5;}100%{transform:scale(1.6);opacity:0;}}
+
+/* LOGO SMALL */
+.lrow{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:24px;opacity:.6;}
+.lbars{display:flex;align-items:flex-end;gap:2px;height:18px;}
+.lb{width:3px;border-radius:1px;}
+.lb1{height:18px;background:var(--cyan);}
+.lb2{height:11px;background:rgba(0,200,255,.6);}
+.lb3{height:15px;background:var(--cyan);}
+.lb4{height:8px;background:rgba(0,200,255,.3);}
+.lb5{height:18px;background:var(--cyan);}
+.lnnp{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;color:var(--cyan);}
+
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,7vw,44px);letter-spacing:3px;margin-bottom:10px;animation:fadeU .7s .1s ease both;}
+.title span{color:var(--orange-l);}
+.subtitle{font-size:15px;font-weight:600;color:var(--muted);max-width:400px;line-height:1.7;margin-bottom:32px;animation:fadeU .7s .2s ease both;}
+
+/* CARD */
+.card{width:100%;max-width:440px;background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;padding:24px 22px;margin-bottom:24px;animation:fadeU .7s .3s ease both;box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.card::before{content:'';position:absolute;display:none;}
+.steps{display:flex;flex-direction:column;gap:14px;}
+.step{display:flex;align-items:center;gap:14px;}
+.step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.step-done{background:rgba(0,229,160,.15);border:1.5px solid rgba(0,229,160,.4);}
+.step-wait{background:rgba(255,140,0,.1);border:1.5px solid rgba(255,140,0,.3);}
+.step-pending{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);}
+.step-text{text-align:left;}
+.step-label{font-size:14px;font-weight:800;color:#fff;}
+.step-desc{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;}
+.step-wait .step-label{color:var(--orange-l);}
+
+/* STATUS */
+.status-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:30px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;animation:fadeU .7s .25s ease both;}
+.status-pending{background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:var(--orange-l);}
+.status-active{background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.3);color:var(--ok);}
+.blink{width:7px;height:7px;border-radius:50%;background:var(--orange-l);animation:blink 1.2s ease infinite;}
+.blink.green{background:var(--ok);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* CONTACT */
+.contact-note{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.2);text-transform:uppercase;margin-top:8px;}
+
+/* LOGOUT */
+.logout{margin-top:20px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;text-decoration:none;border:none;background:none;transition:color .2s;}
+.logout:hover{color:var(--error);}
+
+@keyframes fadeU{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+<div class="page">
+
+  <div class="lrow">
+    <div class="lbars"><div class="lb lb1"></div><div class="lb lb2"></div><div class="lb lb3"></div><div class="lb lb4"></div><div class="lb lb5"></div></div>
+    <div class="lnnp">NNP</div>
+  </div>
+
+  <div class="pulse-ring"><div class="pulse-icon">⏳</div></div>
+
+  <div class="title">En attente de<br><span>validation</span></div>
+  <p class="subtitle">Votre paiement a été soumis avec succès.<br>Un administrateur va valider votre compte sous peu.</p>
+
+  <div class="status-badge status-pending" id="statusBadge">
+    <span class="blink" id="blinkDot"></span>
+    <span id="statusText">En attente de validation</span>
+  </div>
+
+  <div class="card">
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot step-done">✅</div>
+        <div class="step-text">
+          <div class="step-label">Inscription complète</div>
+          <div class="step-desc">Votre compte a été créé avec succès</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot step-done">✅</div>
+        <div class="step-text">
+          <div class="step-label">Paiement soumis</div>
+          <div class="step-desc">Votre preuve de paiement est reçue</div>
+        </div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-dot step-wait">⏳</div>
+        <div class="step-text">
+          <div class="step-label">Validation par l'admin</div>
+          <div class="step-desc">Traitement en cours — sous 24h</div>
+        </div>
+      </div>
+      <div class="step" style="opacity:.4">
+        <div class="step-dot step-pending">🚀</div>
+        <div class="step-text">
+          <div class="step-label">Compte activé</div>
+          <div class="step-desc">Accès complet à la plateforme</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-note">📧 Support : support@nnp.com</div>
+
+  <button class="logout" onclick="logout()">Se déconnecter →</button>
+
+</div>
+<script>
+const{createClient}=supabase;
+const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
+
+// Vérifier statut toutes les 15 secondes
+async function checkStatus(){
+  const{data:{user}}=await sb.auth.getUser();
+  if(!user) return;
+  const{data}=await sb.from('utilisateurs').select('statut').eq('id',user.id).single();
+  if(data?.statut==='actif'){
+    document.getElementById('statusBadge').className='status-badge status-active';
+    document.getElementById('blinkDot').className='blink green';
+    document.getElementById('statusText').textContent='Compte activé ! Redirection...';
+    document.querySelector('.pulse-icon').textContent='🎉';
+    document.getElementById('step3').style.opacity='1';
+    document.getElementById('step3').querySelector('.step-dot').className='step-dot step-done';
+    document.getElementById('step3').querySelector('.step-dot').textContent='✅';
+    document.querySelectorAll('.step')[3].style.opacity='1';
+    setTimeout(()=>{window.location.href='nnp-dashboard.html';},2500);
+  }
+}
+
+checkStatus();
+setInterval(checkStatus, 15000);
+
+async function logout(){
+  await sb.auth.signOut();
+  window.location.href='nnp-login.html';
+}
+</script>
+</body>
+</html>
