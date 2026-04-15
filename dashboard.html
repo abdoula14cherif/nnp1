@@ -7,12 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --orange: #ff8c00;
       --orange-l: #ffaa33;
@@ -24,7 +19,6 @@
       --text: #e8f0ff;
       --muted: rgba(255,255,255,0.38);
     }
-
     body {
       background: var(--navy);
       font-family: 'Nunito', sans-serif;
@@ -33,7 +27,6 @@
       overflow-x: hidden;
       position: relative;
     }
-
     body::before {
       content: '';
       position: fixed;
@@ -43,7 +36,6 @@
                   radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,140,0,.1) 0%, transparent 60%);
       pointer-events: none;
     }
-
     .gbg {
       position: fixed;
       inset: 0;
@@ -53,8 +45,6 @@
       background-size: 48px 48px;
       pointer-events: none;
     }
-
-    /* Layout principal */
     .dashboard-container {
       position: relative;
       z-index: 10;
@@ -63,120 +53,42 @@
       flex-direction: column;
       padding: 20px 16px 80px;
     }
-
-    /* Header avec logo et profil */
+    /* Header */
     .dashboard-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       margin-bottom: 30px;
-      flex-wrap: wrap;
-      gap: 15px;
     }
-
-    /* Logo style page inscription */
-    .lhdr {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-    }
-    .lrow {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .lbars {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 24px;
-    }
-    .lb {
-      width: 4px;
-      border-radius: 2px;
-      background: linear-gradient(180deg, var(--cyan), #0044ff);
-    }
-    .lb1 { height: 24px; }
-    .lb2 { height: 14px; opacity: 0.7; }
-    .lb3 { height: 20px; }
-    .lb4 { height: 10px; opacity: 0.5; }
-    .lb5 { height: 24px; box-shadow: 0 0 8px rgba(0,200,255,.5); }
-    .lnnp {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 4px;
-      line-height: 1;
-      background: linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .lsub {
-      font-family: 'DM Mono', monospace;
-      font-size: 7px;
-      letter-spacing: 3px;
-      color: rgba(0,200,255,.45);
-      text-transform: uppercase;
-    }
-
-    /* Photo de profil */
-    .profile-avatar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-    }
-    .avatar-img {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(145deg, var(--orange), var(--orange-l));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: bold;
-      border: 2px solid rgba(255,140,0,0.5);
-      transition: 0.2s;
-    }
-    .avatar-name {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* Menu burger */
+    /* Logo dans le menu burger */
     .burger-menu {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 200;
-      background: rgba(17, 24, 39, 0.9);
+      background: rgba(17, 24, 39, 0.95);
       backdrop-filter: blur(10px);
       border-radius: 30px;
-      padding: 10px 12px;
+      padding: 10px 14px;
       cursor: pointer;
       border: 1px solid var(--border);
       transition: 0.2s;
-    }
-    .burger-menu:hover {
-      background: var(--card);
-    }
-    .burger-icon {
-      width: 24px;
-      height: 18px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
     }
-    .burger-icon span {
-      display: block;
-      height: 2px;
-      background: var(--orange);
-      border-radius: 2px;
+    .burger-menu:hover { background: var(--card); }
+    .burger-icon { width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .burger-icon span { display: block; height: 2px; background: var(--orange); border-radius: 2px; }
+    .burger-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      background: linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-
     /* Menu latéral */
     .side-nav {
       position: fixed;
@@ -188,18 +100,12 @@
       border-right: 1px solid var(--border);
       z-index: 300;
       transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      padding: 80px 16px 30px;
+      padding: 100px 16px 30px;
       overflow-y: auto;
       box-shadow: 5px 0 30px rgba(0,0,0,0.5);
     }
-    .side-nav.open {
-      left: 0;
-    }
-
-    /* Style des boutons du menu burger */
-    .menu-section {
-      margin-bottom: 20px;
-    }
+    .side-nav.open { left: 0; }
+    .menu-section { margin-bottom: 20px; }
     .menu-title {
       font-size: 10px;
       letter-spacing: 2px;
@@ -245,17 +151,9 @@
       background: rgba(255,140,0,0.15);
       color: var(--orange-l);
     }
-    .submenu {
-      padding-left: 32px;
-      display: none;
-    }
-    .submenu.show {
-      display: block;
-    }
-    .submenu .menu-item {
-      margin: 4px 0;
-      padding: 10px 16px;
-    }
+    .submenu { padding-left: 32px; display: none; }
+    .submenu.show { display: block; }
+    .submenu .menu-item { margin: 4px 0; padding: 10px 16px; }
     .overlay {
       position: fixed;
       top: 0;
@@ -267,10 +165,28 @@
       display: none;
       backdrop-filter: blur(2px);
     }
-    .overlay.show {
-      display: block;
+    .overlay.show { display: block; }
+    /* Photo de profil */
+    .profile-avatar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
     }
-
+    .avatar-img {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(145deg, var(--orange), var(--orange-l));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      border: 2px solid rgba(255,140,0,0.5);
+    }
+    .avatar-name { font-size: 10px; color: var(--muted); }
     /* Cartes soldes */
     .balance-card {
       background: linear-gradient(135deg, rgba(17,24,39,0.9), rgba(15,27,45,0.9));
@@ -279,17 +195,9 @@
       border: 1px solid var(--border);
       padding: 24px 20px;
       margin: 20px 0 20px;
-      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.4);
     }
-    .total-balance {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .total-label {
-      font-size: 13px;
-      letter-spacing: 2px;
-      color: var(--muted);
-    }
+    .total-balance { text-align: center; margin-bottom: 24px; }
+    .total-label { font-size: 13px; letter-spacing: 2px; color: var(--muted); }
     .total-amount {
       font-size: 42px;
       font-weight: 900;
@@ -298,29 +206,11 @@
       background-clip: text;
       color: transparent;
     }
-    .level-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      text-align: center;
-    }
-    .level-card {
-      background: rgba(0,0,0,0.3);
-      border-radius: 20px;
-      padding: 12px;
-    }
-    .level-title {
-      font-size: 12px;
-      text-transform: uppercase;
-      color: var(--cyan);
-    }
-    .level-amount {
-      font-size: 20px;
-      font-weight: 800;
-      margin-top: 6px;
-    }
-
-    /* Carte lien de parrainage */
+    .level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; }
+    .level-card { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 12px; }
+    .level-title { font-size: 12px; text-transform: uppercase; color: var(--cyan); }
+    .level-amount { font-size: 20px; font-weight: 800; margin-top: 6px; }
+    /* Carte parrainage */
     .referral-card {
       background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(255,140,0,0.05));
       border-radius: 24px;
@@ -329,18 +219,13 @@
       margin: 16px 0;
       text-align: center;
     }
-    .referral-title {
-      font-size: 12px;
-      letter-spacing: 2px;
-      color: var(--cyan);
-      margin-bottom: 12px;
-    }
+    .referral-title { font-size: 12px; letter-spacing: 2px; color: var(--cyan); margin-bottom: 12px; }
     .referral-link {
       background: rgba(0,0,0,0.4);
       padding: 12px;
       border-radius: 16px;
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       word-break: break-all;
       display: flex;
       align-items: center;
@@ -356,12 +241,8 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
     }
-    .copy-btn:hover {
-      background: var(--orange-l);
-    }
-
+    .copy-btn:hover { background: var(--orange-l); }
     /* Profile footer */
     .profile-footer {
       background: rgba(0,0,0,0.4);
@@ -373,15 +254,8 @@
       gap: 14px;
       border: 1px solid var(--border);
     }
-    .user-info h4 {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-    .user-info p {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
+    .user-info h4 { font-size: 18px; margin-bottom: 4px; }
+    .user-info p { font-size: 12px; color: var(--muted); }
     /* Bottom navigation */
     .bottom-nav {
       position: fixed;
@@ -408,33 +282,24 @@
       font-size: 10px;
       font-weight: 700;
       cursor: pointer;
-      transition: 0.2s;
       padding: 6px 12px;
       border-radius: 40px;
     }
-    .nav-item.active {
-      color: var(--orange);
-      background: rgba(255,140,0,0.15);
-    }
-    .nav-icon {
-      font-size: 22px;
-    }
-
+    .nav-item.active { color: var(--orange); background: rgba(255,140,0,0.15); }
+    .nav-icon { font-size: 22px; }
     @media (max-width: 480px) {
       .level-title { font-size: 10px; }
       .level-amount { font-size: 16px; }
-      .dashboard-header { flex-direction: row; align-items: center; }
     }
   </style>
 </head>
 <body>
 <div class="gbg"></div>
 <div class="dashboard-container">
-  <!-- Menu burger -->
+  <!-- Menu burger avec logo -->
   <div class="burger-menu" id="burgerBtn">
-    <div class="burger-icon">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="burger-icon"><span></span><span></span><span></span></div>
+    <div class="burger-logo">NNP</div>
   </div>
   <div class="overlay" id="overlay"></div>
   <div class="side-nav" id="sideNav">
@@ -466,15 +331,8 @@
     </div>
   </div>
 
-  <!-- Header avec logo et profil -->
+  <!-- Header avec photo de profil -->
   <div class="dashboard-header">
-    <div class="lhdr">
-      <div class="lrow">
-        <div class="lbars"><div class="lb lb1"></div><div class="lb lb2"></div><div class="lb lb3"></div><div class="lb lb4"></div><div class="lb lb5"></div></div>
-        <div class="lnnp">NNP</div>
-      </div>
-      <div class="lsub">New Numeric Platform</div>
-    </div>
     <div class="profile-avatar" id="profileAvatar">
       <div class="avatar-img" id="userAvatar">👤</div>
       <div class="avatar-name" id="userShortName">Chargement</div>
@@ -488,59 +346,28 @@
       <div class="total-amount" id="totalBalance">0 FCFA</div>
     </div>
     <div class="level-grid">
-      <div class="level-card">
-        <div class="level-title">Niveau 1 (filleuls directs)</div>
-        <div class="level-amount" id="level1Balance">0 FCFA</div>
-      </div>
-      <div class="level-card">
-        <div class="level-title">Niveau 2 (indirects)</div>
-        <div class="level-amount" id="level2Balance">0 FCFA</div>
-      </div>
-      <div class="level-card">
-        <div class="level-title">Niveau 3 (3e niveau)</div>
-        <div class="level-amount" id="level3Balance">0 FCFA</div>
-      </div>
+      <div class="level-card"><div class="level-title">Niveau 1</div><div class="level-amount" id="level1Balance">0 FCFA</div></div>
+      <div class="level-card"><div class="level-title">Niveau 2</div><div class="level-amount" id="level2Balance">0 FCFA</div></div>
+      <div class="level-card"><div class="level-title">Niveau 3</div><div class="level-amount" id="level3Balance">0 FCFA</div></div>
     </div>
   </div>
 
   <!-- Carte lien de parrainage -->
   <div class="referral-card">
     <div class="referral-title">🎁 MON LIEN DE PARRAINAGE</div>
-    <div class="referral-link">
-      <span id="referralLink">Chargement...</span>
-      <button class="copy-btn" onclick="copyReferralLink()">Copier</button>
-    </div>
-    <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">
-      Gagnez 1500 FCFA par filleul direct activé !
-    </div>
+    <div class="referral-link"><span id="referralLink">Chargement...</span><button class="copy-btn" onclick="copyReferralLink()">Copier</button></div>
+    <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">Gagnez 1500 FCFA par filleul direct activé !</div>
   </div>
 
   <!-- Profile footer -->
-  <div class="profile-footer">
-    <div class="user-info">
-      <h4 id="userName">Chargement...</h4>
-      <p id="userEmail"></p>
-    </div>
-  </div>
+  <div class="profile-footer"><div class="user-info"><h4 id="userName">Chargement...</h4><p id="userEmail"></p></div></div>
 
   <!-- Bottom navigation -->
   <div class="bottom-nav">
-    <div class="nav-item" data-nav="profile">
-      <span class="nav-icon">👤</span>
-      <span>Profil</span>
-    </div>
-    <div class="nav-item" data-nav="action">
-      <span class="nav-icon">⚡</span>
-      <span>Action</span>
-    </div>
-    <div class="nav-item" data-nav="withdraw">
-      <span class="nav-icon">💰</span>
-      <span>Retrait</span>
-    </div>
-    <div class="nav-item" data-nav="more">
-      <span class="nav-icon">🍀</span>
-      <span>Évolution</span>
-    </div>
+    <div class="nav-item" data-nav="profile"><span class="nav-icon">👤</span><span>Profil</span></div>
+    <div class="nav-item" data-nav="action"><span class="nav-icon">⚡</span><span>Action</span></div>
+    <div class="nav-item" data-nav="withdraw"><span class="nav-icon">💰</span><span>Retrait</span></div>
+    <div class="nav-item" data-nav="more"><span class="nav-icon">🍀</span><span>Évolution</span></div>
   </div>
 </div>
 
@@ -548,10 +375,9 @@
   const SUPABASE_URL = 'https://erflpsvmzzzimwghtyws.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  let currentUser = null;
-  let userProfile = null;
+  let currentUser = null, userProfile = null;
 
-  // Gestion menu burger
+  // Menu burger
   const burger = document.getElementById('burgerBtn');
   const sideNav = document.getElementById('sideNav');
   const overlay = document.getElementById('overlay');
@@ -572,12 +398,8 @@
   
   const videoTrigger = document.getElementById('videoTrigger');
   const videoSub = document.getElementById('videoSubmenu');
-  videoTrigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    videoSub.classList.toggle('show');
-  });
-
-  // Sous-menus vidéo
+  videoTrigger.addEventListener('click', (e) => { e.preventDefault(); videoSub.classList.toggle('show'); });
+  
   document.querySelectorAll('#videoSubmenu .menu-item').forEach(link => {
     link.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -588,7 +410,6 @@
     });
   });
 
-  // Bottom navigation
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const target = item.dataset.nav;
@@ -599,69 +420,34 @@
     });
   });
 
-  // Copier lien parrainage
   window.copyReferralLink = function() {
     const linkText = document.getElementById('referralLink').innerText;
     navigator.clipboard.writeText(linkText);
     alert('Lien de parrainage copié !');
   };
 
-  // Charger le dashboard
   async function loadDashboard() {
     const { data: { user }, error: userErr } = await sb.auth.getUser();
-    if (userErr || !user) {
-      window.location.href = 'nnp-login.html';
-      return;
-    }
+    if (userErr || !user) { window.location.href = 'nnp-login.html'; return; }
     currentUser = user;
-    
-    // Vérifier statut actif
-    const { data: profile, error: profErr } = await sb
-      .from('utilisateurs')
-      .select('*')
-      .eq('id', user.id)
-      .single();
-    
-    if (profErr || !profile) {
-      window.location.href = 'activation.html';
-      return;
-    }
-    
-    if (profile.statut !== 'actif') {
-      window.location.href = 'activation.html';
-      return;
-    }
-    
+    const { data: profile } = await sb.from('utilisateurs').select('*').eq('id', user.id).single();
+    if (!profile || profile.statut !== 'actif') { window.location.href = 'activation.html'; return; }
     userProfile = profile;
-    
-    // Mettre à jour l'affichage
     document.getElementById('userName').innerText = profile.nom || 'Utilisateur';
     document.getElementById('userEmail').innerText = profile.email;
     const initial = (profile.nom?.charAt(0) || '👤').toUpperCase();
     document.getElementById('userAvatar').innerHTML = initial;
     document.getElementById('userShortName').innerText = initial;
-    
-    // Lien de parrainage
     const refCode = profile.mon_code_parrainage || profile.id?.slice(0, 8);
-    const baseUrl = window.location.origin;
-    const refLink = `${baseUrl}/inscription.html?ref=${refCode}`;
-    document.getElementById('referralLink').innerText = refLink;
-    
-    // Charger les soldes
-    const { data: soldeData } = await sb
-      .from('soldes')
-      .select('niveau1, niveau2, niveau3, total')
-      .eq('user_id', user.id)
-      .single();
-      
+    document.getElementById('referralLink').innerText = `${window.location.origin}/inscription.html?ref=${refCode}`;
+    const { data: soldeData } = await sb.from('soldes').select('niveau1, niveau2, niveau3, total').eq('user_id', user.id).single();
     if (soldeData) {
-      document.getElementById('level1Balance').innerText = soldeData.niveau1?.toLocaleString() + ' FCFA' || '0 FCFA';
-      document.getElementById('level2Balance').innerText = soldeData.niveau2?.toLocaleString() + ' FCFA' || '0 FCFA';
-      document.getElementById('level3Balance').innerText = soldeData.niveau3?.toLocaleString() + ' FCFA' || '0 FCFA';
-      document.getElementById('totalBalance').innerText = soldeData.total?.toLocaleString() + ' FCFA' || '0 FCFA';
+      document.getElementById('level1Balance').innerText = (soldeData.niveau1 || 0).toLocaleString() + ' FCFA';
+      document.getElementById('level2Balance').innerText = (soldeData.niveau2 || 0).toLocaleString() + ' FCFA';
+      document.getElementById('level3Balance').innerText = (soldeData.niveau3 || 0).toLocaleString() + ' FCFA';
+      document.getElementById('totalBalance').innerText = (soldeData.total || 0).toLocaleString() + ' FCFA';
     }
   }
-  
   loadDashboard();
 </script>
 </body>
