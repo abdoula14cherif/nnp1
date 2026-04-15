@@ -150,7 +150,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
 </div>
 <script>
 const{createClient}=supabase;
-const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
+const sb=createClient('https://wjvprhqdmithkltybdfd.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE');
 function tp(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
 function chkRef(el){document.getElementById('rb').classList.toggle('on',el.value.trim().length>=6);}
 function al(msg,t='err'){const b=document.getElementById('ab');b.className='alert '+t;b.innerHTML=(t==='err'?'⚠️ ':'✅ ')+msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
