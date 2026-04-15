@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NNP — Administration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --orange: #ff8c00;
+      --orange-l: #ffaa33;
+      --cyan: #00c8ff;
+      --navy: #0a0f1e;
+      --card: #111827;
+      --card2: #0f1b2d;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8f0ff;
+      --muted: rgba(255,255,255,0.38);
+      --error: #ff4d6d;
+      --ok: #00e5a0;
+    }
+    body {
+      background: var(--navy);
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      padding: 20px;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 0% 0%, rgba(0,85,200,.18) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,140,0,.1) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .gbg {
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    /* Header */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      background: linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      background: linear-gradient(135deg, var(--orange), var(--orange-l));
+      border: none;
+      border-radius: 30px;
+      padding: 8px 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--orange);
+    }
+    .btn-danger {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+    /* Filtres et recherche */
+    .filters {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 15px 20px;
+      margin-bottom: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+    .filters input, .filters select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 8px 16px;
+      color: var(--text);
+      font-family: inherit;
+    }
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      background: var(--card);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 14px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: rgba(0,0,0,0.3);
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .badge {
+      background: rgba(0,200,255,0.2);
+      color: var(--cyan);
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .badge.active { background: rgba(0,229,160,0.2); color: var(--ok); }
+    .badge.inactive { background: rgba(255,77,109,0.2); color: var(--error); }
+    .action-icons {
+      display: flex;
+      gap: 10px;
+    }
+    .action-icons span {
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.2s;
+    }
+    .action-icons span:hover { opacity: 0.7; }
+    /* Modales */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: linear-gradient(160deg, var(--card), var(--card2));
+      border-radius: 32px;
+      max-width: 500px;
+      width: 90%;
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+    .modal-content h3 {
+      margin-bottom: 20px;
+    }
+    .modal-content input, .modal-content select, .modal-content textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: white;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (max-width: 700px) {
+      th, td { font-size: 12px; padding: 8px; }
+      .action-icons span { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="gbg"></div>
+<div class="container">
+  <div class="admin-header">
+    <div class="logo">NNP ADMIN</div>
+    <div class="admin-actions">
+      <button class="btn" id="addUserBtn">➕ Ajouter un utilisateur</button>
+      <button class="btn btn-outline" id="logoutBtn">🚪 Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="🔍 Nom, email, téléphone...">
+    <select id="statusFilter">
+      <option value="">Tous les statuts</option>
+      <option value="actif">Actif</option>
+      <option value="en_attente">En attente</option>
+      <option value="suspendu">Suspendu</option>
+    </select>
+    <button class="btn" id="refreshBtn">🔄 Actualiser</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="usersTable">
+      <thead>
+        <tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Pays</th><th>Statut</th><th>Parrain</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="usersTableBody">
+        <tr><td colspan="8" style="text-align:center;">Chargement...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modale Ajouter/Modifier -->
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Ajouter un utilisateur</h3>
+    <input type="hidden" id="editUserId">
+    <input type="text" id="modalNom" placeholder="Nom complet">
+    <input type="email" id="modalEmail" placeholder="Email">
+    <input type="tel" id="modalTel" placeholder="Téléphone">
+    <select id="modalPays"><option>Côte d'Ivoire</option><option>Cameroun</option><option>Sénégal</option><option>France</option></select>
+    <select id="modalStatut">
+      <option value="en_attente">En attente</option>
+      <option value="actif">Actif</option>
+      <option value="suspendu">Suspendu</option>
+    </select>
+    <input type="password" id="modalPassword" placeholder="Mot de passe (laisser vide si modification)">
+    <div class="modal-buttons">
+      <button class="btn-outline" id="closeModalBtn">Annuler</button>
+      <button class="btn" id="saveUserBtn">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modale Envoyer message -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <h3>Envoyer un message à <span id="msgUserName"></span></h3>
+    <input type="hidden" id="msgUserId">
+    <textarea id="msgContent" rows="4" placeholder="Votre message..."></textarea>
+    <div class="modal-buttons">
+      <button class="btn-outline" id="closeMsgModalBtn">Annuler</button>
+      <button class="btn" id="sendMsgBtn">Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://erflpsvmzzzimwghtyws.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let currentAdmin = null;
+
+  // Vérifier si l'utilisateur est admin
+  async function checkAdmin() {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) { window.location.href = 'nnp-login.html'; return; }
+    const { data: profile } = await sb.from('utilisateurs').select('is_admin').eq('id', user.id).single();
+    if (!profile?.is_admin) {
+      alert("Accès refusé : vous n'êtes pas administrateur.");
+      window.location.href = 'dashboard.html';
+      return;
+    }
+    currentAdmin = user;
+    loadUsers();
+  }
+
+  async function loadUsers() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const status = document.getElementById('statusFilter').value;
+    let query = sb.from('utilisateurs').select('id, nom, email, telephone, pays, statut, parrain_id');
+    if (status) query = query.eq('statut', status);
+    const { data, error } = await query;
+    if (error) { console.error(error); return; }
+    let filtered = data;
+    if (search) {
+      filtered = data.filter(u => u.nom?.toLowerCase().includes(search) || u.email?.toLowerCase().includes(search) || u.telephone?.includes(search));
+    }
+    const tbody = document.getElementById('usersTableBody');
+    if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="8">Aucun utilisateur trouvé</td></tr>'; return; }
+    // Récupérer les noms des parrains
+    const parrainIds = filtered.map(u => u.parrain_id).filter(id => id);
+    let parrainNames = {};
+    if (parrainIds.length) {
+      const { data: parrains } = await sb.from('utilisateurs').select('id, nom').in('id', parrainIds);
+      parrainNames = Object.fromEntries(parrains.map(p => [p.id, p.nom]));
+    }
+    tbody.innerHTML = filtered.map(u => `
+      <tr>
+        <td>${u.id.slice(0,8)}...</td>
+        <td>${u.nom || ''}</td>
+        <td>${u.email}</td>
+        <td>${u.telephone || ''}</td>
+        <td>${u.pays || ''}</td>
+        <td><span class="badge ${u.statut === 'actif' ? 'active' : (u.statut === 'suspendu' ? 'inactive' : '')}">${u.statut}</span></td>
+        <td>${parrainNames[u.parrain_id] || '-'}</td>
+        <td class="action-icons">
+          <span title="Modifier" onclick="editUser('${u.id}')">✏️</span>
+          <span title="Activer/Désactiver" onclick="toggleStatus('${u.id}', '${u.statut}')">🔄</span>
+          <span title="Envoyer message" onclick="openMessageModal('${u.id}', '${u.nom}')">💬</span>
+          <span title="Supprimer" onclick="deleteUser('${u.id}')">🗑️</span>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Ajouter / Modifier
+  async function saveUser() {
+    const id = document.getElementById('editUserId').value;
+    const nom = document.getElementById('modalNom').value.trim();
+    const email = document.getElementById('modalEmail').value.trim();
+    const telephone = document.getElementById('modalTel').value.trim();
+    const pays = document.getElementById('modalPays').value;
+    const statut = document.getElementById('modalStatut').value;
+    const password = document.getElementById('modalPassword').value;
+    if (!nom || !email) { alert("Nom et email requis"); return; }
+    if (!id) {
+      // Création utilisateur via auth
+      if (!password) { alert("Mot de passe requis pour un nouvel utilisateur"); return; }
+      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { nom, telephone, pays } } });
+      if (error) { alert(error.message); return; }
+      if (data.user) {
+        await sb.from('utilisateurs').insert([{ id: data.user.id, nom, email, telephone, pays, statut }]);
+      }
+    } else {
+      // Modification
+      const { error } = await sb.from('utilisateurs').update({ nom, email, telephone, pays, statut }).eq('id', id);
+      if (error) { alert(error.message); return; }
+      if (password) {
+        // Mise à jour du mot de passe via admin (nécessite service_role, on utilise une edge function ou on ignore)
+        alert("Pour changer le mot de passe, utilisez la fonction de réinitialisation.");
+      }
+    }
+    closeModal();
+    loadUsers();
+  }
+
+  async function editUser(id) {
+    const { data } = await sb.from('utilisateurs').select('*').eq('id', id).single();
+    if (data) {
+      document.getElementById('modalTitle').innerText = "Modifier l'utilisateur";
+      document.getElementById('editUserId').value = data.id;
+      document.getElementById('modalNom').value = data.nom || '';
+      document.getElementById('modalEmail').value = data.email;
+      document.getElementById('modalTel').value = data.telephone || '';
+      document.getElementById('modalPays').value = data.pays || '';
+      document.getElementById('modalStatut').value = data.statut;
+      document.getElementById('modalPassword').value = '';
+      document.getElementById('userModal').style.display = 'flex';
+    }
+  }
+
+  async function toggleStatus(id, currentStatus) {
+    const newStatus = currentStatus === 'actif' ? 'suspendu' : 'actif';
+    if (confirm(`Passer cet utilisateur en ${newStatus} ?`)) {
+      await sb.from('utilisateurs').update({ statut: newStatus }).eq('id', id);
+      loadUsers();
+    }
+  }
+
+  async function deleteUser(id) {
+    if (confirm("Supprimer définitivement cet utilisateur ? (son compte auth sera également supprimé)")) {
+      // Nécessite d'appeler une fonction Supabase (Edge Function) car la suppression d'auth nécessite des droits admin.
+      alert("Fonctionnalité avancée : la suppression du compte auth nécessite une Edge Function. Pour l'instant, suppression locale uniquement.");
+      await sb.from('utilisateurs').delete().eq('id', id);
+      loadUsers();
+    }
+  }
+
+  // Envoi de message
+  let currentMsgUserId = null;
+  function openMessageModal(id, name) {
+    currentMsgUserId = id;
+    document.getElementById('msgUserName').innerText = name;
+    document.getElementById('msgContent').value = '';
+    document.getElementById('messageModal').style.display = 'flex';
+  }
+  async function sendMessage() {
+    const content = document.getElementById('msgContent').value.trim();
+    if (!content) return alert("Message vide");
+    const { error } = await sb.from('messages').insert([{
+      user_id: currentMsgUserId,
+      from_admin_id: currentAdmin.id,
+      message: content,
+      lu: false,
+      created_at: new Date()
+    }]);
+    if (error) alert(error.message);
+    else alert("Message envoyé !");
+    document.getElementById('messageModal').style.display = 'none';
+  }
+
+  function closeModal() {
+    document.getElementById('userModal').style.display = 'none';
+    document.getElementById('editUserId').value = '';
+  }
+  function closeMsgModal() { document.getElementById('messageModal').style.display = 'none'; }
+
+  // Événements
+  document.getElementById('addUserBtn').onclick = () => {
+    document.getElementById('modalTitle').innerText = "Ajouter un utilisateur";
+    document.getElementById('editUserId').value = '';
+    document.getElementById('modalNom').value = '';
+    document.getElementById('modalEmail').value = '';
+    document.getElementById('modalTel').value = '';
+    document.getElementById('modalPays').value = 'Côte d’Ivoire';
+    document.getElementById('modalStatut').value = 'en_attente';
+    document.getElementById('modalPassword').value = '';
+    document.getElementById('userModal').style.display = 'flex';
+  };
+  document.getElementById('saveUserBtn').onclick = saveUser;
+  document.getElementById('closeModalBtn').onclick = closeModal;
+  document.getElementById('sendMsgBtn').onclick = sendMessage;
+  document.getElementById('closeMsgModalBtn').onclick = closeMsgModal;
+  document.getElementById('refreshBtn').onclick = loadUsers;
+  document.getElementById('logoutBtn').onclick = () => sb.auth.signOut().then(() => window.location.href = 'nnp-login.html');
+  document.getElementById('searchInput').addEventListener('input', loadUsers);
+  document.getElementById('statusFilter').addEventListener('change', loadUsers);
+
+  checkAdmin();
+</script>
+</body>
+</html>
