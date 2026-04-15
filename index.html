@@ -61,25 +61,14 @@ label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255
 .req{color:var(--orange);font-size:13px;line-height:1;}
 .iw{position:relative;}
 .iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;opacity:.5;}
-input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 13px 12px 40px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none;}
+input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 13px 12px 40px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;}
 select{cursor:pointer;padding-right:36px;}
 option{background:#111827;color:#fff;}
 .sa{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4;font-size:11px;}
 input::placeholder{color:rgba(255,255,255,.18);font-weight:400;}
 input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow:0 0 0 3px rgba(255,140,0,.1);}
-.eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px;transition:color .2s;}
+.eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px;}
 .eye:hover{color:var(--orange);}
-
-/* PAY */
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
-.po{position:relative;}
-.po input[type=radio]{position:absolute;opacity:0;width:0;height:0;}
-.pl{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;border:1.5px solid rgba(255,255,255,.07);border-radius:12px;cursor:pointer;background:rgba(255,255,255,.02);transition:all .2s;}
-.pl:hover{border-color:rgba(255,140,0,.35);background:rgba(255,140,0,.04);}
-.po input[type=radio]:checked+.pl{border-color:var(--orange);background:rgba(255,140,0,.08);box-shadow:0 0 14px rgba(255,140,0,.12);}
-.pi{font-size:20px;}
-.pn{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;text-align:center;line-height:1.3;}
-.po input[type=radio]:checked+.pl .pn{color:var(--orange-l);}
 
 /* REFERRAL */
 .rb{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:20px;background:rgba(0,229,160,.1);color:var(--ok);border:1px solid rgba(0,229,160,.2);text-transform:uppercase;display:none;font-family:'DM Mono',monospace;font-weight:600;}
@@ -124,7 +113,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
     <div class="cn ctl"></div><div class="cn ctr"></div><div class="cn cbl"></div><div class="cn cbr"></div>
 
     <div class="ctitle">Créer un <span>compte</span></div>
-    <div class="cstep">📋 Étape 1/2 — Informations personnelles</div>
+    <div class="cstep">📋 Informations personnelles</div>
 
     <div id="ab" class="alert"></div>
 
@@ -191,18 +180,6 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
       </div>
 
       <div class="f full">
-        <label><span class="req">*</span> Moyen de paiement mobile</label>
-        <div class="pgrid">
-          <div class="po"><input type="radio" name="pay" id="om" value="Orange Money"><label class="pl" for="om"><span class="pi">🟠</span><span class="pn">Orange Money</span></label></div>
-          <div class="po"><input type="radio" name="pay" id="mtn" value="MTN MoMo"><label class="pl" for="mtn"><span class="pi">🟡</span><span class="pn">MTN MoMo</span></label></div>
-          <div class="po"><input type="radio" name="pay" id="wave" value="Wave"><label class="pl" for="wave"><span class="pi">🔵</span><span class="pn">Wave</span></label></div>
-          <div class="po"><input type="radio" name="pay" id="moov" value="Moov Money"><label class="pl" for="moov"><span class="pi">🟣</span><span class="pn">Moov Money</span></label></div>
-          <div class="po"><input type="radio" name="pay" id="free" value="Free Money"><label class="pl" for="free"><span class="pi">🟢</span><span class="pn">Free Money</span></label></div>
-          <div class="po"><input type="radio" name="pay" id="autre" value="Autre"><label class="pl" for="autre"><span class="pi">💳</span><span class="pn">Autre</span></label></div>
-        </div>
-      </div>
-
-      <div class="f full">
         <label>🎁 Code parrainage <span style="color:var(--muted);font-size:9px;letter-spacing:0;text-transform:none;font-weight:400;">(optionnel)</span></label>
         <div class="iw"><span class="ic">🎁</span><input type="text" id="ref" placeholder="Ex: NNP-ABC123" style="text-transform:uppercase" oninput="chkRef(this)"><span class="rb" id="rb">✓ Valide</span></div>
       </div>
@@ -239,7 +216,6 @@ async function go(){
   const pays=document.getElementById('pays').value;
   const mdp=document.getElementById('mdp').value;
   const conf=document.getElementById('conf').value;
-  const pay=(document.querySelector('input[name="pay"]:checked')||{}).value;
   const ref=document.getElementById('ref').value.trim().toUpperCase();
 
   if(!nom) return alert2('Veuillez entrer votre nom complet.');
@@ -248,13 +224,12 @@ async function go(){
   if(!pays) return alert2('Veuillez sélectionner votre pays de résidence.');
   if(mdp.length<6) return alert2('Le mot de passe doit contenir au moins 6 caractères.');
   if(mdp!==conf) return alert2('Les mots de passe ne correspondent pas.');
-  if(!pay) return alert2('Veuillez choisir votre moyen de paiement.');
 
   setLoad(true);
   try{
-    const{data,error}=await sb.auth.signUp({email,password:mdp,options:{data:{nom,tel,pays,pay,ref}}});
+    const{data,error}=await sb.auth.signUp({email,password:mdp,options:{data:{nom,tel,pays,ref}}});
     if(error) throw error;
-    await sb.from('utilisateurs').insert([{id:data.user?.id,nom,telephone:tel,email,pays,moyen_paiement:pay,code_parrainage:ref||null,statut:'en_attente',created_at:new Date().toISOString()}]);
+    await sb.from('utilisateurs').insert([{id:data.user?.id,nom,telephone:tel,email,pays,code_parrainage:ref||null,statut:'en_attente',created_at:new Date().toISOString()}]);
     alert2('Compte créé avec succès ! Redirection...','ok');
     setTimeout(()=>{window.location.href='nnp-activation.html';},2000);
   }catch(e){
