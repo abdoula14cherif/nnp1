@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* (garder tous les styles inchangés de la version précédente) */
 :root {
   --orange:#ff8c00; --orange-l:#ffaa33; --cyan:#00c8ff;
   --navy:#0a0f1e; --card:#111827; --card2:#0f1b2d;
@@ -56,7 +55,7 @@ input::placeholder{color:rgba(255,255,255,.18);font-weight:400;}
 input:focus{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow:0 0 0 3px rgba(255,140,0,.1);}
 .eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px;}
 .eye:hover{color:var(--orange);}
-.options{display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px;}
+.options{display:flex;justify-content:flex-end;margin:6px 0 8px;}
 .forgot{font-size:11px;font-weight:700;color:var(--cyan);text-decoration:none;}
 .forgot:hover{text-decoration:underline;}
 .btn{width:100%;padding:15px;margin-top:8px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 28px rgba(255,140,0,.35);}
@@ -107,8 +106,7 @@ input:focus{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow
     </div>
 
     <div class="options">
-      <div></div>
-      <a href="#" class="forgot" id="forgotBtn">🔐 Mot de passe oublié ?</a>
+      <a href="forgot.html" class="forgot">🔐 Mot de passe oublié ?</a>
     </div>
 
     <button class="btn" id="loginBtn">
@@ -169,14 +167,12 @@ async function login() {
 
   setLoading(true);
   try {
-    // 1. Authentification
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) throw error;
 
     const user = data.user;
     if (!user) throw new Error("Utilisateur non trouvé");
 
-    // 2. Récupérer le statut depuis la table "utilisateurs"
     const { data: userData, error: dbError } = await sb
       .from('utilisateurs')
       .select('statut')
@@ -187,13 +183,11 @@ async function login() {
 
     const statut = userData?.statut || 'en_attente';
 
-    // 3. Redirection selon statut
     if (statut === 'actif') {
-      alertMsg('Connexion réussie ! Redirection vers votre tableau de bord...', 'ok');
+      alertMsg('Connexion réussie ! Redirection...', 'ok');
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
     } else {
-      // Statut 'en_attente' ou autre (suspendu, etc.)
-      alertMsg('Compte non activé. Vous allez être redirigé vers la page d\'activation.', 'ok');
+      alertMsg('Compte non activé. Redirection vers activation...', 'ok');
       setTimeout(() => { window.location.href = 'activation.html'; }, 1000);
     }
   } catch (err) {
@@ -204,28 +198,7 @@ async function login() {
   }
 }
 
-async function resetPassword() {
-  const email = document.getElementById('email').value.trim();
-  if (!email) return alertMsg('Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.');
-  setLoading(true);
-  try {
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/nnp-reset.html',
-    });
-    if (error) throw error;
-    alertMsg('Un lien de réinitialisation a été envoyé à votre adresse e-mail.', 'ok');
-  } catch (err) {
-    alertMsg(err.message || 'Impossible d’envoyer le lien. Réessayez.');
-  } finally {
-    setLoading(false);
-  }
-}
-
 document.getElementById('loginBtn').addEventListener('click', login);
-document.getElementById('forgotBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  resetPassword();
-});
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter') login(); });
 </script>
 </body>
