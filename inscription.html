@@ -123,12 +123,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
           <span class="ic">🌍</span>
           <select id="pays">
             <option value="">— Sélectionner votre pays —</option>
-            <optgroup label="🌍 Afrique">
-              <option>Côte d'Ivoire</option><option>Cameroun</option><option>Sénégal</option><option>Mali</option><option>Burkina Faso</option><option>Niger</option><option>Togo</option><option>Bénin</option><option>Gabon</option><option>RD Congo</option><option>Nigeria</option><option>Ghana</option>
-            </optgroup>
-            <optgroup label="🌍 Europe">
-              <option>France</option><option>Belgique</option><option>Suisse</option><option>Italie</option><option>Espagne</option><option>Allemagne</option><option>Royaume-Uni</option>
-            </optgroup>
+            <option>Côte d'Ivoire</option><option>Cameroun</option><option>Sénégal</option><option>France</option>
           </select>
           <span class="sa">▼</span>
         </div>
@@ -151,7 +146,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
 
     </div>
 
-    <button class="btn" id="sbtn" onclick="go()">
+    <button class="btn" id="sbtn">
       <div class="bi"><div class="sp" id="sp"></div><span id="bt">🚀 Créer mon compte</span></div>
     </button>
 
@@ -172,10 +167,10 @@ const sb = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI'
 );
 
-// === LECTURE AUTOMATIQUE DU CODE PARRAINAGE ===
+// Code parrainage depuis URL
 function getRefCodeFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('ref') || urlParams.get('parrain') || urlParams.get('code');
+  return urlParams.get('ref');
 }
 
 function autoFillReferralCode() {
@@ -184,40 +179,38 @@ function autoFillReferralCode() {
     const refInput = document.getElementById('ref');
     if (refInput) {
       refInput.value = refCode.toUpperCase();
-      const rb = document.getElementById('rb');
-      if (rb) rb.classList.add('on');
-      console.log('Code parrainage auto-rempli :', refCode);
+      document.getElementById('rb').classList.add('on');
     }
   }
 }
 
 function tp(id, btn) {
-  const i = document.getElementById(id);
-  i.type = i.type === 'password' ? 'text' : 'password';
-  btn.textContent = i.type === 'password' ? '👁' : '🙈';
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
 }
 
 function chkRef(el) {
   document.getElementById('rb').classList.toggle('on', el.value.trim().length >= 6);
 }
 
-function alert2(msg, type = 'err') {
-  const b = document.getElementById('ab');
-  b.className = 'alert ' + type;
-  b.innerHTML = (type === 'err' ? '⚠️ ' : '✅ ') + msg;
-  b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+function showAlert(msg, type) {
+  const box = document.getElementById('ab');
+  box.className = 'alert ' + type;
+  box.innerHTML = (type === 'err' ? '⚠️ ' : '✅ ') + msg;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function setLoad(on) {
+function setLoading(loading) {
   const btn = document.getElementById('sbtn');
   const sp = document.getElementById('sp');
-  const tx = document.getElementById('bt');
-  btn.disabled = on;
-  sp.style.display = on ? 'block' : 'none';
-  tx.textContent = on ? 'Création en cours...' : '🚀 Créer mon compte';
+  const txt = document.getElementById('bt');
+  btn.disabled = loading;
+  sp.style.display = loading ? 'block' : 'none';
+  txt.textContent = loading ? 'Création en cours...' : '🚀 Créer mon compte';
 }
 
-async function go() {
+async function register() {
   const nom = document.getElementById('nom').value.trim();
   const tel = document.getElementById('tel').value.trim();
   const email = document.getElementById('email').value.trim();
@@ -226,33 +219,29 @@ async function go() {
   const conf = document.getElementById('conf').value;
   const ref = document.getElementById('ref').value.trim().toUpperCase();
 
-  if (!nom) return alert2('Veuillez entrer votre nom complet.');
-  if (!tel) return alert2('Veuillez entrer votre numéro de téléphone.');
-  if (!email || !email.includes('@')) return alert2('Adresse e-mail invalide.');
-  if (!pays) return alert2('Veuillez sélectionner votre pays de résidence.');
-  if (mdp.length < 6) return alert2('Le mot de passe doit contenir au moins 6 caractères.');
-  if (mdp !== conf) return alert2('Les mots de passe ne correspondent pas.');
+  if (!nom) return showAlert('Veuillez entrer votre nom complet.', 'err');
+  if (!tel) return showAlert('Veuillez entrer votre numéro de téléphone.', 'err');
+  if (!email || !email.includes('@')) return showAlert('Email invalide.', 'err');
+  if (!pays) return showAlert('Sélectionnez votre pays.', 'err');
+  if (mdp.length < 6) return showAlert('6 caractères minimum pour le mot de passe.', 'err');
+  if (mdp !== conf) return showAlert('Les mots de passe ne correspondent pas.', 'err');
 
-  setLoad(true);
+  setLoading(true);
 
   try {
-    // 1. Création du compte Auth
-    const { data, error } = await sb.auth.signUp({
+    // Étape 1: Création du compte Auth
+    const { data, error: signUpError } = await sb.auth.signUp({
       email: email,
       password: mdp,
       options: {
-        data: {
-          nom: nom,
-          telephone: tel,
-          pays: pays
-        }
+        data: { nom: nom, telephone: tel, pays: pays }
       }
     });
 
-    if (error) throw error;
-    if (!data.user) throw new Error("Erreur lors de la création du compte");
+    if (signUpError) throw signUpError;
+    if (!data.user) throw new Error("Échec de la création du compte");
 
-    // 2. Insertion dans la table utilisateurs
+    // Étape 2: Insertion dans la table utilisateurs
     const { error: insertError } = await sb
       .from('utilisateurs')
       .insert({
@@ -265,36 +254,25 @@ async function go() {
         statut: 'en_attente'
       });
 
-    if (insertError) {
-      console.error("Erreur d'insertion:", insertError);
-      throw new Error(insertError.message);
-    }
+    if (insertError) throw insertError;
 
-    alert2('Compte créé avec succès ! Redirection vers activation...', 'ok');
-    setTimeout(() => {
-      window.location.href = 'activation.html';
-    }, 2000);
+    showAlert('Compte créé avec succès ! Redirection...', 'ok');
+    setTimeout(() => { window.location.href = 'activation.html'; }, 2000);
 
   } catch (err) {
-    console.error("Erreur complète:", err);
-    let message = err.message || 'Erreur inconnue';
-    if (message.includes('already registered') || message.includes('duplicate key')) {
-      message = 'Cet e-mail est déjà utilisé. Veuillez vous connecter.';
+    console.error('Erreur détaillée:', err);
+    let msg = err.message;
+    if (msg.includes('already registered')) {
+      msg = 'Cet email est déjà utilisé. Connectez-vous.';
     }
-    alert2('Erreur : ' + message);
-    setLoad(false);
+    showAlert('Erreur : ' + msg, 'err');
+    setLoading(false);
   }
 }
 
-// Auto-remplissage du code parrainage
-document.addEventListener('DOMContentLoaded', function() {
-  autoFillReferralCode();
-});
-
-// Touche Entrée
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') go();
-});
+document.getElementById('sbtn').addEventListener('click', register);
+document.addEventListener('DOMContentLoaded', autoFillReferralCode);
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter') register(); });
 </script>
 </body>
 </html>
