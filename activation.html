@@ -1,81 +1,84 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NNP — Activation du compte</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root {
-  --orange:#ff8c00; --orange-l:#ffaa33; --cyan:#00c8ff;
-  --navy:#0a0f1e; --card:#111827; --card2:#0f1b2d;
-  --border:rgba(255,255,255,0.08); --text:#e8f0ff;
-  --muted:rgba(255,255,255,0.38); --error:#ff4d6d; --ok:#00e5a0;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(0,85,200,.18) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 100% 100%,rgba(255,140,0,.1) 0%,transparent 60%);pointer-events:none;}
-.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;}
-.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 16px 52px;}
-
-/* LOGO */
-.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:26px;animation:fadeD .7s cubic-bezier(.16,1,.3,1) both;}
-.lrow{display:flex;align-items:center;gap:10px;}
-.lbars{display:flex;align-items:flex-end;gap:3px;height:28px;}
-.lb{width:5px;border-radius:2px 2px 1px 1px;animation:bpop .6s cubic-bezier(.34,1.56,.64,1) both;}
-.lb1{height:28px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.1s;}
-.lb2{height:17px;background:linear-gradient(180deg,rgba(0,200,255,.6),rgba(0,68,255,.6));animation-delay:.15s;}
-.lb3{height:24px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.2s;}
-.lb4{height:12px;background:linear-gradient(180deg,rgba(0,200,255,.3),rgba(0,68,255,.3));animation-delay:.25s;}
-.lb5{height:28px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.3s;box-shadow:0 0 10px rgba(0,200,255,.5);}
-@keyframes bpop{from{transform:scaleY(0);transform-origin:bottom;}to{transform:scaleY(1);transform-origin:bottom;}}
-.lnnp{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;line-height:1;background:linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 12px rgba(0,200,255,.3));}
-.lsub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3.5px;color:rgba(0,200,255,.45);text-transform:uppercase;}
-
-.card{width:100%;max-width:680px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:24px;padding:32px 28px 36px;position:relative;animation:fadeU .8s cubic-bezier(.16,1,.3,1) .1s both;}
-.card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.7;}
-.cn{position:absolute;width:14px;height:14px;}
-.ctl{top:12px;left:12px;border-top:1.5px solid rgba(255,140,0,.4);border-left:1.5px solid rgba(255,140,0,.4);}
-.ctr{top:12px;right:12px;border-top:1.5px solid rgba(255,140,0,.4);border-right:1.5px solid rgba(255,140,0,.4);}
-.cbl{bottom:12px;left:12px;border-bottom:1.5px solid rgba(0,200,255,.3);border-left:1.5px solid rgba(0,200,255,.3);}
-.cbr{bottom:12px;right:12px;border-bottom:1.5px solid rgba(0,200,255,.3);border-right:1.5px solid rgba(0,200,255,.3);}
-
-.ctitle{font-size:22px;font-weight:900;color:#fff;margin-bottom:3px;}
-.ctitle span{color:var(--orange);}
-.cstep{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:22px;}
-
-.alert{padding:11px 14px;border-radius:12px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:16px;}
-.alert.err{display:flex;background:rgba(255,77,109,.09);border:1px solid rgba(255,77,109,.25);color:#ff8fa3;}
-.alert.ok {display:flex;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.22);color:var(--ok);}
-
-/* payment methods grid */
-.methods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:28px;}
-.method-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:20px;padding:16px;transition:all .2s;cursor:pointer;}
-.method-card.selected{border-color:var(--orange);background:rgba(255,140,0,.08);box-shadow:0 0 0 2px rgba(255,140,0,.2);}
-.method-title{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.method-detail{font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan);word-break:break-all;}
-.method-name{color:var(--orange-l);}
-.radio-indicator{width:18px;height:18px;border:2px solid var(--muted);border-radius:50%;display:inline-block;margin-left:auto;}
-.method-card.selected .radio-indicator{border-color:var(--orange);background:radial-gradient(circle,var(--orange) 50%,transparent 55%);}
-
-.form-group{margin-bottom:18px;}
-label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.48);text-transform:uppercase;display:block;margin-bottom:6px;}
-input,textarea{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 15px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;outline:none;}
-input:focus,textarea:focus{border-color:var(--orange);}
-.montant-fixe{background:rgba(0,200,255,.1);border:1px solid var(--cyan);border-radius:12px;padding:12px;text-align:center;font-weight:800;margin-bottom:20px;}
-
-.btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:.2s;}
-.btn:disabled{opacity:.6;cursor:not-allowed;}
-.sp{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block;margin-right:8px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-.cfooter{margin-top:20px;text-align:center;font-size:12px;color:var(--muted);}
-.cfooter a{color:var(--cyan);text-decoration:none;}
-@keyframes fadeU{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeD{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:550px){.card{padding:28px 18px;}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NNP — Activation du compte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --orange: #ff8c00;
+      --orange-l: #ffaa33;
+      --cyan: #00c8ff;
+      --navy: #0a0f1e;
+      --card: #111827;
+      --card2: #0f1b2d;
+      --border: rgba(255,255,255,0.08);
+      --text: #e8f0ff;
+      --muted: rgba(255,255,255,0.38);
+      --ok: #00e5a0;
+    }
+    body { background: var(--navy); font-family: 'Nunito', sans-serif; color: var(--text); min-height: 100vh; position: relative; }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 70% 50% at 0% 0%, rgba(0,85,200,.18) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,140,0,.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .gbg {
+      position: fixed; inset: 0; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .page { position: relative; z-index: 10; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 36px 16px 52px; }
+    .lhdr { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 26px; }
+    .lrow { display: flex; align-items: center; gap: 10px; }
+    .lbars { display: flex; align-items: flex-end; gap: 3px; height: 28px; }
+    .lb { width: 5px; border-radius: 2px; background: linear-gradient(180deg, var(--cyan), #0044ff); }
+    .lb1 { height: 28px; } .lb2 { height: 17px; opacity: 0.7; } .lb3 { height: 24px; }
+    .lb4 { height: 12px; opacity: 0.5; } .lb5 { height: 28px; box-shadow: 0 0 10px rgba(0,200,255,.5); }
+    .lnnp { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 5px; background: linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lsub { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3.5px; color: rgba(0,200,255,.45); text-transform: uppercase; }
+    .card { width: 100%; max-width: 680px; background: linear-gradient(160deg, var(--card), var(--card2)); border: 1px solid var(--border); border-radius: 24px; padding: 32px 28px 36px; position: relative; }
+    .card::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, transparent, var(--orange), transparent); opacity: .7; }
+    .cn { position: absolute; width: 14px; height: 14px; }
+    .ctl { top: 12px; left: 12px; border-top: 1.5px solid rgba(255,140,0,.4); border-left: 1.5px solid rgba(255,140,0,.4); }
+    .ctr { top: 12px; right: 12px; border-top: 1.5px solid rgba(255,140,0,.4); border-right: 1.5px solid rgba(255,140,0,.4); }
+    .cbl { bottom: 12px; left: 12px; border-bottom: 1.5px solid rgba(0,200,255,.3); border-left: 1.5px solid rgba(0,200,255,.3); }
+    .cbr { bottom: 12px; right: 12px; border-bottom: 1.5px solid rgba(0,200,255,.3); border-right: 1.5px solid rgba(0,200,255,.3); }
+    .ctitle { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 3px; }
+    .ctitle span { color: var(--orange); }
+    .cstep { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 22px; }
+    .alert { padding: 11px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; display: none; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .alert.err { display: flex; background: rgba(255,77,109,.09); border: 1px solid rgba(255,77,109,.25); color: #ff8fa3; }
+    .alert.ok { display: flex; background: rgba(0,229,160,.07); border: 1px solid rgba(0,229,160,.22); color: var(--ok); }
+    .methods-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .method-card { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 20px; padding: 16px; transition: all .2s; cursor: pointer; }
+    .method-card.selected { border-color: var(--orange); background: rgba(255,140,0,.08); box-shadow: 0 0 0 2px rgba(255,140,0,.2); }
+    .method-title { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; justify-content: space-between; }
+    .method-detail { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--cyan); word-break: break-all; margin-bottom: 10px; }
+    .copy-info-btn { background: rgba(0,200,255,0.2); border: none; padding: 5px 12px; border-radius: 20px; color: var(--cyan); font-size: 11px; cursor: pointer; font-weight: bold; }
+    .copy-info-btn:hover { background: rgba(0,200,255,0.4); }
+    .method-name { color: var(--orange-l); }
+    .radio-indicator { width: 18px; height: 18px; border: 2px solid var(--muted); border-radius: 50%; display: inline-block; }
+    .method-card.selected .radio-indicator { border-color: var(--orange); background: radial-gradient(circle, var(--orange) 50%, transparent 55%); }
+    .form-group { margin-bottom: 18px; }
+    label { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: rgba(255,255,255,.48); text-transform: uppercase; display: block; margin-bottom: 6px; }
+    input, textarea { width: 100%; background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.08); border-radius: 12px; padding: 12px 15px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; outline: none; }
+    input:focus, textarea:focus { border-color: var(--orange); }
+    .montant-fixe { background: rgba(0,200,255,.1); border: 1px solid var(--cyan); border-radius: 12px; padding: 12px; text-align: center; font-weight: 800; margin-bottom: 20px; }
+    .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--orange), var(--orange-l)); border: none; border-radius: 14px; color: #fff; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: .2s; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .sp { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .cfooter { margin-top: 20px; text-align: center; font-size: 12px; color: var(--muted); }
+    .cfooter a { color: var(--cyan); text-decoration: none; }
+    @media (max-width: 550px) { .card { padding: 28px 18px; } }
+  </style>
 </head>
 <body>
 <div class="gbg"></div>
@@ -90,22 +93,14 @@ input:focus,textarea:focus{border-color:var(--orange);}
     <div class="cstep">💸 Paiement unique 3100 FCFA</div>
     <div id="alertBox" class="alert"></div>
 
-    <!-- Choix du moyen de paiement -->
     <div class="methods-grid" id="methodsGrid"></div>
 
-    <!-- Formulaire de preuve -->
-    <div class="form-group">
-      <label>👤 Votre nom complet</label>
-      <input type="text" id="nomUser" placeholder="Jean Dupont" autocomplete="name">
-    </div>
-    <div class="form-group">
-      <label>🔢 Numéro de transaction / Hash (preuve de paiement)</label>
-      <input type="text" id="transactionId" placeholder="Ex: ORG123456789 / 0x...">
-    </div>
+    <div class="form-group"><label>👤 Votre nom complet</label><input type="text" id="nomUser" placeholder="Jean Dupont"></div>
+    <div class="form-group"><label>🔢 Numéro de transaction / Hash</label><input type="text" id="transactionId" placeholder="Ex: ORG123456789 / 0x..."></div>
     <div class="montant-fixe">💰 Montant : <strong>3100 FCFA</strong> (fixe)</div>
 
     <button class="btn" id="submitBtn"><span id="btnText">📤 Envoyer ma preuve</span></button>
-    <div class="cfooter">Après validation par l’admin, votre compte sera activé.<br>🔍 <a href="#" id="checkStatusLink">Vérifier le statut de ma demande</a></div>
+    <div class="cfooter">Après validation par l'admin, votre compte sera activé.</div>
   </div>
 </div>
 
@@ -114,13 +109,12 @@ const supabaseUrl = 'https://erflpsvmzzzimwghtyws.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI';
 const sb = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Moyens de paiement (coordonnées fournies)
 const paymentMethods = [
   { id: 'orange', name: 'Orange Money', owner: 'Alirou moun', number: '658033690', detail: '658033690 (Alirou moun)' },
   { id: 'mtn', name: 'MTN Money', owner: 'Jean Jacques Rousseau', number: '651461777', detail: '651461777 (Jean Jacques Rousseau)' },
-  { id: 'usdt', name: 'USDT (BSC)', owner: '', address: '0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB', detail: '0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB' },
-  { id: 'btc', name: 'Bitcoin', owner: '', address: 'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x', detail: 'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x' },
-  { id: 'sol', name: 'Solana', owner: '', address: 'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ', detail: 'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ' }
+  { id: 'usdt', name: 'USDT (BSC)', address: '0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB', detail: '0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB' },
+  { id: 'btc', name: 'Bitcoin', address: 'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x', detail: 'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x' },
+  { id: 'sol', name: 'Solana', address: 'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ', detail: 'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ' }
 ];
 
 let selectedMethod = null;
@@ -133,6 +127,11 @@ function showAlert(msg, type = 'err') {
   box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+function copyToClipboard(text, fieldName) {
+  navigator.clipboard.writeText(text);
+  alert(fieldName + ' copié !');
+}
+
 function renderMethods() {
   const container = document.getElementById('methodsGrid');
   container.innerHTML = paymentMethods.map(m => `
@@ -142,9 +141,9 @@ function renderMethods() {
         <span class="radio-indicator"></span>
       </div>
       <div class="method-detail">${m.detail}</div>
+      <button class="copy-info-btn" onclick="event.stopPropagation(); copyToClipboard('${m.detail}', '${m.name}')">📋 Copier les infos</button>
     </div>
   `).join('');
-  // Attach event listeners
   document.querySelectorAll('.method-card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
@@ -157,11 +156,8 @@ function renderMethods() {
 async function loadUser() {
   const { data: { user } } = await sb.auth.getUser();
   currentUser = user;
-  if (user && user.user_metadata?.nom) {
-    document.getElementById('nomUser').value = user.user_metadata.nom;
-  } else if (user?.email) {
-    document.getElementById('nomUser').value = user.email.split('@')[0];
-  }
+  if (user?.user_metadata?.nom) document.getElementById('nomUser').value = user.user_metadata.nom;
+  else if (user?.email) document.getElementById('nomUser').value = user.email.split('@')[0];
 }
 
 async function submitActivation() {
@@ -177,37 +173,27 @@ async function submitActivation() {
   document.getElementById('btnText').innerHTML = '<span class="sp"></span> Envoi...';
 
   try {
-    const { data, error } = await sb
-      .from('activations')
-      .insert([{
-        user_id: currentUser?.id || null,
-        nom: nom,
-        moyen_paiement: selectedMethod.name,
-        transaction_hash: transaction,
-        montant: 3100,
-        statut: 'en_attente',
-        created_at: new Date().toISOString()
-      }]);
+    const { error } = await sb.from('activations').insert([{
+      user_id: currentUser?.id || null,
+      nom: nom,
+      moyen_paiement: selectedMethod.name,
+      transaction_hash: transaction,
+      montant: 3100,
+      statut: 'en_attente',
+      created_at: new Date().toISOString()
+    }]);
     if (error) throw error;
-    showAlert('Votre demande d’activation a bien été enregistrée. Un administrateur la traitera sous 24h.', 'ok');
+    showAlert('Votre demande d\'activation a bien été enregistrée. Un administrateur la traitera sous 24h.', 'ok');
     document.getElementById('transactionId').value = '';
-    // Optionnel : désactiver le bouton
   } catch (err) {
-    showAlert('Erreur : ' + (err.message || 'Impossible d’enregistrer.'));
+    showAlert('Erreur : ' + (err.message || 'Impossible d\'enregistrer.'));
   } finally {
     btn.disabled = false;
     document.getElementById('btnText').innerHTML = originalText;
   }
 }
 
-// Vérifier le statut (rediriger ou afficher)
-function checkStatus() {
-  // Simple redirection vers une page de suivi (à créer) ou afficher une modale
-  window.location.href = 'statut-activation.html'; // à créer si besoin
-}
-
 document.getElementById('submitBtn').addEventListener('click', submitActivation);
-document.getElementById('checkStatusLink').addEventListener('click', (e) => { e.preventDefault(); checkStatus(); });
 renderMethods();
 loadUser();
 </script>
