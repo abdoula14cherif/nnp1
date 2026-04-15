@@ -52,7 +52,6 @@
       max-width: 1400px;
       margin: 0 auto;
     }
-    /* Header */
     .admin-header {
       display: flex;
       justify-content: space-between;
@@ -69,10 +68,7 @@
       background-clip: text;
       color: transparent;
     }
-    .admin-actions {
-      display: flex;
-      gap: 12px;
-    }
+    .admin-actions { display: flex; gap: 12px; }
     .btn {
       background: linear-gradient(135deg, var(--orange), var(--orange-l));
       border: none;
@@ -90,7 +86,6 @@
     .btn-danger {
       background: linear-gradient(135deg, #dc2626, #b91c1c);
     }
-    /* Filtres et recherche */
     .filters {
       background: var(--card);
       border-radius: 24px;
@@ -110,7 +105,6 @@
       color: var(--text);
       font-family: inherit;
     }
-    /* Table */
     .table-wrapper {
       overflow-x: auto;
       background: var(--card);
@@ -118,20 +112,9 @@
       border: 1px solid var(--border);
       padding: 0;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    th {
-      background: rgba(0,0,0,0.3);
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: rgba(0,0,0,0.3); font-weight: 800; letter-spacing: 1px; }
     .badge {
       background: rgba(0,200,255,0.2);
       color: var(--cyan);
@@ -143,17 +126,9 @@
     }
     .badge.active { background: rgba(0,229,160,0.2); color: var(--ok); }
     .badge.inactive { background: rgba(255,77,109,0.2); color: var(--error); }
-    .action-icons {
-      display: flex;
-      gap: 10px;
-    }
-    .action-icons span {
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.2s;
-    }
+    .action-icons { display: flex; gap: 10px; }
+    .action-icons span { cursor: pointer; font-size: 18px; transition: 0.2s; }
     .action-icons span:hover { opacity: 0.7; }
-    /* Modales */
     .modal {
       display: none;
       position: fixed;
@@ -173,9 +148,7 @@
       padding: 28px;
       border: 1px solid var(--border);
     }
-    .modal-content h3 {
-      margin-bottom: 20px;
-    }
+    .modal-content h3 { margin-bottom: 20px; }
     .modal-content input, .modal-content select, .modal-content textarea {
       width: 100%;
       margin-bottom: 15px;
@@ -185,12 +158,7 @@
       border-radius: 12px;
       color: white;
     }
-    .modal-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 10px;
-    }
+    .modal-buttons { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
     @media (max-width: 700px) {
       th, td { font-size: 12px; padding: 8px; }
       .action-icons span { font-size: 16px; }
@@ -221,12 +189,8 @@
 
   <div class="table-wrapper">
     <table id="usersTable">
-      <thead>
-        <tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Pays</th><th>Statut</th><th>Parrain</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="usersTableBody">
-        <tr><td colspan="8" style="text-align:center;">Chargement...</td></tr>
-      </tbody>
+      <thead><tr><th>ID</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Pays</th><th>Statut</th><th>Parrain</th><th>Actions</th></tr></thead>
+      <tbody id="usersTableBody"><tr><td colspan="8" style="text-align:center;">Chargement...</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -239,7 +203,9 @@
     <input type="text" id="modalNom" placeholder="Nom complet">
     <input type="email" id="modalEmail" placeholder="Email">
     <input type="tel" id="modalTel" placeholder="Téléphone">
-    <select id="modalPays"><option>Côte d'Ivoire</option><option>Cameroun</option><option>Sénégal</option><option>France</option></select>
+    <select id="modalPays">
+      <option>Côte d'Ivoire</option><option>Cameroun</option><option>Sénégal</option><option>France</option>
+    </select>
     <select id="modalStatut">
       <option value="en_attente">En attente</option>
       <option value="actif">Actif</option>
@@ -272,12 +238,34 @@
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   let currentAdmin = null;
 
-  // Vérifier si l'utilisateur est admin
+  // Vérification admin robuste
   async function checkAdmin() {
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) { window.location.href = 'nnp-login.html'; return; }
-    const { data: profile } = await sb.from('utilisateurs').select('is_admin').eq('id', user.id).single();
-    if (!profile?.is_admin) {
+    const { data: { user }, error: userErr } = await sb.auth.getUser();
+    if (userErr || !user) {
+      window.location.href = 'nnp-login.html';
+      return;
+    }
+    
+    let isAdmin = false;
+    // 1ère tentative : lecture directe (si RLS le permet)
+    try {
+      const { data: profile, error: profErr } = await sb
+        .from('utilisateurs')
+        .select('is_admin')
+        .eq('id', user.id)
+        .maybeSingle();
+      if (!profErr && profile) isAdmin = profile.is_admin === true;
+    } catch(e) { console.warn(e); }
+    
+    // 2ème tentative : appel à la fonction SQL sécurisée
+    if (!isAdmin) {
+      try {
+        const { data, error } = await sb.rpc('is_admin_user', { user_id: user.id });
+        if (!error && data === true) isAdmin = true;
+      } catch(e) { console.warn(e); }
+    }
+    
+    if (!isAdmin) {
       alert("Accès refusé : vous n'êtes pas administrateur.");
       window.location.href = 'dashboard.html';
       return;
@@ -286,16 +274,19 @@
     loadUsers();
   }
 
+  // Charger tous les utilisateurs
   async function loadUsers() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const status = document.getElementById('statusFilter').value;
     let query = sb.from('utilisateurs').select('id, nom, email, telephone, pays, statut, parrain_id');
     if (status) query = query.eq('statut', status);
     const { data, error } = await query;
-    if (error) { console.error(error); return; }
+    if (error) { console.error(error); alert("Erreur de chargement : " + error.message); return; }
     let filtered = data;
     if (search) {
-      filtered = data.filter(u => u.nom?.toLowerCase().includes(search) || u.email?.toLowerCase().includes(search) || u.telephone?.includes(search));
+      filtered = data.filter(u => (u.nom || '').toLowerCase().includes(search) || 
+                                  (u.email || '').toLowerCase().includes(search) || 
+                                  (u.telephone || '').includes(search));
     }
     const tbody = document.getElementById('usersTableBody');
     if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="8">Aucun utilisateur trouvé</td></tr>'; return; }
@@ -325,7 +316,7 @@
     `).join('');
   }
 
-  // Ajouter / Modifier
+  // Ajouter / modifier utilisateur
   async function saveUser() {
     const id = document.getElementById('editUserId').value;
     const nom = document.getElementById('modalNom').value.trim();
@@ -335,8 +326,9 @@
     const statut = document.getElementById('modalStatut').value;
     const password = document.getElementById('modalPassword').value;
     if (!nom || !email) { alert("Nom et email requis"); return; }
+    
     if (!id) {
-      // Création utilisateur via auth
+      // Création d'un nouvel utilisateur
       if (!password) { alert("Mot de passe requis pour un nouvel utilisateur"); return; }
       const { data, error } = await sb.auth.signUp({ email, password, options: { data: { nom, telephone, pays } } });
       if (error) { alert(error.message); return; }
@@ -347,10 +339,7 @@
       // Modification
       const { error } = await sb.from('utilisateurs').update({ nom, email, telephone, pays, statut }).eq('id', id);
       if (error) { alert(error.message); return; }
-      if (password) {
-        // Mise à jour du mot de passe via admin (nécessite service_role, on utilise une edge function ou on ignore)
-        alert("Pour changer le mot de passe, utilisez la fonction de réinitialisation.");
-      }
+      if (password) alert("Pour changer le mot de passe, utilisez la fonction de réinitialisation.");
     }
     closeModal();
     loadUsers();
@@ -381,8 +370,7 @@
 
   async function deleteUser(id) {
     if (confirm("Supprimer définitivement cet utilisateur ? (son compte auth sera également supprimé)")) {
-      // Nécessite d'appeler une fonction Supabase (Edge Function) car la suppression d'auth nécessite des droits admin.
-      alert("Fonctionnalité avancée : la suppression du compte auth nécessite une Edge Function. Pour l'instant, suppression locale uniquement.");
+      // Suppression locale (pour suppression complète, il faudrait une Edge Function)
       await sb.from('utilisateurs').delete().eq('id', id);
       loadUsers();
     }
