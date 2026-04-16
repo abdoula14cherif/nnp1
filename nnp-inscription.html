@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NNP — Inscription</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--error:#ff4d6d;--ok:#00e5a0;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -39,7 +38,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .ctitle span{color:var(--orange);}
 .cstep{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
 
-.alert{padding:10px 13px;border-radius:11px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:14px;animation:slin .3s ease;}
+.alert{padding:10px 13px;border-radius:11px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:14px;animation:slin .3s ease;line-height:1.4;}
 .alert.err{display:flex;background:rgba(255,77,109,.09);border:1px solid rgba(255,77,109,.25);color:#ff8fa3;}
 .alert.ok{display:flex;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.22);color:var(--ok);}
 @keyframes slin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
@@ -51,7 +50,7 @@ label{font-size:10.5px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,2
 .req{color:var(--orange);font-size:13px;line-height:1;}
 .iw{position:relative;}
 .iw .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;opacity:.45;}
-input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:11px 12px 11px 38px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none;}
+input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:11px 12px 11px 38px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
 select{cursor:pointer;padding-right:34px;}
 option{background:#111827;color:#fff;}
 .sa{position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4;font-size:11px;}
@@ -100,7 +99,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
     <div class="fg">
       <div class="f full">
         <label><span class="req">*</span> Nom complet</label>
-        <div class="iw"><span class="ic">👤</span><input type="text" id="nom" placeholder="Ex: Jean Dupont"></div>
+        <div class="iw"><span class="ic">👤</span><input type="text" id="nom" placeholder="Ex: Jean Dupont" autocomplete="off"></div>
       </div>
       <div class="f full">
         <label><span class="req">*</span> Numéro de téléphone</label>
@@ -108,7 +107,7 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
       </div>
       <div class="f full">
         <label><span class="req">*</span> Adresse e-mail</label>
-        <div class="iw"><span class="ic">✉️</span><input type="email" id="email" placeholder="exemple@mail.com"></div>
+        <div class="iw"><span class="ic">✉️</span><input type="email" id="email" placeholder="exemple@mail.com" autocomplete="off"></div>
       </div>
       <div class="f full">
         <label><span class="req">*</span> Pays de résidence</label>
@@ -148,58 +147,143 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
   </div>
 
 </div>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const{createClient}=supabase;
-const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
+// ── CONFIG ──
+const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// ── UTILS ──
 function tp(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
 function chkRef(el){document.getElementById('rb').classList.toggle('on',el.value.trim().length>=6);}
-function al(msg,t='err'){const b=document.getElementById('ab');b.className='alert '+t;b.innerHTML=(t==='err'?'⚠️ ':'✅ ')+msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
-function setLoad(on){const btn=document.getElementById('sbtn'),sp=document.getElementById('sp'),tx=document.getElementById('bt');btn.disabled=on;sp.style.display=on?'block':'none';tx.textContent=on?'Création...':'🚀 Créer mon compte';}
 
+function al(msg,t='err'){
+  const b=document.getElementById('ab');
+  b.className='alert '+t;
+  b.innerHTML=(t==='err'?'⚠️ ':'✅ ')+msg;
+  b.style.display='flex';
+  b.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function setLoad(on){
+  const btn=document.getElementById('sbtn'),sp=document.getElementById('sp'),tx=document.getElementById('bt');
+  btn.disabled=on;
+  sp.style.display=on?'block':'none';
+  tx.textContent=on?'Création en cours...':'🚀 Créer mon compte';
+}
+
+// ── INSCRIPTION ──
 async function go(){
-  const nom=document.getElementById('nom').value.trim();
-  const tel=document.getElementById('tel').value.trim();
-  const email=document.getElementById('email').value.trim();
-  const pays=document.getElementById('pays').value;
-  const mdp=document.getElementById('mdp').value;
-  const conf=document.getElementById('conf').value;
-  const ref=document.getElementById('ref').value.trim().toUpperCase();
-  if(!nom) return al('Veuillez entrer votre nom complet.');
-  if(!tel) return al('Veuillez entrer votre numéro de téléphone.');
+  // Récupérer les valeurs
+  const nom   = document.getElementById('nom').value.trim();
+  const tel   = document.getElementById('tel').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const pays  = document.getElementById('pays').value;
+  const mdp   = document.getElementById('mdp').value;
+  const conf  = document.getElementById('conf').value;
+  const ref   = document.getElementById('ref').value.trim().toUpperCase();
+
+  // Validations
+  if(!nom)                     return al('Veuillez entrer votre nom complet.');
+  if(!tel)                     return al('Veuillez entrer votre numéro de téléphone.');
   if(!email||!email.includes('@')) return al('Adresse e-mail invalide.');
-  if(!pays) return al('Veuillez sélectionner votre pays.');
-  if(mdp.length<6) return al('Mot de passe : minimum 6 caractères.');
-  if(mdp!==conf) return al('Les mots de passe ne correspondent pas.');
+  if(!pays)                    return al('Veuillez sélectionner votre pays.');
+  if(mdp.length < 6)           return al('Le mot de passe doit avoir au moins 6 caractères.');
+  if(mdp !== conf)             return al('Les mots de passe ne correspondent pas.');
+
   setLoad(true);
-  try{
-    // Chercher parrain si code fourni
-    let parrainId=null, parrain2Id=null, parrain3Id=null;
-    if(ref){
-      const{data:parrain}=await sb.from('utilisateurs').select('id,parrain_id,parrain_niveau2').eq('code_parrainage',ref).single();
-      if(parrain){
-        parrainId=parrain.id;
-        parrain2Id=parrain.parrain_id||null;
-        parrain3Id=parrain.parrain_niveau2||null;
+
+  try {
+    // ── ÉTAPE 1 : Chercher le parrain si code fourni
+    let parrainId = null, parrain2Id = null, parrain3Id = null;
+    if(ref.length >= 6) {
+      const { data: parrain } = await sb
+        .from('utilisateurs')
+        .select('id, parrain_id, parrain_niveau2')
+        .eq('code_parrainage', ref)
+        .maybeSingle();
+
+      if(parrain) {
+        parrainId  = parrain.id;
+        parrain2Id = parrain.parrain_id   || null;
+        parrain3Id = parrain.parrain_niveau2 || null;
       }
     }
-    const{data,error}=await sb.auth.signUp({email,password:mdp,options:{data:{nom,tel,pays,ref}}});
-    if(error) throw error;
-    const uid=data.user?.id;
-    await sb.from('utilisateurs').insert([{
-      id:uid,nom,telephone:tel,email,pays,
-      parrain_id:parrainId,parrain_niveau2:parrain2Id,parrain_niveau3:parrain3Id,
-      statut:'en_attente',created_at:new Date().toISOString()
-    }]);
-    al('Compte créé ! Redirection vers l\'activation...','ok');
-    setTimeout(()=>{window.location.href='nnp-activation.html';},1800);
-  }catch(e){
-    const m=e.message||'';
-    if(m.includes('already')||m.includes('registered')) al('E-mail déjà utilisé. <a href="nnp-login.html" style="color:var(--cyan)">Se connecter</a>');
-    else al('Erreur : '+(m||'Veuillez réessayer.'));
+
+    // ── ÉTAPE 2 : Créer le compte Auth Supabase
+    const { data: authData, error: authErr } = await sb.auth.signUp({
+      email: email,
+      password: mdp,
+      options: { data: { nom, tel, pays } }
+    });
+
+    if(authErr) {
+      if(authErr.message.includes('already registered') || authErr.message.includes('already been registered')) {
+        return al('Cet e-mail est déjà utilisé. <a href="nnp-login.html" style="color:var(--cyan)">Se connecter →</a>');
+      }
+      throw authErr;
+    }
+
+    const uid = authData?.user?.id;
+    if(!uid) throw new Error('Impossible de créer le compte. Veuillez réessayer.');
+
+    // ── ÉTAPE 3 : Insérer le profil dans la table utilisateurs
+    const { error: dbErr } = await sb.from('utilisateurs').insert({
+      id:              uid,
+      nom:             nom,
+      telephone:       tel,
+      email:           email,
+      pays:            pays,
+      parrain_id:      parrainId,
+      parrain_niveau2: parrain2Id,
+      parrain_niveau3: parrain3Id,
+      statut:          'en_attente',
+      created_at:      new Date().toISOString()
+    });
+
+    if(dbErr) {
+      console.error('DB error:', dbErr);
+      // Même si l'insert échoue, le compte auth est créé — on redirige quand même
+      if(dbErr.code === '23505') {
+        return al('Cet e-mail est déjà utilisé. <a href="nnp-login.html" style="color:var(--cyan)">Se connecter →</a>');
+      }
+      throw new Error(dbErr.message);
+    }
+
+    // ── SUCCÈS
+    al('✅ Compte créé avec succès ! Redirection...', 'ok');
+    setTimeout(() => { window.location.href = 'nnp-activation.html'; }, 2000);
+
+  } catch(e) {
+    console.error('Erreur inscription:', e);
+    const msg = e?.message || '';
+    if(msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
+      al('❌ Erreur réseau. Vérifiez votre connexion internet et réessayez.');
+    } else if(msg.includes('already')) {
+      al('Cet e-mail est déjà utilisé. <a href="nnp-login.html" style="color:var(--cyan)">Se connecter →</a>');
+    } else {
+      al('Erreur : ' + (msg || 'Veuillez réessayer.'));
+    }
     setLoad(false);
   }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+
+// Enter key
+document.addEventListener('keydown', e => { if(e.key === 'Enter') go(); });
+
+// Lire code parrainage depuis URL
+window.addEventListener('load', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const refCode = urlParams.get('ref');
+  if(refCode) {
+    const refInput = document.getElementById('ref');
+    refInput.value = refCode.toUpperCase();
+    document.getElementById('rb').classList.add('on');
+  }
+});
 </script>
 </body>
 </html>
