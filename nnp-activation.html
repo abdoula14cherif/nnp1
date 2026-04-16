@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NNP — Activation du compte</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--error:#ff4d6d;--ok:#00e5a0;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -14,7 +13,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;}
 .page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 16px 52px;}
 
-.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:22px;animation:fadeD .7s ease both;}
+/* LOGO */
+.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:20px;animation:fadeD .7s ease both;}
 .lrow{display:flex;align-items:center;gap:10px;}
 .lbars{display:flex;align-items:flex-end;gap:3px;height:24px;}
 .lb{width:4px;border-radius:2px 2px 1px 1px;animation:bpop .6s cubic-bezier(.34,1.56,.64,1) both;}
@@ -27,12 +27,23 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .lnnp{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:5px;line-height:1;background:linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(0,200,255,.3));}
 .lsub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(0,200,255,.4);text-transform:uppercase;}
 
-/* PRIX BADGE */
-.price-badge{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:linear-gradient(135deg,rgba(255,140,0,.15),rgba(255,170,51,.1));border:1px solid rgba(255,140,0,.35);border-radius:40px;margin-bottom:22px;animation:fadeD .7s .1s ease both;}
-.price-val{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--orange-l);}
-.price-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(255,140,0,.7);text-transform:uppercase;}
+/* WELCOME BANNER */
+.welcome{width:100%;max-width:500px;background:linear-gradient(135deg,rgba(255,140,0,.12),rgba(0,200,255,.08));border:1px solid rgba(255,140,0,.25);border-radius:18px;padding:18px 20px;margin-bottom:18px;animation:fadeU .7s .05s ease both;}
+.welcome-title{font-size:16px;font-weight:900;color:#fff;margin-bottom:8px;}
+.welcome-title span{color:var(--orange-l);}
+.welcome-body{font-size:13px;font-weight:600;color:rgba(255,255,255,.65);line-height:1.7;}
+.welcome-body .hi{font-size:15px;font-weight:900;color:#fff;display:block;margin-bottom:6px;}
+.welcome-steps{display:flex;flex-direction:column;gap:5px;margin-top:10px;}
+.ws{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.6);}
+.ws .wico{font-size:14px;margin-top:1px;flex-shrink:0;}
 
-.card{width:100%;max-width:500px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:22px;padding:28px 24px 32px;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 60px rgba(120,60,0,.1),0 28px 60px rgba(0,0,0,.5);animation:fadeU .8s ease .1s both;}
+/* PRIX BADGE */
+.price-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;background:linear-gradient(135deg,rgba(255,140,0,.15),rgba(255,170,51,.1));border:1px solid rgba(255,140,0,.35);border-radius:40px;margin-bottom:18px;animation:fadeD .7s .1s ease both;}
+.price-val{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--orange-l);}
+.price-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:2px;color:rgba(255,140,0,.7);text-transform:uppercase;}
+
+/* CARD */
+.card{width:100%;max-width:500px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:22px;padding:26px 22px 30px;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 50px rgba(120,60,0,.1),0 24px 50px rgba(0,0,0,.5);animation:fadeU .8s ease .15s both;}
 .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--orange-l),transparent);opacity:.6;}
 .cn{position:absolute;width:13px;height:13px;}
 .ctl{top:11px;left:11px;border-top:1.5px solid rgba(255,140,0,.4);border-left:1.5px solid rgba(255,140,0,.4);}
@@ -40,43 +51,40 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .cbl{bottom:11px;left:11px;border-bottom:1.5px solid rgba(0,200,255,.3);border-left:1.5px solid rgba(0,200,255,.3);}
 .cbr{bottom:11px;right:11px;border-bottom:1.5px solid rgba(0,200,255,.3);border-right:1.5px solid rgba(0,200,255,.3);}
 
-.ctitle{font-size:19px;font-weight:900;color:#fff;margin-bottom:3px;}
+.ctitle{font-size:18px;font-weight:900;color:#fff;margin-bottom:2px;}
 .ctitle span{color:var(--orange-l);}
-.cstep{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+.cstep{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:18px;}
 
 /* PAYMENT CARDS */
-.pay-title{font-size:12px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.45);text-transform:uppercase;margin-bottom:12px;}
-.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
-.pm{background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 14px 12px;cursor:pointer;transition:all .2s;position:relative;}
-.pm:hover{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04);}
+.pay-title{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:10px;}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;}
+.pm{background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:13px;padding:13px 12px 11px;cursor:pointer;transition:all .2s;position:relative;-webkit-tap-highlight-color:transparent;}
+.pm:hover,.pm:active{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04);}
 .pm.selected{border-color:var(--orange);background:rgba(255,140,0,.08);box-shadow:0 0 16px rgba(255,140,0,.12);}
-.pm-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.pm-icon{font-size:22px;}
-.pm-name{font-size:13px;font-weight:800;color:#fff;}
-.pm-info{font-size:11px;font-weight:600;color:var(--muted);line-height:1.5;}
-.pm-number{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--orange-l);margin-top:4px;}
-.pm-owner{font-size:11px;color:var(--muted);}
-
-/* Crypto full width */
+.pm-head{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.pm-icon{font-size:20px;}
+.pm-name{font-size:12px;font-weight:800;color:#fff;}
+.pm-number{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--orange-l);margin-bottom:2px;}
+.pm-owner{font-size:10.5px;color:var(--muted);}
 .pm.full{grid-column:1/-1;}
-.pm-addr{font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);word-break:break-all;margin-top:5px;line-height:1.4;}
+.pm-addr{font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);word-break:break-all;margin-top:4px;line-height:1.4;}
 .copy-btn{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 10px;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);border-radius:8px;color:var(--cyan);font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Mono',monospace;letter-spacing:1px;transition:background .2s;}
-.copy-btn:hover{background:rgba(0,200,255,.15);}
-.copied{color:var(--ok)!important;border-color:rgba(0,229,160,.3)!important;background:rgba(0,229,160,.08)!important;}
+.copy-btn:hover{background:rgba(0,200,255,.16);}
+.copy-btn.done{color:var(--ok);border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.08);}
 
-/* SEPARATOR */
-.sep{display:flex;align-items:center;gap:10px;margin:6px 0 18px;}
+/* SEP */
+.sep{display:flex;align-items:center;gap:10px;margin:2px 0 16px;}
 .sl{flex:1;height:1px;background:rgba(255,255,255,.07);}
 .st{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.2);text-transform:uppercase;}
 
 /* FORM */
-.fg{display:flex;flex-direction:column;gap:12px;}
+.fg{display:flex;flex-direction:column;gap:11px;}
 .f{display:flex;flex-direction:column;gap:5px;}
-label{font-size:10.5px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.45);text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.req{color:var(--orange);font-size:13px;line-height:1;}
+label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.42);text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.req{color:var(--orange);font-size:12px;line-height:1;}
 .iw{position:relative;}
 .iw .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;opacity:.45;}
-input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:11px 12px 11px 37px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13.5px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
+input,select{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:11px;padding:11px 12px 11px 36px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13.5px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
 select{cursor:pointer;padding-right:32px;}
 option{background:#111827;color:#fff;}
 .sa{position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4;font-size:11px;}
@@ -84,11 +92,12 @@ input::placeholder{color:rgba(255,255,255,.18);font-weight:400;}
 input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow:0 0 0 3px rgba(255,140,0,.1);}
 
 /* ALERT */
-.alert{padding:10px 13px;border-radius:11px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:12px;animation:slin .3s ease;}
+.alert{padding:10px 13px;border-radius:11px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:12px;animation:slin .3s ease;line-height:1.5;}
 .alert.err{display:flex;background:rgba(255,77,109,.09);border:1px solid rgba(255,77,109,.25);color:#ff8fa3;}
 .alert.ok{display:flex;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.22);color:var(--ok);}
 @keyframes slin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
 
+/* BTN */
 .btn{width:100%;padding:14px;margin-top:6px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 26px rgba(255,140,0,.35);}
 .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s;}
 .btn:hover::before{left:100%;}
@@ -100,13 +109,14 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
 
 @keyframes fadeU{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeD{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:480px){.card{padding:22px 14px 28px;}.pay-methods{grid-template-columns:1fr;}.pm.full{grid-column:1;}}
+@media(max-width:480px){.card{padding:20px 14px 26px;}.pay-methods{grid-template-columns:1fr;}.pm.full{grid-column:1;}}
 </style>
 </head>
 <body>
 <div class="gbg"></div>
 <div class="page">
 
+  <!-- LOGO -->
   <div class="lhdr">
     <div class="lrow">
       <div class="lbars"><div class="lb lb1"></div><div class="lb lb2"></div><div class="lb lb3"></div><div class="lb lb4"></div><div class="lb lb5"></div></div>
@@ -115,19 +125,37 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
     <div class="lsub">New Numeric Platform</div>
   </div>
 
-  <div class="price-badge">
-    <div class="price-val">3 100 F</div>
-    <div class="price-label">Activation unique<br>du compte</div>
+  <!-- WELCOME MESSAGE -->
+  <div class="welcome">
+    <div class="welcome-title">🎉 Bienvenue sur <span>NNP</span> !</div>
+    <div class="welcome-body">
+      <span class="hi" id="welcomeName">Bonjour 👋</span>
+      Tu as rejoint la <strong>New Numeric Platform</strong> — la plateforme de parrainage qui te permet de gagner de l'argent réel en invitant tes proches.
+      <div class="welcome-steps">
+        <div class="ws"><span class="wico">✅</span><span>Ton compte est créé avec succès</span></div>
+        <div class="ws"><span class="wico">💳</span><span>Active ton compte en envoyant <strong>3 100 FCFA</strong> via l'un des moyens ci-dessous</span></div>
+        <div class="ws"><span class="wico">🔗</span><span>Partage ton lien unique et gagne <strong>1 500F</strong> par filleul direct</span></div>
+        <div class="ws"><span class="wico">📈</span><span>Système 3 niveaux : Niv.1 = 1 500F · Niv.2 = 800F · Niv.3 = 400F</span></div>
+        <div class="ws"><span class="wico">⏳</span><span>Après paiement, attends la validation admin (sous 24h)</span></div>
+      </div>
+    </div>
   </div>
 
+  <!-- PRIX -->
+  <div class="price-badge">
+    <div class="price-val">3 100 F</div>
+    <div class="price-label">Activation<br>unique</div>
+  </div>
+
+  <!-- CARD -->
   <div class="card">
     <div class="cn ctl"></div><div class="cn ctr"></div><div class="cn cbl"></div><div class="cn cbr"></div>
 
     <div class="ctitle">⚡ Activer mon <span>compte</span></div>
     <div class="cstep">📋 Étape 2/2 — Paiement & confirmation</div>
 
-    <!-- PAYMENT METHODS -->
-    <div class="pay-title">📲 Choisissez votre méthode de paiement</div>
+    <!-- MÉTHODES -->
+    <div class="pay-title">📲 Choisissez votre méthode</div>
     <div class="pay-methods">
 
       <div class="pm" onclick="selPay(this,'Orange Money')">
@@ -144,20 +172,20 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
 
       <div class="pm full" onclick="selPay(this,'USDT BSC')">
         <div class="pm-head"><span class="pm-icon">💚</span><span class="pm-name">USDT (BSC — BEP20)</span></div>
-        <div class="pm-addr" id="addr-usdt">0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB</div>
-        <span class="copy-btn" onclick="copyAddr(event,'0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB',this)">📋 Copier l'adresse</span>
+        <div class="pm-addr">0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB</div>
+        <span class="copy-btn" onclick="copyAddr(event,'0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB',this)">📋 Copier</span>
       </div>
 
       <div class="pm full" onclick="selPay(this,'Bitcoin BTC')">
         <div class="pm-head"><span class="pm-icon">₿</span><span class="pm-name">Bitcoin (BTC)</span></div>
         <div class="pm-addr">bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x</div>
-        <span class="copy-btn" onclick="copyAddr(event,'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x',this)">📋 Copier l'adresse</span>
+        <span class="copy-btn" onclick="copyAddr(event,'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x',this)">📋 Copier</span>
       </div>
 
       <div class="pm full" onclick="selPay(this,'Solana SOL')">
         <div class="pm-head"><span class="pm-icon">🟣</span><span class="pm-name">Solana (SOL)</span></div>
         <div class="pm-addr">JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ</div>
-        <span class="copy-btn" onclick="copyAddr(event,'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ',this)">📋 Copier l'adresse</span>
+        <span class="copy-btn" onclick="copyAddr(event,'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ',this)">📋 Copier</span>
       </div>
 
     </div>
@@ -167,7 +195,6 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
     <div id="ab" class="alert"></div>
 
     <div class="fg">
-
       <div class="f">
         <label><span class="req">*</span> Méthode utilisée</label>
         <div class="iw">
@@ -183,22 +210,18 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
           <span class="sa">▼</span>
         </div>
       </div>
-
       <div class="f">
         <label><span class="req">*</span> Nom sur le compte / Wallet</label>
         <div class="iw"><span class="ic">👤</span><input type="text" id="nom_compte" placeholder="Nom utilisé pour le paiement"></div>
       </div>
-
       <div class="f">
         <label><span class="req">*</span> Numéro / Adresse expéditeur</label>
         <div class="iw"><span class="ic">📱</span><input type="text" id="numero" placeholder="Votre numéro ou adresse wallet"></div>
       </div>
-
       <div class="f">
         <label><span class="req">*</span> ID / Hash de transaction</label>
         <div class="iw"><span class="ic">🔑</span><input type="text" id="txid" placeholder="ID ou hash de la transaction"></div>
       </div>
-
     </div>
 
     <button class="btn" id="sbtn" onclick="go()">
@@ -208,54 +231,139 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
   </div>
 
 </div>
-<script>
-const{createClient}=supabase;
-const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
 
-function selPay(el,name){
-  document.querySelectorAll('.pm').forEach(p=>p.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('methode').value=name;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// ── Récupérer user_id : session OU localStorage ──
+async function getUserId() {
+  // 1. Essayer la session active
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user?.id) {
+      localStorage.setItem('nnp_uid', session.user.id);
+      localStorage.setItem('nnp_nom', session.user.user_metadata?.nom || '');
+      return session.user.id;
+    }
+  } catch(e) { console.warn('Session check:', e); }
+
+  // 2. Fallback : localStorage
+  const uid = localStorage.getItem('nnp_uid');
+  if (uid) return uid;
+
+  return null;
 }
 
-function copyAddr(e,addr,btn){
+// ── Init page ──
+async function initPage() {
+  const uid = await getUserId();
+  const nom = localStorage.getItem('nnp_nom') || '';
+  if (nom) {
+    document.getElementById('welcomeName').textContent = `Bonjour ${nom} 👋`;
+  }
+
+  if (!uid) {
+    // Pas de session : afficher avertissement mais laisser continuer
+    console.warn('No session found, will use email fallback');
+  }
+}
+
+function selPay(el, name) {
+  document.querySelectorAll('.pm').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('methode').value = name;
+}
+
+function copyAddr(e, addr, btn) {
   e.stopPropagation();
-  navigator.clipboard.writeText(addr).then(()=>{
-    btn.textContent='✅ Copié !';
-    btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='📋 Copier l\'adresse';btn.classList.remove('copied');},2000);
+  navigator.clipboard.writeText(addr).then(() => {
+    btn.textContent = '✅ Copié !';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('done'); }, 2000);
   });
 }
 
-function al(msg,t='err'){const b=document.getElementById('ab');b.className='alert '+t;b.innerHTML=(t==='err'?'⚠️ ':'✅ ')+msg;b.scrollIntoView({behavior:'smooth',block:'nearest'});}
-function setLoad(on){const btn=document.getElementById('sbtn'),sp=document.getElementById('sp'),tx=document.getElementById('bt');btn.disabled=on;sp.style.display=on?'block':'none';tx.textContent=on?'Envoi...':'📤 Soumettre le paiement';}
+function al(msg, t = 'err') {
+  const b = document.getElementById('ab');
+  b.className = 'alert ' + t;
+  b.innerHTML = (t === 'err' ? '⚠️ ' : '✅ ') + msg;
+  b.style.display = 'flex';
+  b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-async function go(){
-  const methode=document.getElementById('methode').value;
-  const nom_compte=document.getElementById('nom_compte').value.trim();
-  const numero=document.getElementById('numero').value.trim();
-  const txid=document.getElementById('txid').value.trim();
-  if(!methode) return al('Veuillez sélectionner votre méthode de paiement.');
-  if(!nom_compte) return al('Veuillez entrer le nom du compte utilisé.');
-  if(!numero) return al('Veuillez entrer votre numéro ou adresse.');
-  if(!txid) return al('Veuillez entrer l\'ID ou hash de transaction.');
+function setLoad(on) {
+  const btn = document.getElementById('sbtn'), sp = document.getElementById('sp'), tx = document.getElementById('bt');
+  btn.disabled = on;
+  sp.style.display = on ? 'block' : 'none';
+  tx.textContent = on ? 'Envoi en cours...' : '📤 Soumettre le paiement';
+}
+
+async function go() {
+  const methode    = document.getElementById('methode').value;
+  const nom_compte = document.getElementById('nom_compte').value.trim();
+  const numero     = document.getElementById('numero').value.trim();
+  const txid       = document.getElementById('txid').value.trim();
+
+  if (!methode)    return al('Veuillez sélectionner votre méthode de paiement.');
+  if (!nom_compte) return al('Veuillez entrer le nom du compte utilisé.');
+  if (!numero)     return al('Veuillez entrer votre numéro ou adresse.');
+  if (!txid)       return al('Veuillez entrer l\'ID ou hash de transaction.');
+
   setLoad(true);
-  try{
-    const{data:{user},error:ue}=await sb.auth.getUser();
-    if(ue||!user) throw new Error('Session expirée. Veuillez vous reconnecter.');
-    const{error}=await sb.from('activations').insert([{
-      user_id:user.id,methode,nom_compte,telephone:numero,
-      id_transaction:txid,montant:3100,statut:'en_attente'
-    }]);
-    if(error) throw error;
-    al('Paiement soumis ! En attente de validation...','ok');
-    setTimeout(()=>{window.location.href='nnp-attente.html';},2000);
-  }catch(e){
-    al('Erreur : '+(e.message||'Veuillez réessayer.'));
+
+  try {
+    // Récupérer l'ID utilisateur (session ou localStorage)
+    let uid = await getUserId();
+
+    // Si toujours pas d'ID, chercher via email dans localStorage
+    if (!uid) {
+      const email = localStorage.getItem('nnp_email');
+      if (email) {
+        const { data: u } = await sb
+          .from('utilisateurs')
+          .select('id')
+          .eq('email', email)
+          .maybeSingle();
+        if (u) uid = u.id;
+      }
+    }
+
+    if (!uid) {
+      return al('Session introuvable. <a href="nnp-login.html" style="color:var(--cyan)">Reconnectez-vous →</a>');
+    }
+
+    // Insérer l'activation SANS dépendre de auth.getUser()
+    const { error } = await sb.from('activations').insert({
+      user_id:        uid,
+      methode:        methode,
+      nom_compte:     nom_compte,
+      telephone:      numero,
+      id_transaction: txid,
+      montant:        3100,
+      statut:         'en_attente',
+      created_at:     new Date().toISOString()
+    });
+
+    if (error) {
+      console.error('Insert error:', error);
+      throw new Error(error.message);
+    }
+
+    al('✅ Paiement soumis avec succès ! Redirection...', 'ok');
+    setTimeout(() => { window.location.href = 'nnp-attente.html'; }, 2000);
+
+  } catch(e) {
+    console.error('Activation error:', e);
+    al('Erreur : ' + (e.message || 'Veuillez réessayer.'));
     setLoad(false);
   }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+initPage();
 </script>
 </body>
 </html>
