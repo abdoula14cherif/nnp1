@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — FAQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;--nav-h:66px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,85,200,.12) 0%,transparent 60%);pointer-events:none;}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
+.back{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800;text-decoration:none;padding:7px 10px;border-radius:10px;transition:all .2s;}
+.back:hover{color:#fff;}
+.page-ttl{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;}
+.page-ttl span{color:var(--cyan);}
+.main{padding-top:68px;padding-bottom:32px;position:relative;z-index:10;}
+.cont{max-width:480px;margin:0 auto;padding:16px 14px 0;}
+
+.hero{text-align:center;padding:20px 0 24px;animation:fadeU .5s ease both;}
+.hero-ico{font-size:48px;margin-bottom:10px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;margin-bottom:6px;}
+.hero-title span{color:var(--cyan);}
+.hero-sub{font-size:13px;color:var(--muted);font-weight:600;}
+
+.category{margin-bottom:20px;animation:fadeU .5s ease both;}
+.cat-title{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--orange-l);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.cat-title::after{content:'';flex:1;height:1px;background:rgba(255,140,0,.15);}
+
+.faq-item{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:border-color .2s;}
+.faq-item.open{border-color:rgba(0,200,255,.2);}
+.faq-q{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.fq-ico{font-size:18px;flex-shrink:0;}
+.fq-text{flex:1;font-size:13.5px;font-weight:800;color:#fff;}
+.fq-arr{font-size:12px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.faq-item.open .fq-arr{transform:rotate(180deg);color:var(--cyan);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-a{max-height:500px;}
+.fa-body{padding:0 16px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.65);line-height:1.75;border-top:1px solid rgba(255,255,255,.05);}
+.fa-body strong{color:var(--orange-l);}
+.fa-body a{color:var(--cyan);text-decoration:none;}
+
+.contact-card{background:linear-gradient(135deg,rgba(0,200,255,.07),rgba(0,85,200,.05));border:1px solid rgba(0,200,255,.15);border-radius:16px;padding:18px;text-align:center;margin-top:24px;}
+.cc-title{font-size:14px;font-weight:900;color:#fff;margin-bottom:6px;}
+.cc-desc{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.cc-btn{display:inline-block;padding:10px 24px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.2);border-radius:20px;color:var(--cyan);font-size:13px;font-weight:800;text-decoration:none;transition:background .2s;}
+.cc-btn:hover{background:rgba(0,200,255,.18);}
+
+@keyframes fadeU{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+<div class="topbar">
+  <a href="nnp-dashboard.html" class="back">← Retour</a>
+  <div class="page-ttl">❓ <span>FAQ</span></div>
+  <div style="width:60px"></div>
+</div>
+<div class="main"><div class="cont">
+
+  <div class="hero">
+    <div class="hero-ico">❓</div>
+    <div class="hero-title">Questions <span>fréquentes</span></div>
+    <div class="hero-sub">Tout ce que vous devez savoir sur NNP</div>
+  </div>
+
+  <!-- INSCRIPTION & ACTIVATION -->
+  <div class="category">
+    <div class="cat-title">📝 Inscription & Activation</div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🔑</span><span class="fq-text">Comment s'inscrire sur NNP ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Cliquez sur "S'inscrire", remplissez votre nom, numéro, email, pays et mot de passe. Si quelqu'un vous a invité, entrez son <strong>code de parrainage</strong>. C'est rapide et gratuit.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">💳</span><span class="fq-text">Pourquoi payer 3 100 FCFA pour activer mon compte ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Les <strong>3 100 FCFA</strong> sont des frais d'activation <strong>uniques et non remboursables</strong>. Ce montant finance la plateforme et les gains des parrains. Vous ne payez qu'une seule fois pour accéder à vie à la plateforme.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">⏳</span><span class="fq-text">Combien de temps prend la validation ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">La validation est effectuée par un administrateur dans un délai de <strong>24 heures maximum</strong> après soumission de votre preuve de paiement. En général, c'est beaucoup plus rapide.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">📱</span><span class="fq-text">Quels moyens de paiement sont acceptés ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Nous acceptons : <strong>Orange Money</strong> (658 033 690 — Alirou Moun), <strong>MTN Money</strong> (651 461 777 — Jean Jacques Rousseau), et les cryptomonnaies <strong>USDT BSC, Bitcoin, Solana</strong>.</div></div>
+    </div>
+  </div>
+
+  <!-- PARRAINAGE -->
+  <div class="category">
+    <div class="cat-title">🔗 Système de parrainage</div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">💰</span><span class="fq-text">Combien je gagne par filleul ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Vous gagnez sur <strong>3 niveaux</strong> :<br>• <strong>Niveau 1</strong> (filleul direct) : +1 500 FCFA<br>• <strong>Niveau 2</strong> (filleul de votre filleul) : +800 FCFA<br>• <strong>Niveau 3</strong> (réseau étendu) : +400 FCFA<br><br>Les gains sont crédités automatiquement dès que votre filleul active son compte.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🔗</span><span class="fq-text">Comment obtenir mon lien de parrainage ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Votre lien de parrainage unique est disponible dans votre <strong>Dashboard</strong> et sur la page <strong>Gagner</strong>. Cliquez sur "Copier" ou "Partager" pour l'envoyer à vos contacts sur WhatsApp, Facebook, etc.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">👥</span><span class="fq-text">Y a-t-il une limite au nombre de filleuls ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body"><strong>Non, aucune limite !</strong> Vous pouvez inviter autant de personnes que vous voulez. Plus vous invitez, plus vous gagnez. Il n'y a pas de plafond de gains.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">📊</span><span class="fq-text">Quand les gains de parrainage sont-ils crédités ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Les gains sont crédités <strong>automatiquement</strong> dès que le compte de votre filleul est validé et activé par un administrateur. Vous pouvez suivre vos gains dans la section <strong>Évolution</strong>.</div></div>
+    </div>
+  </div>
+
+  <!-- RETRAITS -->
+  <div class="category">
+    <div class="cat-title">📤 Retraits & Paiements</div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">💸</span><span class="fq-text">Quel est le montant minimum de retrait ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Le montant minimum de retrait est de <strong>500 FCFA</strong>. Il n'y a pas de maximum — vous pouvez retirer tout votre solde en une seule demande.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">⏰</span><span class="fq-text">Combien de temps pour recevoir un retrait ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Les retraits sont traités dans un délai de <strong>24 à 48 heures</strong> après validation par un administrateur. En période normale, c'est souvent plus rapide.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🔄</span><span class="fq-text">Puis-je avoir plusieurs demandes de retrait en même temps ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Non. Vous ne pouvez avoir qu'<strong>une seule demande de retrait en attente</strong> à la fois. Attendez la validation ou le rejet de votre demande avant d'en soumettre une nouvelle.</div></div>
+    </div>
+  </div>
+
+  <!-- ROUE -->
+  <div class="category">
+    <div class="cat-title">🎡 Roue de la Fortune</div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🎯</span><span class="fq-text">À quelle fréquence peut-on tourner la roue ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Vous avez droit à <strong>1 tour par jour</strong>. Le compteur se remet à zéro à minuit chaque jour. Ne manquez pas votre tour quotidien !</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🔒</span><span class="fq-text">Pourquoi certains prix sont-ils verrouillés ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Les gros prix sont réservés aux membres actifs ayant invité suffisamment de filleuls :<br>• <strong>500 F</strong> : 2 filleuls actifs<br>• <strong>1 000 F</strong> : 3 filleuls actifs<br>• <strong>1 500 F</strong> : 5 filleuls actifs<br>• <strong>2 000 F</strong> : 10 filleuls actifs<br><br>Invitez plus de personnes pour débloquer les meilleurs prix !</div></div>
+    </div>
+  </div>
+
+  <!-- SECURITE -->
+  <div class="category">
+    <div class="cat-title">🔒 Sécurité & Compte</div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🛡️</span><span class="fq-text">Mes données sont-elles sécurisées ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Oui. NNP utilise <strong>Supabase</strong>, une plateforme sécurisée avec chiffrement SSL. Vos données personnelles ne sont jamais partagées avec des tiers. Voir notre <a href="nnp-privacy.html">Politique de confidentialité</a>.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🚫</span><span class="fq-text">Mon compte peut-il être suspendu ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Oui, en cas de <strong>fraude</strong>, de fausse preuve de paiement, ou de violation des conditions d'utilisation. Tout abus entraîne la suspension immédiate du compte sans remboursement.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+      <div class="faq-q"><span class="fq-ico">🔑</span><span class="fq-text">J'ai oublié mon mot de passe, que faire ?</span><span class="fq-arr">▼</span></div>
+      <div class="faq-a"><div class="fa-body">Cliquez sur "Mot de passe oublié" sur la page de connexion. Vous recevrez un lien de réinitialisation par email. Si vous ne recevez rien, vérifiez vos spams ou contactez le support.</div></div>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <div class="cc-title">Vous n'avez pas trouvé votre réponse ?</div>
+    <div class="cc-desc">Notre équipe support est disponible pour vous aider</div>
+    <a href="nnp-support.html" class="cc-btn">💬 Contacter le support</a>
+  </div>
+
+  <div style="height:16px"></div>
+</div></div>
+
+<script>
+function toggle(el){
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
