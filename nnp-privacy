@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — Politique de confidentialité</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,85,200,.1) 0%,transparent 60%);pointer-events:none;}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
+.back{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800;text-decoration:none;padding:7px 10px;border-radius:10px;transition:all .2s;}
+.back:hover{color:#fff;}
+.page-ttl{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;}
+.page-ttl span{color:var(--cyan);}
+.main{padding:72px 0 40px;position:relative;z-index:10;}
+.cont{max-width:480px;margin:0 auto;padding:0 16px;}
+.hero{text-align:center;padding:16px 0 24px;}
+.hero-ico{font-size:40px;margin-bottom:8px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;margin-bottom:4px;}
+.hero-title span{color:var(--cyan);}
+.hero-date{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.section{margin-bottom:20px;}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.2);font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--cyan);flex-shrink:0;}
+.sec-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sec-title{font-size:15px;font-weight:900;color:#fff;}
+.sec-body{font-size:13px;font-weight:600;color:rgba(255,255,255,.62);line-height:1.8;padding-left:38px;}
+.sec-body strong{color:var(--cyan);}
+.sec-body ul{padding-left:16px;margin:6px 0;}
+.sec-body li{margin-bottom:4px;}
+.sec-body a{color:var(--orange-l);text-decoration:none;}
+.info-box{background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.15);border-radius:14px;padding:14px 16px;margin-bottom:20px;display:flex;gap:10px;}
+.ib-ico{font-size:20px;flex-shrink:0;}
+.ib-body{font-size:12.5px;font-weight:700;color:rgba(140,220,255,.8);line-height:1.6;}
+.rights-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;padding-left:0 !important;}
+.right-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 12px;display:flex;align-items:flex-start;gap:8px;}
+.ri-ico{font-size:18px;flex-shrink:0;}
+.ri-title{font-size:12px;font-weight:800;color:#fff;margin-bottom:2px;}
+.ri-desc{font-size:11px;color:var(--muted);}
+.divider{height:1px;background:rgba(255,255,255,.06);margin:20px 0;}
+.footer-note{text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.2);text-transform:uppercase;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="nnp-dashboard.html" class="back">← Retour</a>
+  <div class="page-ttl">🔒 <span>Confidentialité</span></div>
+  <div style="width:60px"></div>
+</div>
+<div class="main"><div class="cont">
+
+  <div class="hero">
+    <div class="hero-ico">🔒</div>
+    <div class="hero-title">Politique de <span>confidentialité</span></div>
+    <div class="hero-date">Dernière mise à jour : Avril 2025</div>
+  </div>
+
+  <div class="info-box">
+    <div class="ib-ico">ℹ️</div>
+    <div class="ib-body">NNP s'engage à protéger vos données personnelles. Cette politique explique quelles données nous collectons, comment nous les utilisons et vos droits.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">1</div><div class="sec-title">Données collectées</div></div>
+    <div class="sec-body">Lors de votre inscription et utilisation de NNP, nous collectons :<ul><li><strong>Informations d'identité</strong> : nom complet, adresse e-mail, numéro de téléphone</li><li><strong>Localisation</strong> : pays de résidence (seulement)</li><li><strong>Données financières</strong> : numéros de comptes Mobile Money, adresses crypto (uniquement pour les retraits)</li><li><strong>Données d'activité</strong> : transactions, gains, filleuls, historique de la roue</li><li><strong>Données techniques</strong> : adresse IP, navigateur (via Supabase)</li></ul></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">2</div><div class="sec-title">Utilisation des données</div></div>
+    <div class="sec-body">Vos données sont utilisées exclusivement pour :<ul><li>Gérer votre compte et votre accès à la plateforme</li><li>Traiter les activations et les retraits</li><li>Calculer et distribuer les commissions de parrainage</li><li>Prévenir la fraude et les abus</li><li>Vous contacter en cas de besoin lié à votre compte</li></ul><strong>Nous ne vendons jamais vos données</strong> à des tiers à des fins commerciales.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">3</div><div class="sec-title">Stockage & Sécurité</div></div>
+    <div class="sec-body">Vos données sont stockées sur <strong>Supabase</strong>, une infrastructure cloud sécurisée :<ul><li>Connexions chiffrées <strong>SSL/TLS</strong></li><li>Authentification sécurisée avec tokens JWT</li><li>Sauvegardes automatiques des données</li><li>Accès restreint au personnel autorisé uniquement</li></ul></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">4</div><div class="sec-title">Partage des données</div></div>
+    <div class="sec-body">Vos données ne sont partagées qu'avec :<ul><li><strong>Supabase</strong> : hébergeur de base de données (infrastructure technique)</li><li><strong>Administrateurs NNP</strong> : pour la validation des paiements uniquement</li></ul>Aucun partage avec des annonceurs, réseaux publicitaires ou autres tiers commerciaux.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">5</div><div class="sec-title">Vos droits</div></div>
+    <div class="sec-body">
+      <div class="rights-grid">
+        <div class="right-item"><div class="ri-ico">👁️</div><div><div class="ri-title">Accès</div><div class="ri-desc">Consulter vos données personnelles</div></div></div>
+        <div class="right-item"><div class="ri-ico">✏️</div><div><div class="ri-title">Rectification</div><div class="ri-desc">Corriger vos informations</div></div></div>
+        <div class="right-item"><div class="ri-ico">🗑️</div><div><div class="ri-title">Suppression</div><div class="ri-desc">Demander la suppression du compte</div></div></div>
+        <div class="right-item"><div class="ri-ico">📤</div><div><div class="ri-title">Portabilité</div><div class="ri-desc">Exporter vos données</div></div></div>
+      </div>
+      <br>Pour exercer ces droits, contactez-nous via la page <a href="nnp-support.html">Support</a>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">6</div><div class="sec-title">Cookies & Stockage local</div></div>
+    <div class="sec-body">NNP utilise le <strong>localStorage</strong> du navigateur pour :<ul><li>Maintenir votre session connectée</li><li>Sauvegarder vos préférences locales (tâches du jour, etc.)</li></ul>Ces données restent sur votre appareil et ne sont pas transmises à nos serveurs.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">7</div><div class="sec-title">Durée de conservation</div></div>
+    <div class="sec-body">Vos données sont conservées pendant toute la durée d'activité de votre compte. En cas de suppression du compte, vos données personnelles sont effacées dans un délai de <strong>30 jours</strong>, à l'exception des données de transaction conservées à des fins légales.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header"><div class="sec-num">8</div><div class="sec-title">Modifications</div></div>
+    <div class="sec-body">Cette politique peut être mise à jour. Vous serez notifié dans l'application lors de tout changement significatif. La date de dernière mise à jour est toujours indiquée en haut de cette page.</div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer-note">© 2025 New Numeric Platform · Confidentialité<br>Pour toute question : <a href="nnp-support.html" style="color:var(--cyan)">Contacter le support</a></div>
+  <div style="height:20px"></div>
+</div></div>
+</body>
+</html>
