@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — Évolution</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;--error:#ff4d6d;--nav-h:66px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 100% 0%,rgba(0,85,200,.15) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 0% 100%,rgba(255,140,0,.08) 0%,transparent 60%);pointer-events:none;}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;}
+
+/* TOP BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
+.back{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800;text-decoration:none;padding:7px 10px;border-radius:10px;transition:all .2s;}
+.back:hover{color:#fff;background:rgba(255,255,255,.06);}
+.page-ttl{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;}
+.page-ttl span{color:var(--cyan);}
+
+/* MAIN */
+.main{padding-top:68px;padding-bottom:calc(var(--nav-h)+24px);position:relative;z-index:10;}
+.cont{max-width:480px;margin:0 auto;padding:16px 14px 0;}
+
+/* RÉSUMÉ STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;animation:fadeU .5s ease both;}
+.sc{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:14px 12px;text-align:center;position:relative;overflow:hidden;}
+.sc::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;opacity:.5;}
+.sc-or::before{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.sc-cy::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.sc-ok::before{background:linear-gradient(90deg,transparent,var(--ok),transparent);}
+.sc-ico{font-size:18px;margin-bottom:5px;}
+.sc-val{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#fff;line-height:1;}
+.sc-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+
+/* ONGLETS FILTRES */
+.tabs{display:flex;gap:6px;margin-bottom:14px;animation:fadeU .5s .05s ease both;overflow-x:auto;padding-bottom:2px;}
+.tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s;border:1.5px solid rgba(255,255,255,.08);color:var(--muted);background:rgba(255,255,255,.03);-webkit-tap-highlight-color:transparent;}
+.tab.active{border-color:var(--orange);background:rgba(255,140,0,.1);color:var(--orange-l);}
+
+/* TIMELINE */
+.timeline{animation:fadeU .5s .1s ease both;}
+.tl-item{display:flex;gap:12px;margin-bottom:0;position:relative;}
+.tl-item::before{content:'';position:absolute;left:17px;top:36px;bottom:-14px;width:1.5px;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent);}
+.tl-item:last-child::before{display:none;}
+.tl-item{padding-bottom:14px;}
+
+.tl-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px;}
+.ti-gain1{background:rgba(255,140,0,.15);border:1.5px solid rgba(255,140,0,.3);}
+.ti-gain2{background:rgba(0,200,255,.12);border:1.5px solid rgba(0,200,255,.25);}
+.ti-gain3{background:rgba(167,139,250,.12);border:1.5px solid rgba(167,139,250,.25);}
+.ti-retrait{background:rgba(255,77,109,.1);border:1.5px solid rgba(255,77,109,.2);}
+.ti-retrait-ok{background:rgba(0,229,160,.1);border:1.5px solid rgba(0,229,160,.2);}
+.ti-filleul{background:rgba(0,200,255,.1);border:1.5px solid rgba(0,200,255,.2);}
+.ti-activation{background:rgba(255,140,0,.1);border:1.5px solid rgba(255,140,0,.25);}
+
+.tl-body{flex:1;background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
+.tl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.tl-title{font-size:13px;font-weight:800;color:#fff;line-height:1.3;}
+.tl-amount{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;flex-shrink:0;}
+.ta-plus{color:var(--ok);}
+.ta-minus{color:var(--error);}
+.ta-pend{color:var(--orange-l);}
+.ta-neutral{color:var(--cyan);}
+.tl-meta{display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap;}
+.tl-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
+.tl-badge{font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:10px;}
+.tb-ok{background:rgba(0,229,160,.1);color:var(--ok);}
+.tb-pend{background:rgba(255,140,0,.1);color:var(--orange-l);}
+.tb-rej{background:rgba(255,77,109,.1);color:#ff8fa3;}
+.tb-blue{background:rgba(0,200,255,.1);color:var(--cyan);}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:30px 20px;color:var(--muted);font-size:13px;font-weight:600;line-height:1.7;}
+
+/* LOADING */
+.ld{text-align:center;padding:30px;color:var(--muted);}
+.spin{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* BOTTOM NAV */
+.bot-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(10,15,30,.93);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-around;padding:0 6px;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 14px;border-radius:13px;cursor:pointer;text-decoration:none;color:var(--muted);transition:all .2s;flex:1;-webkit-tap-highlight-color:transparent;}
+.ni:hover,.ni.active{color:var(--orange-l);}
+.ni.active{background:rgba(255,140,0,.08);}
+.ni-ico{font-size:20px;}
+.ni-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+.ni-center{background:linear-gradient(135deg,var(--orange),var(--orange-l));border-radius:16px;padding:9px 18px;box-shadow:0 4px 20px rgba(255,140,0,.4);color:#fff!important;}
+.ni-center .ni-lbl,.ni-center .ni-ico{color:#fff;}
+
+@keyframes fadeU{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+
+<div class="topbar">
+  <a href="nnp-dashboard.html" class="back">← Retour</a>
+  <div class="page-ttl">Mon <span>Évolution</span></div>
+  <div style="width:70px"></div>
+</div>
+
+<div class="main">
+  <div class="cont">
+
+    <!-- RÉSUMÉ -->
+    <div class="stats-row">
+      <div class="sc sc-or"><div class="sc-ico">💰</div><div class="sc-val" id="stTotalGains">—</div><div class="sc-lbl">Total gains</div></div>
+      <div class="sc sc-cy"><div class="sc-ico">👥</div><div class="sc-val" id="stTotalFill">—</div><div class="sc-lbl">Filleuls</div></div>
+      <div class="sc sc-ok"><div class="sc-ico">📤</div><div class="sc-val" id="stTotalRetr">—</div><div class="sc-lbl">Retraits</div></div>
+    </div>
+
+    <!-- ONGLETS -->
+    <div class="tabs">
+      <div class="tab active" onclick="filter('tout',this)">🌐 Tout</div>
+      <div class="tab" onclick="filter('gains',this)">💰 Gains</div>
+      <div class="tab" onclick="filter('filleuls',this)">👥 Filleuls</div>
+      <div class="tab" onclick="filter('retraits',this)">📤 Retraits</div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div id="timeline" class="timeline">
+      <div class="ld"><div class="spin"></div></div>
+    </div>
+
+    <div style="height:20px"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bot-nav">
+  <a href="nnp-retrait.html" class="ni"><span class="ni-ico">💳</span><span class="ni-lbl">Retirer</span></a>
+  <a href="nnp-profil.html" class="ni"><span class="ni-ico">👤</span><span class="ni-lbl">Profil</span></a>
+  <a href="nnp-gagner.html" class="ni ni-center"><span class="ni-ico">💰</span><span class="ni-lbl">Gagner</span></a>
+  <a href="nnp-evolution.html" class="ni active"><span class="ni-ico">📈</span><span class="ni-lbl">Évolution</span></a>
+  <a href="nnp-dashboard.html" class="ni"><span class="ni-ico">🏠</span><span class="ni-lbl">Accueil</span></a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://wjvprhqdmithkltybdfd.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE'
+);
+
+const fmt   = n => Number(n||0).toLocaleString('fr-FR');
+const fdate = d => {
+  const dt = new Date(d);
+  return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'2-digit'})
+    +' · '+dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+};
+
+let allEvents = [];
+let currentFilter = 'tout';
+
+async function getUid(){
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(session?.user?.id){ localStorage.setItem('nnp_uid',session.user.id); return session.user.id; }
+  }catch(e){}
+  const lsUid=localStorage.getItem('nnp_uid');
+  if(lsUid) return lsUid;
+  const em=localStorage.getItem('nnp_email');
+  if(em){
+    const{data:u}=await sb.from('utilisateurs').select('id').eq('email',em).maybeSingle();
+    if(u?.id){ localStorage.setItem('nnp_uid',u.id); return u.id; }
+  }
+  return null;
+}
+
+async function init(){
+  const uid = await getUid();
+  if(!uid){ window.location.href='nnp-login.html'; return; }
+
+  // Charger toutes les données en parallèle
+  const [r1, r2, r3, r4] = await Promise.all([
+    // Gains parrainage reçus
+    sb.from('parrainage_gains').select('*').eq('beneficiaire_id',uid).order('created_at',{ascending:false}),
+    // Retraits
+    sb.from('retraits').select('*').eq('user_id',uid).order('created_at',{ascending:false}),
+    // Filleuls directs
+    sb.from('utilisateurs').select('id,nom,statut,created_at').eq('parrain_id',uid).order('created_at',{ascending:false}),
+    // Activation propre
+    sb.from('activations').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(1),
+  ]);
+
+  const gains    = r1.data || [];
+  const retraits = r2.data || [];
+  const filleuls = r3.data || [];
+  const activation = r4.data || [];
+
+  // Récupérer noms des sources de gains (niveaux 2/3)
+  const gids = [...new Set(gains.map(g=>g.source_id).filter(Boolean))];
+  let gmap = {};
+  if(gids.length>0){
+    const{data:gu}=await sb.from('utilisateurs').select('id,nom').in('id',gids);
+    (gu||[]).forEach(u=>gmap[u.id]=u.nom);
+  }
+
+  // Stats résumé
+  const totalGains = gains.reduce((s,g)=>s+g.montant,0);
+  const totalRetr  = retraits.filter(r=>r.statut==='validé').reduce((s,r)=>s+r.montant,0);
+  document.getElementById('stTotalGains').textContent = fmt(totalGains)+' F';
+  document.getElementById('stTotalFill').textContent  = filleuls.length;
+  document.getElementById('stTotalRetr').textContent  = fmt(totalRetr)+' F';
+
+  // Construire la liste d'événements unifiée
+  allEvents = [];
+
+  // Gains
+  gains.forEach(g => {
+    const nomSource = gmap[g.source_id] || 'Filleul';
+    const lvlColors = {1:'var(--orange-l)',2:'var(--cyan)',3:'#a78bfa'};
+    allEvents.push({
+      type: 'gain',
+      niveau: g.niveau,
+      date: g.created_at,
+      icon: g.niveau===1 ? '💰' : g.niveau===2 ? '🔗' : '🌐',
+      iconClass: `ti-gain${g.niveau}`,
+      title: g.niveau===1
+        ? `Gain filleul direct — ${nomSource}`
+        : g.niveau===2
+        ? `Gain filleul niveau 2 — ${nomSource}`
+        : `Gain filleul niveau 3 — ${nomSource}`,
+      amount: '+'+fmt(g.montant)+' F',
+      amountClass: 'ta-plus',
+      badges: [`<span class="tl-badge tb-blue">Niveau ${g.niveau}</span>`],
+    });
+  });
+
+  // Filleuls
+  filleuls.forEach(f => {
+    allEvents.push({
+      type: 'filleul',
+      date: f.created_at,
+      icon: '👤',
+      iconClass: 'ti-filleul',
+      title: `Nouveau filleul — ${f.nom}`,
+      amount: f.statut==='actif' ? '+1 500 F' : 'En attente',
+      amountClass: f.statut==='actif' ? 'ta-plus' : 'ta-pend',
+      badges: [
+        f.statut==='actif'
+          ? `<span class="tl-badge tb-ok">✅ Actif</span>`
+          : `<span class="tl-badge tb-pend">⏳ En attente d'activation</span>`
+      ],
+    });
+  });
+
+  // Retraits
+  retraits.forEach(r => {
+    const icls = r.statut==='validé' ? 'ti-retrait-ok' : r.statut==='rejeté' ? 'ti-retrait' : 'ti-retrait';
+    const ico  = r.statut==='validé' ? '✅' : r.statut==='rejeté' ? '❌' : '⏳';
+    const acls = r.statut==='validé' ? 'ta-minus' : r.statut==='rejeté' ? 'ta-pend' : 'ta-pend';
+    const bcls = r.statut==='validé' ? 'tb-ok' : r.statut==='rejeté' ? 'tb-rej' : 'tb-pend';
+    allEvents.push({
+      type: 'retrait',
+      date: r.created_at,
+      icon: ico,
+      iconClass: icls,
+      title: `Retrait — ${r.methode} · ${r.numero_compte}`,
+      amount: '-'+fmt(r.montant)+' F',
+      amountClass: acls,
+      badges: [`<span class="tl-badge ${bcls}">${r.statut}</span>`],
+    });
+  });
+
+  // Activation
+  activation.forEach(a => {
+    allEvents.push({
+      type: 'activation',
+      date: a.created_at,
+      icon: '⚡',
+      iconClass: 'ti-activation',
+      title: `Activation du compte — ${a.methode}`,
+      amount: '-3 100 F',
+      amountClass: 'ta-minus',
+      badges: [
+        a.statut==='validé'
+          ? `<span class="tl-badge tb-ok">✅ Validé</span>`
+          : `<span class="tl-badge tb-pend">⏳ En attente</span>`
+      ],
+    });
+  });
+
+  // Trier par date décroissante
+  allEvents.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  render();
+}
+
+function filter(type, el){
+  currentFilter = type;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function render(){
+  const tl = document.getElementById('timeline');
+
+  let events = allEvents;
+  if(currentFilter !== 'tout'){
+    const map = {gains:'gain', filleuls:'filleul', retraits:'retrait'};
+    events = allEvents.filter(e => e.type === map[currentFilter]);
+  }
+
+  if(events.length === 0){
+    const labels = {tout:'aucune activité', gains:'aucun gain', filleuls:'aucun filleul', retraits:'aucun retrait'};
+    tl.innerHTML = `<div class="empty-state">
+      📊 Vous n'avez ${labels[currentFilter]||'rien'} pour le moment.<br>
+      <span style="font-size:11px;opacity:.6">Partagez votre lien pour commencer à gagner !</span>
+    </div>`;
+    return;
+  }
+
+  tl.innerHTML = events.map(e => `
+    <div class="tl-item">
+      <div class="tl-icon ${e.iconClass}">${e.icon}</div>
+      <div class="tl-body">
+        <div class="tl-head">
+          <div class="tl-title">${e.title}</div>
+          <div class="tl-amount ${e.amountClass}">${e.amount}</div>
+        </div>
+        <div class="tl-meta">
+          <span class="tl-date">${fdate(e.date)}</span>
+          ${e.badges.join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+init();
+</script>
+</body>
+</html>
