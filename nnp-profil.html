@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NNP — Mon Profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;--error:#ff4d6d;--nav-h:66px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,55,180,.15) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 100% 100%,rgba(255,140,0,.08) 0%,transparent 60%);pointer-events:none;}
+.gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;}
+
+/* TOP BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
+.back-btn{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:13px;font-weight:800;text-decoration:none;padding:7px 10px;border-radius:10px;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.back-btn:hover{color:#fff;background:rgba(255,255,255,.06);}
+.page-ttl{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:#fff;}
+.page-ttl span{color:var(--orange);}
+.edit-btn{padding:7px 16px;background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.25);border-radius:10px;color:var(--orange-l);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.edit-btn:hover{background:rgba(255,140,0,.2);}
+.save-btn{padding:7px 16px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:900;cursor:pointer;transition:all .2s;display:none;}
+.save-btn:hover{opacity:.9;}
+.save-btn.on{display:block;}
+
+/* MAIN */
+.main{padding-top:68px;padding-bottom:calc(var(--nav-h)+10px);position:relative;z-index:10;}
+.cont{max-width:480px;margin:0 auto;padding:16px 14px 0;}
+
+/* ALERT */
+.alert{padding:10px 14px;border-radius:11px;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;margin-bottom:14px;animation:slin .3s ease;}
+.alert.err{display:flex;background:rgba(255,77,109,.09);border:1px solid rgba(255,77,109,.25);color:#ff8fa3;}
+.alert.ok{display:flex;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.22);color:var(--ok);}
+@keyframes slin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* PROFILE HERO */
+.profile-hero{background:linear-gradient(135deg,#0d1528 0%,#112040 60%,#0a1424 100%);border:1px solid rgba(0,200,255,.15);border-radius:22px;padding:28px 20px 22px;margin-bottom:14px;position:relative;overflow:hidden;text-align:center;animation:fadeU .6s ease both;}
+.profile-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--cyan),var(--orange));opacity:.5;}
+.ph-glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,.08),transparent 70%);pointer-events:none;}
+
+/* AVATAR */
+.avatar-wrap{position:relative;display:inline-block;margin-bottom:14px;}
+.avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff;border:3px solid rgba(255,140,0,.4);box-shadow:0 0 24px rgba(255,140,0,.25);cursor:pointer;position:relative;overflow:hidden;transition:all .2s;}
+.avatar:hover .av-overlay{opacity:1;}
+.av-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:22px;opacity:0;transition:opacity .2s;border-radius:50%;}
+.avatar-input{display:none;}
+.av-badge{position:absolute;bottom:2px;right:2px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--ok),#00b87a);border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:11px;}
+
+.ph-name{font-size:20px;font-weight:900;color:#fff;margin-bottom:3px;}
+.ph-email{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:10px;}
+.ph-code{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.18);border-radius:20px;font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan);cursor:pointer;transition:background .2s;}
+.ph-code:hover{background:rgba(0,200,255,.14);}
+
+/* STATS MINI */
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:16px;background:rgba(255,255,255,.04);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.06);}
+.ms-item{padding:12px 8px;text-align:center;background:transparent;}
+.ms-item:not(:last-child){border-right:1px solid rgba(255,255,255,.06);}
+.ms-v{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#fff;}
+.ms-l{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+
+/* SECTION */
+.section{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:18px;padding:18px 16px;margin-bottom:12px;position:relative;overflow:hidden;animation:fadeU .6s .1s ease both;}
+.section::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.4;}
+.sec-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sec-title .st-ico{font-size:16px;}
+
+/* FORM FIELDS */
+.field{margin-bottom:13px;}
+.field:last-child{margin-bottom:0;}
+.field-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.42);text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:5px;}
+.field-val{font-size:14px;font-weight:700;color:#fff;padding:11px 14px;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.06);border-radius:11px;display:flex;align-items:center;gap:9px;transition:all .2s;}
+.field-val .fv-ico{font-size:15px;opacity:.5;}
+.field-val.editable{cursor:pointer;}
+.field-val.editable:hover{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.03);}
+.field-val input{background:none;border:none;outline:none;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;width:100%;pointer-events:none;}
+.field-val input.active{pointer-events:all;}
+.field-val input::placeholder{color:rgba(255,255,255,.2);}
+.field-val.focused{border-color:var(--orange);background:rgba(255,140,0,.05);box-shadow:0 0 0 3px rgba(255,140,0,.08);}
+
+/* SELECT */
+.field-val select{background:none;border:none;outline:none;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;width:100%;-webkit-appearance:none;pointer-events:none;cursor:pointer;}
+.field-val select.active{pointer-events:all;}
+.field-val select option{background:#111827;color:#fff;}
+
+/* PASSWORD SECTION */
+.pw-toggle{font-size:12px;font-weight:700;color:var(--cyan);cursor:pointer;display:flex;align-items:center;gap:6px;padding:10px 0 2px;transition:opacity .2s;}
+.pw-toggle:hover{opacity:.7;}
+.pw-section{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.pw-section.open{max-height:300px;}
+
+/* DANGER ZONE */
+.danger-section{background:linear-gradient(145deg,rgba(255,77,109,.06),rgba(180,20,40,.04));border:1px solid rgba(255,77,109,.15);border-radius:18px;padding:18px 16px;margin-bottom:12px;animation:fadeU .6s .2s ease both;}
+.danger-section::before{content:'';position:absolute;display:none;}
+.danger-title{font-size:13px;font-weight:900;color:#ff8fa3;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.danger-desc{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:14px;line-height:1.6;}
+.btn-danger{width:100%;padding:12px;background:rgba(255,77,109,.12);border:1.5px solid rgba(255,77,109,.3);border-radius:12px;color:#ff8fa3;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer;transition:all .2s;letter-spacing:.5px;}
+.btn-danger:hover{background:rgba(255,77,109,.2);color:#fff;}
+
+/* LOGOUT BTN */
+.logout-btn{width:100%;padding:14px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;color:var(--muted);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:.5px;margin-bottom:12px;}
+.logout-btn:hover{background:rgba(255,100,100,.08);border-color:rgba(255,100,100,.2);color:#ff8fa3;}
+
+/* MEMBRE DEPUIS */
+.membre-badge{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:13px;margin-bottom:12px;}
+.mb-ico{font-size:22px;}
+.mb-label{font-size:11px;font-weight:600;color:var(--muted);}
+.mb-val{font-size:13px;font-weight:900;color:#fff;margin-top:1px;}
+
+/* BOTTOM NAV */
+.bot-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(10,15,30,.93);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-around;padding:0 6px;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 14px;border-radius:13px;cursor:pointer;text-decoration:none;color:var(--muted);transition:all .2s;flex:1;-webkit-tap-highlight-color:transparent;}
+.ni:hover,.ni.active{color:var(--orange-l);}
+.ni.active{background:rgba(255,140,0,.08);}
+.ni-ico{font-size:20px;}
+.ni-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+.ni-center{background:linear-gradient(135deg,var(--orange),var(--orange-l));border-radius:16px;padding:9px 18px;box-shadow:0 4px 20px rgba(255,140,0,.4);color:#fff!important;}
+.ni-center .ni-lbl,.ni-center .ni-ico{color:#fff;}
+.ni-center:hover{transform:translateY(-2px);}
+
+/* SPIN */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+@keyframes fadeU{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="nnp-dashboard.html" class="back-btn">← Retour</a>
+  <div class="page-ttl">Mon <span>Profil</span></div>
+  <div>
+    <button class="edit-btn" id="editBtn" onclick="toggleEdit()">✏️ Modifier</button>
+    <button class="save-btn" id="saveBtn" onclick="saveProfile()">
+      <span id="saveTx">💾 Sauvegarder</span>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="cont">
+
+    <div id="alertBox" class="alert"></div>
+
+    <!-- HERO -->
+    <div class="profile-hero">
+      <div class="ph-glow"></div>
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatarEl" onclick="document.getElementById('avatarInput').click()">
+          <span id="avatarText">?</span>
+          <div class="av-overlay">📷</div>
+        </div>
+        <div class="av-badge">✅</div>
+        <input type="file" class="avatar-input" id="avatarInput" accept="image/*" onchange="handleAvatar(this)">
+      </div>
+      <div class="ph-name" id="phName">Chargement...</div>
+      <div class="ph-email" id="phEmail">—</div>
+      <div class="ph-code" onclick="copyCode()" id="phCode">
+        <span>🔗</span><span id="codeText">NNP-XXXXXX</span><span style="opacity:.5">📋</span>
+      </div>
+      <div class="mini-stats">
+        <div class="ms-item"><div class="ms-v" id="msFilleuls">0</div><div class="ms-l">Filleuls</div></div>
+        <div class="ms-item"><div class="ms-v" id="msSolde">0</div><div class="ms-l">Solde F</div></div>
+        <div class="ms-item"><div class="ms-v" id="msRetraits">0</div><div class="ms-l">Retraits</div></div>
+      </div>
+    </div>
+
+    <!-- INFORMATIONS PERSONNELLES -->
+    <div class="section">
+      <div class="sec-title"><span class="st-ico">👤</span> Informations personnelles</div>
+
+      <div class="field">
+        <div class="field-label">Nom complet</div>
+        <div class="field-val editable" id="fv-nom" onclick="focusField('nom')">
+          <span class="fv-ico">👤</span>
+          <input type="text" id="f-nom" placeholder="Votre nom complet" readonly>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Numéro de téléphone</div>
+        <div class="field-val editable" id="fv-tel" onclick="focusField('tel')">
+          <span class="fv-ico">📱</span>
+          <input type="tel" id="f-tel" placeholder="Votre numéro" readonly>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Adresse e-mail</div>
+        <div class="field-val" style="opacity:.6">
+          <span class="fv-ico">✉️</span>
+          <input type="email" id="f-email" placeholder="Email" readonly style="color:var(--muted)">
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;padding-left:4px">⚠️ L'e-mail ne peut pas être modifié</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Pays de résidence</div>
+        <div class="field-val editable" id="fv-pays" onclick="focusField('pays')">
+          <span class="fv-ico">🌍</span>
+          <select id="f-pays" disabled>
+            <option value="">— Sélectionner —</option>
+            <optgroup label="🌍 Afrique de l'Ouest"><option>Bénin</option><option>Burkina Faso</option><option>Cabo Verde</option><option>Côte d'Ivoire</option><option>Gambie</option><option>Ghana</option><option>Guinée</option><option>Guinée-Bissau</option><option>Liberia</option><option>Mali</option><option>Mauritanie</option><option>Niger</option><option>Nigeria</option><option>Sénégal</option><option>Sierra Leone</option><option>Togo</option></optgroup>
+            <optgroup label="🌍 Afrique Centrale"><option>Cameroun</option><option>Congo</option><option>Gabon</option><option>Guinée équatoriale</option><option>RD Congo</option><option>Tchad</option><option>République centrafricaine</option></optgroup>
+            <optgroup label="🌍 Afrique de l'Est"><option>Burundi</option><option>Djibouti</option><option>Éthiopie</option><option>Kenya</option><option>Madagascar</option><option>Maurice</option><option>Mozambique</option><option>Ouganda</option><option>Rwanda</option><option>Tanzanie</option><option>Zambie</option><option>Zimbabwe</option></optgroup>
+            <optgroup label="🌍 Afrique du Nord"><option>Algérie</option><option>Égypte</option><option>Libye</option><option>Maroc</option><option>Tunisie</option></optgroup>
+            <optgroup label="🌍 Afrique Australe"><option>Afrique du Sud</option><option>Angola</option><option>Botswana</option><option>Namibie</option></optgroup>
+            <optgroup label="🌐 Europe"><option>Belgique</option><option>France</option><option>Italie</option><option>Portugal</option><option>Royaume-Uni</option><option>Suisse</option><option>Espagne</option><option>Allemagne</option><option>Autre Europe</option></optgroup>
+            <optgroup label="🌎 Amériques"><option>Canada</option><option>États-Unis</option><option>Haïti</option><option>Autre Amériques</option></optgroup>
+            <optgroup label="🌏 Autre"><option>Autre pays</option></optgroup>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SÉCURITÉ -->
+    <div class="section">
+      <div class="sec-title"><span class="st-ico">🔒</span> Sécurité</div>
+
+      <div class="pw-toggle" onclick="togglePw()">
+        <span id="pwArrow">▼</span> Changer le mot de passe
+      </div>
+      <div class="pw-section" id="pwSection">
+        <div style="height:12px"></div>
+        <div class="field">
+          <div class="field-label">Mot de passe actuel</div>
+          <div class="field-val focused">
+            <span class="fv-ico">🔒</span>
+            <input type="password" id="f-pw-old" placeholder="Mot de passe actuel">
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Nouveau mot de passe</div>
+          <div class="field-val focused">
+            <span class="fv-ico">🔑</span>
+            <input type="password" id="f-pw-new" placeholder="Nouveau mot de passe (6 car. min)">
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Confirmer nouveau mot de passe</div>
+          <div class="field-val focused">
+            <span class="fv-ico">✅</span>
+            <input type="password" id="f-pw-conf" placeholder="Confirmer le nouveau mot de passe">
+          </div>
+        </div>
+        <button class="logout-btn" style="margin-top:4px;margin-bottom:0;color:var(--cyan);border-color:rgba(0,200,255,.2);background:rgba(0,200,255,.05)" onclick="changePassword()">
+          🔄 Mettre à jour le mot de passe
+        </button>
+      </div>
+    </div>
+
+    <!-- INFO COMPTE -->
+    <div class="section">
+      <div class="sec-title"><span class="st-ico">📊</span> Informations du compte</div>
+
+      <div class="field">
+        <div class="field-label">Code de parrainage</div>
+        <div class="field-val" style="cursor:pointer" onclick="copyCode()">
+          <span class="fv-ico">🔗</span>
+          <input type="text" id="f-code" readonly style="cursor:pointer;color:var(--cyan)">
+          <span style="font-size:12px;color:var(--cyan);font-weight:800;white-space:nowrap">📋 Copier</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Parrain (qui vous a invité)</div>
+        <div class="field-val" style="opacity:.7">
+          <span class="fv-ico">👥</span>
+          <input type="text" id="f-parrain" readonly style="color:var(--muted)">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Statut du compte</div>
+        <div class="field-val">
+          <span class="fv-ico">✅</span>
+          <input type="text" id="f-statut" readonly style="color:var(--ok);font-weight:900">
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBRE DEPUIS -->
+    <div class="membre-badge">
+      <div class="mb-ico">🎂</div>
+      <div>
+        <div class="mb-label">Membre NNP depuis</div>
+        <div class="mb-val" id="membreSince">—</div>
+      </div>
+    </div>
+
+    <!-- DÉCONNEXION -->
+    <button class="logout-btn" onclick="logout()">🚪 Se déconnecter</button>
+
+    <!-- ZONE DANGER -->
+    <div class="danger-section">
+      <div class="danger-title">⚠️ Zone dangereuse</div>
+      <div class="danger-desc">La suppression de votre compte est <strong>irréversible</strong>. Toutes vos données, gains et filleuls seront perdus définitivement.</div>
+      <button class="btn-danger" onclick="confirmDelete()">🗑️ Supprimer mon compte</button>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bot-nav">
+  <a href="nnp-retrait.html" class="ni"><span class="ni-ico">💳</span><span class="ni-lbl">Retirer</span></a>
+  <a href="nnp-profil.html" class="ni active"><span class="ni-ico">👤</span><span class="ni-lbl">Profil</span></a>
+  <a href="nnp-gagner.html" class="ni ni-center"><span class="ni-ico">💰</span><span class="ni-lbl">Gagner</span></a>
+  <a href="nnp-evolution.html" class="ni"><span class="ni-ico">📈</span><span class="ni-lbl">Évolution</span></a>
+  <a href="nnp-dashboard.html" class="ni"><span class="ni-ico">🏠</span><span class="ni-lbl">Accueil</span></a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let userData = null;
+let isEditing = false;
+let pwOpen = false;
+
+// ── UTILS ──
+const fmt  = n => Number(n||0).toLocaleString('fr-FR');
+const ini  = s => (s||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+const fdate= d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+
+function al(msg, t='err'){
+  const b=document.getElementById('alertBox');
+  b.className='alert '+t;
+  b.innerHTML=(t==='err'?'⚠️ ':'✅ ')+msg;
+  b.style.display='flex';
+  b.scrollIntoView({behavior:'smooth',block:'nearest'});
+  setTimeout(()=>{ b.style.display='none'; }, 4000);
+}
+
+// ── GET USER ──
+async function getUid(){
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(session?.user?.id){
+      localStorage.setItem('nnp_uid',session.user.id);
+      return session.user.id;
+    }
+  }catch(e){}
+  return localStorage.getItem('nnp_uid');
+}
+
+// ── INIT ──
+async function init(){
+  const uid = await getUid();
+  if(!uid){ window.location.href='nnp-login.html'; return; }
+
+  const{data:u,error}=await sb.from('utilisateurs').select('*').eq('id',uid).maybeSingle();
+  if(error||!u){ window.location.href='nnp-login.html'; return; }
+  if(u.statut==='en_attente'){ window.location.href='nnp-attente.html'; return; }
+
+  userData=u;
+
+  // Hero
+  const av=ini(u.nom);
+  document.getElementById('avatarText').textContent=av;
+  document.getElementById('phName').textContent=u.nom;
+  document.getElementById('phEmail').textContent=u.email;
+  document.getElementById('codeText').textContent=u.code_parrainage||'—';
+
+  // Mini stats
+  document.getElementById('msFilleuls').textContent=u.total_filleuls||0;
+  document.getElementById('msSolde').textContent=fmt(u.solde);
+
+  // Retraits validés
+  const{count:rc}=await sb.from('retraits').select('*',{count:'exact',head:true}).eq('user_id',uid).eq('statut','validé');
+  document.getElementById('msRetraits').textContent=rc||0;
+
+  // Fields
+  document.getElementById('f-nom').value   = u.nom||'';
+  document.getElementById('f-tel').value   = u.telephone||'';
+  document.getElementById('f-email').value = u.email||'';
+  document.getElementById('f-pays').value  = u.pays||'';
+  document.getElementById('f-code').value  = u.code_parrainage||'';
+  document.getElementById('f-statut').value= u.statut==='actif'?'✅ Actif':'⏳ En attente';
+
+  // Parrain
+  if(u.parrain_id){
+    const{data:p}=await sb.from('utilisateurs').select('nom').eq('id',u.parrain_id).maybeSingle();
+    document.getElementById('f-parrain').value=p?.nom||'—';
+  } else {
+    document.getElementById('f-parrain').value='Aucun parrain (compte direct)';
+  }
+
+  // Membre depuis
+  document.getElementById('membreSince').textContent=fdate(u.created_at);
+}
+
+// ── EDIT MODE ──
+function toggleEdit(){
+  isEditing=!isEditing;
+  const fields=['nom','tel','pays'];
+  const editBtn=document.getElementById('editBtn');
+  const saveBtn=document.getElementById('saveBtn');
+
+  if(isEditing){
+    editBtn.style.display='none';
+    saveBtn.classList.add('on');
+    fields.forEach(id=>{
+      const inp=document.getElementById('f-'+id);
+      inp.removeAttribute('readonly');
+      inp.disabled=false;
+      inp.classList.add('active');
+      document.getElementById('fv-'+id)?.classList.add('focused');
+    });
+    document.getElementById('f-pays').classList.add('active');
+    // Focus nom
+    setTimeout(()=>document.getElementById('f-nom').focus(),100);
+  } else {
+    editBtn.style.display='block';
+    saveBtn.classList.remove('on');
+    fields.forEach(id=>{
+      const inp=document.getElementById('f-'+id);
+      inp.setAttribute('readonly','');
+      inp.disabled=true;
+      inp.classList.remove('active');
+      document.getElementById('fv-'+id)?.classList.remove('focused');
+    });
+    document.getElementById('f-pays').classList.remove('active');
+  }
+}
+
+function focusField(id){
+  if(!isEditing) return;
+  const inp=document.getElementById('f-'+id);
+  if(inp && !inp.disabled) inp.focus();
+}
+
+// ── SAVE PROFILE ──
+async function saveProfile(){
+  const nom  = document.getElementById('f-nom').value.trim();
+  const tel  = document.getElementById('f-tel').value.trim();
+  const pays = document.getElementById('f-pays').value;
+
+  if(!nom) return al('Le nom ne peut pas être vide.');
+  if(!tel) return al('Le numéro ne peut pas être vide.');
+  if(!pays) return al('Veuillez sélectionner votre pays.');
+
+  const tx=document.getElementById('saveTx');
+  tx.innerHTML='<span class="spin"></span> Sauvegarde...';
+
+  try{
+    const uid=await getUid();
+    const{error}=await sb.from('utilisateurs').update({nom,telephone:tel,pays}).eq('id',uid);
+    if(error) throw error;
+
+    // Mettre à jour l'affichage
+    userData.nom=nom; userData.telephone=tel; userData.pays=pays;
+    document.getElementById('phName').textContent=nom;
+    document.getElementById('avatarText').textContent=ini(nom);
+    localStorage.setItem('nnp_nom',nom);
+
+    al('✅ Profil mis à jour avec succès !','ok');
+    toggleEdit();
+  }catch(e){
+    al('Erreur : '+(e.message||'Veuillez réessayer.'));
+  } finally {
+    tx.innerHTML='💾 Sauvegarder';
+  }
+}
+
+// ── CHANGE PASSWORD ──
+async function changePassword(){
+  const oldPw  = document.getElementById('f-pw-old').value;
+  const newPw  = document.getElementById('f-pw-new').value;
+  const confPw = document.getElementById('f-pw-conf').value;
+
+  if(!oldPw)          return al('Entrez votre mot de passe actuel.');
+  if(newPw.length<6)  return al('Le nouveau mot de passe doit avoir au moins 6 caractères.');
+  if(newPw!==confPw)  return al('Les mots de passe ne correspondent pas.');
+
+  try{
+    // Vérifier l'ancien mot de passe en se reconnectant
+    const{error:signErr}=await sb.auth.signInWithPassword({
+      email: userData.email,
+      password: oldPw
+    });
+    if(signErr) return al('Mot de passe actuel incorrect.');
+
+    const{error}=await sb.auth.updateUser({password:newPw});
+    if(error) throw error;
+
+    al('✅ Mot de passe mis à jour avec succès !','ok');
+    document.getElementById('f-pw-old').value='';
+    document.getElementById('f-pw-new').value='';
+    document.getElementById('f-pw-conf').value='';
+    togglePw();
+  }catch(e){
+    al('Erreur : '+(e.message||'Veuillez réessayer.'));
+  }
+}
+
+// ── AVATAR ──
+function handleAvatar(input){
+  const file=input.files[0];
+  if(!file) return;
+  if(file.size>2*1024*1024){ al('Image trop lourde (max 2MB)'); return; }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const av=document.getElementById('avatarEl');
+    av.style.backgroundImage=`url(${e.target.result})`;
+    av.style.backgroundSize='cover';
+    av.style.backgroundPosition='center';
+    document.getElementById('avatarText').style.display='none';
+    al('✅ Photo mise à jour','ok');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── COPY CODE ──
+function copyCode(){
+  const code=document.getElementById('codeText').textContent;
+  const base=window.location.origin+window.location.pathname.replace('nnp-profil.html','');
+  const link=`${base}nnp-inscription.html?ref=${code}`;
+  navigator.clipboard.writeText(link).then(()=>{
+    al('✅ Lien de parrainage copié !','ok');
+  });
+}
+
+// ── TOGGLE PW ──
+function togglePw(){
+  pwOpen=!pwOpen;
+  document.getElementById('pwSection').classList.toggle('open',pwOpen);
+  document.getElementById('pwArrow').textContent=pwOpen?'▲':'▼';
+}
+
+// ── LOGOUT ──
+async function logout(){
+  if(!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
+  try{await sb.auth.signOut();}catch(e){}
+  localStorage.removeItem('nnp_uid');
+  localStorage.removeItem('nnp_nom');
+  localStorage.removeItem('nnp_email');
+  window.location.href='nnp-login.html';
+}
+
+// ── DELETE ACCOUNT ──
+async function confirmDelete(){
+  const conf=prompt('⚠️ Cette action est IRRÉVERSIBLE.\nTapez "SUPPRIMER" pour confirmer :');
+  if(conf!=='SUPPRIMER') return;
+  al('Contactez le support pour la suppression du compte.','err');
+}
+
+init();
+</script>
+</body>
+</html>
