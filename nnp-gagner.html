@@ -9,101 +9,119 @@
 :root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#0a0f1e;--card:#111827;--card2:#0f1b2d;--border:rgba(255,255,255,0.08);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;--nav-h:66px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,140,0,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 100% 100%,rgba(0,85,200,.1) 0%,transparent 60%);pointer-events:none;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,140,0,.1) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 100% 100%,rgba(0,85,200,.12) 0%,transparent 60%);pointer-events:none;}
 .gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;}
-
-/* TOP BAR */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
 .back{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:800;text-decoration:none;padding:7px 10px;border-radius:10px;transition:all .2s;}
-.back:hover{color:#fff;background:rgba(255,255,255,.06);}
+.back:hover{color:#fff;}
 .page-ttl{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;}
 .page-ttl span{color:var(--orange);}
-
-/* MAIN */
+.refresh-btn{padding:7px 12px;background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);border-radius:10px;color:var(--orange-l);font-size:13px;font-weight:800;cursor:pointer;}
 .main{padding-top:68px;padding-bottom:calc(var(--nav-h)+24px);position:relative;z-index:10;}
 .cont{max-width:480px;margin:0 auto;padding:16px 14px 0;}
 
-/* HERO BANNER */
-.hero{background:linear-gradient(135deg,#0d1528 0%,#1a1f3a 50%,#0a1424 100%);border:1px solid rgba(255,140,0,.2);border-radius:22px;padding:22px 20px;margin-bottom:16px;position:relative;overflow:hidden;animation:fadeU .5s ease both;text-align:center;}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--orange-l),var(--orange));opacity:.7;}
-.hero-glow{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,140,0,.08),transparent 70%);pointer-events:none;}
-.hero-ico{font-size:44px;margin-bottom:10px;animation:bounce 2s ease infinite;}
-@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:6px;}
-.hero-title span{color:var(--orange-l);}
-.hero-desc{font-size:13px;font-weight:600;color:var(--muted);line-height:1.7;max-width:320px;margin:0 auto;}
+/* HERO */
+.hero-card{background:linear-gradient(135deg,#0d1528,#1a1f35,#0a1424);border:1px solid rgba(255,140,0,.2);border-radius:22px;padding:22px 20px;margin-bottom:16px;position:relative;overflow:hidden;animation:fadeU .5s ease both;}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--orange-l),var(--cyan));opacity:.7;}
+.hero-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.hero-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.32);text-transform:uppercase;}
+.hero-badge{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:9px;padding:4px 10px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);border-radius:20px;color:var(--ok);}
+.hero-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ok);animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.hero-solde{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:2px;background:linear-gradient(135deg,#fff 40%,var(--orange-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:14px;}
+.hero-solde span{font-size:20px;letter-spacing:0;}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.hs-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:9px 10px;text-align:center;}
+.hs-v{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;}
+.hs-l{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+.hv1{color:var(--orange-l);}.hv2{color:var(--cyan);}.hv3{color:#a78bfa;}
 
-/* PRODUCTION BADGE */
-.prod-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);border-radius:30px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--orange-l);text-transform:uppercase;margin-bottom:16px;animation:fadeD .5s .05s ease both;}
-.pb-dot{width:7px;height:7px;border-radius:50%;background:var(--orange-l);animation:pulse 1.5s ease infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
+/* SECTION TITRE */
+.sec-ttl{font-size:13px;font-weight:900;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.badge{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1.5px;padding:3px 9px;border-radius:20px;text-transform:uppercase;}
+.b-actif{background:rgba(0,229,160,.1);color:var(--ok);border:1px solid rgba(0,229,160,.2);}
+.b-soon{background:rgba(255,140,0,.1);color:var(--orange-l);border:1px solid rgba(255,140,0,.2);}
+.b-dev{background:rgba(0,200,255,.1);color:var(--cyan);border:1px solid rgba(0,200,255,.2);}
 
-/* SECTION */
-.section{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:14px;position:relative;overflow:hidden;animation:fadeU .5s .1s ease both;}
-.section::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.4;}
-.sec-title{font-size:14px;font-weight:900;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.sec-title .badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:20px;background:rgba(255,140,0,.12);color:var(--orange-l);border:1px solid rgba(255,140,0,.25);}
+/* TÂCHES */
+.tasks-sec{margin-bottom:16px;animation:fadeU .5s .05s ease both;}
+.prog-wrap{margin-bottom:12px;}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:6px;}
+.prog-lbl{font-size:12px;font-weight:800;color:#fff;}
+.prog-bonus{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+.prog-bar{height:8px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-l));border-radius:10px;transition:width .5s cubic-bezier(.34,1.56,.64,1);}
+.task-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;}
+.task-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.3;}
+.task-card:active{transform:scale(.98);}
+.task-card.done{border-color:rgba(0,229,160,.25);background:rgba(0,229,160,.04);}
+.task-card.done::before{background:linear-gradient(90deg,transparent,var(--ok),transparent);opacity:.4;}
+.t-ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ti-or{background:rgba(255,140,0,.12);border:1.5px solid rgba(255,140,0,.2);}
+.ti-cy{background:rgba(0,200,255,.1);border:1.5px solid rgba(0,200,255,.18);}
+.ti-gn{background:rgba(0,229,160,.1);border:1.5px solid rgba(0,229,160,.18);}
+.t-body{flex:1;}
+.t-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:2px;}
+.t-desc{font-size:11px;font-weight:600;color:var(--muted);line-height:1.5;}
+.t-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:900;transition:all .2s;color:transparent;}
+.task-card.done .t-check{background:var(--ok);border-color:var(--ok);color:#fff;}
 
-/* PARRAINAGE CARD */
-.parrain-card{background:linear-gradient(135deg,rgba(255,140,0,.08),rgba(255,170,51,.04));border:1.5px solid rgba(255,140,0,.2);border-radius:16px;padding:16px;margin-bottom:10px;}
-.pc-title{font-size:13px;font-weight:900;color:var(--orange-l);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
-.pc-desc{font-size:12.5px;font-weight:600;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:12px;}
-.lv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-.lv-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:10px 8px;text-align:center;}
-.lv-val{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:2px;}
-.lv1{color:var(--orange-l);}
-.lv2{color:var(--cyan);}
-.lv3{color:#a78bfa;}
-.lv-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
+/* PARRAINAGE */
+.ref-sec{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:16px;animation:fadeU .5s .1s ease both;position:relative;overflow:hidden;}
+.ref-sec::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.4;}
+.ref-row{display:flex;align-items:center;gap:7px;margin:10px 0;}
+.ref-link{flex:1;font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.12);border-radius:9px;padding:9px 10px;word-break:break-all;line-height:1.4;}
+.ref-btns{display:flex;gap:8px;}
+.rbtn{flex:1;padding:11px;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent;}
+.rb-copy{background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.2);color:var(--cyan);}
+.rb-copy.done{color:var(--ok);border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.08);}
+.rb-share{background:linear-gradient(135deg,var(--orange),var(--orange-l));color:#fff;box-shadow:0 4px 16px rgba(255,140,0,.3);}
+.rb-share:hover{transform:translateY(-1px);}
 
-/* LIEN */
-.ref-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;}
-.ref-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:7px;}
-.ref-row{display:flex;gap:7px;align-items:center;}
-.ref-link{flex:1;font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.12);border-radius:8px;padding:8px 10px;word-break:break-all;line-height:1.4;}
-.ref-copy{padding:8px 12px;background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.2);border-radius:8px;color:var(--cyan);font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s;-webkit-tap-highlight-color:transparent;}
-.ref-copy.done{color:var(--ok);border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.08);}
-.share-btn{width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:12px;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;letter-spacing:.5px;box-shadow:0 4px 20px rgba(255,140,0,.3);-webkit-tap-highlight-color:transparent;}
-.share-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(255,140,0,.45);}
-
-/* CONSEIL CARD */
-.conseil{display:flex;gap:11px;padding:13px;background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.15);border-radius:14px;margin-bottom:10px;}
-.c-ico{font-size:20px;flex-shrink:0;}
-.c-body{}
-.c-title{font-size:12.5px;font-weight:800;color:var(--cyan);margin-bottom:3px;}
-.c-desc{font-size:12px;font-weight:600;color:rgba(255,255,255,.55);line-height:1.5;}
+/* COMMISSIONS */
+.gt-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-radius:12px;margin-bottom:7px;}
+.gt-row.lv1{background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.15);}
+.gt-row.lv2{background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.12);}
+.gt-row.lv3{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.12);}
+.gt-lbl{font-size:13px;font-weight:800;}
+.lv1 .gt-lbl{color:var(--orange-l);}
+.lv2 .gt-lbl{color:var(--cyan);}
+.lv3 .gt-lbl{color:#a78bfa;}
+.gt-desc{font-size:11px;color:var(--muted);margin-top:2px;}
+.gt-amt{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;flex-shrink:0;}
+.lv1 .gt-amt{color:var(--orange-l);}
+.lv2 .gt-amt{color:var(--cyan);}
+.lv3 .gt-amt{color:#a78bfa;}
 
 /* PRODUCTION SECTION */
-.prod-section{background:linear-gradient(145deg,#0f1428,#0a1020);border:1.5px solid rgba(255,140,0,.15);border-radius:20px;padding:18px 16px;margin-bottom:14px;position:relative;overflow:hidden;animation:fadeU .5s .15s ease both;}
-.prod-section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange-l),transparent);opacity:.5;}
+.prod-sec{margin-bottom:16px;animation:fadeU .5s .15s ease both;}
+.prod-banner{background:linear-gradient(135deg,rgba(0,229,160,.07),rgba(0,200,255,.05));border:1.5px solid rgba(0,229,160,.2);border-radius:18px;padding:16px;margin-bottom:12px;}
+.pb-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.pb-ico{font-size:28px;}
+.pb-title{font-size:15px;font-weight:900;color:#fff;}
+.pb-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.pb-desc{font-size:13px;font-weight:600;color:rgba(255,255,255,.65);line-height:1.75;}
+.pb-desc strong{color:var(--ok);}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.pc{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:14px 12px;position:relative;overflow:hidden;}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;opacity:.5;}
+.pc-or::before{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.pc-cy::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.pc-ok::before{background:linear-gradient(90deg,transparent,var(--ok),transparent);}
+.pc-pu::before{background:linear-gradient(90deg,transparent,#a78bfa,transparent);}
+.pc-ico{font-size:24px;margin-bottom:7px;}
+.pc-title{font-size:13px;font-weight:900;color:#fff;margin-bottom:4px;}
+.pc-desc{font-size:11px;font-weight:600;color:var(--muted);line-height:1.5;}
+.pc-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:10px;text-transform:uppercase;}
 
-.prod-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.prod-title{font-size:14px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px;}
-.prod-live{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;padding:3px 9px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);border-radius:20px;color:var(--ok);display:flex;align-items:center;gap:5px;}
-.prod-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ok);animation:pulse 1.5s ease infinite;}
-
-/* PRODUCTION CONTENT */
-.prod-content{min-height:180px;display:flex;align-items:flex-start;justify-content:flex-start;}
-.prod-text{font-size:14px;font-weight:600;color:rgba(255,255,255,.8);line-height:1.8;white-space:pre-wrap;}
-.prod-typing::after{content:'|';color:var(--orange-l);animation:blink .7s ease infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-
-.prod-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;padding:20px;}
-.prod-spin{width:28px;height:28px;border:2.5px solid rgba(255,255,255,.1);border-top-color:var(--orange-l);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.prod-spin-txt{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
-
-/* REFRESH BTN */
-.refresh-btn{width:100%;margin-top:14px;padding:11px;background:rgba(255,140,0,.08);border:1.5px solid rgba(255,140,0,.2);border-radius:12px;color:var(--orange-l);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;}
-.refresh-btn:hover{background:rgba(255,140,0,.15);}
-.refresh-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* MOTIVATION */
-.moti-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.moti-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 12px;text-align:center;}
-.moti-ico{font-size:26px;margin-bottom:6px;}
-.moti-val{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#fff;}
-.moti-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+/* COUNTDOWN */
+.countdown{background:rgba(255,140,0,.06);border:1px solid rgba(255,140,0,.2);border-radius:14px;padding:14px 16px;margin-top:10px;text-align:center;}
+.cd-title{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;}
+.cd-time{display:flex;justify-content:center;gap:10px;align-items:center;}
+.cd-unit{display:flex;flex-direction:column;align-items:center;}
+.cd-val{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:var(--orange-l);line-height:1;}
+.cd-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+.cd-sep{font-family:'Bebas Neue',sans-serif;font-size:26px;color:rgba(255,140,0,.4);line-height:1;padding-bottom:10px;}
 
 /* BOTTOM NAV */
 .bot-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(10,15,30,.93);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-around;padding:0 6px;}
@@ -114,10 +132,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .ni-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
 .ni-center{background:linear-gradient(135deg,var(--orange),var(--orange-l));border-radius:16px;padding:9px 18px;box-shadow:0 4px 20px rgba(255,140,0,.4);color:#fff!important;}
 .ni-center .ni-lbl,.ni-center .ni-ico{color:#fff;}
-.ni-center:hover{transform:translateY(-2px);}
-
 @keyframes fadeU{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-@keyframes fadeD{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
@@ -126,305 +141,210 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 <div class="topbar">
   <a href="nnp-dashboard.html" class="back">← Retour</a>
   <div class="page-ttl">💰 <span>Gagner</span></div>
-  <div style="width:70px"></div>
+  <button class="refresh-btn" onclick="init()">🔄</button>
 </div>
 
-<div class="main">
-  <div class="cont">
+<div class="main"><div class="cont">
 
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-glow"></div>
-      <div class="hero-ico">🚀</div>
-      <div class="hero-title">Maximise tes <span>revenus</span></div>
-      <p class="hero-desc">Invite tes amis, partage ton lien, et regarde tes gains augmenter automatiquement à chaque activation.</p>
+  <!-- SOLDE HERO -->
+  <div class="hero-card">
+    <div class="hero-top">
+      <div class="hero-lbl">💼 Solde actuel</div>
+      <div class="hero-badge">Compte actif</div>
     </div>
-
-    <!-- BADGE PRODUCTION -->
-    <div style="display:flex;justify-content:center;">
-      <div class="prod-badge">
-        <span class="pb-dot"></span>
-        Plateforme en production
-      </div>
+    <div class="hero-solde"><span id="heroSolde">—</span> <span>FCFA</span></div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-v hv1" id="hsN1">0</div><div class="hs-l">Niveau 1</div></div>
+      <div class="hs-item"><div class="hs-v hv2" id="hsN2">0</div><div class="hs-l">Niveau 2</div></div>
+      <div class="hs-item"><div class="hs-v hv3" id="hsN3">0</div><div class="hs-l">Niveau 3</div></div>
     </div>
-
-    <!-- MOTIVATION STATS -->
-    <div class="moti-row">
-      <div class="moti-card">
-        <div class="moti-ico">💸</div>
-        <div class="moti-val" id="moSolde">—</div>
-        <div class="moti-lbl">Ton solde (F)</div>
-      </div>
-      <div class="moti-card">
-        <div class="moti-ico">👥</div>
-        <div class="moti-val" id="moFill">—</div>
-        <div class="moti-lbl">Filleuls actifs</div>
-      </div>
-    </div>
-
-    <!-- 🤖 SECTION PRODUCTION IA -->
-    <div class="prod-section">
-      <div class="prod-header">
-        <div class="prod-title">🤖 Conseils du jour <span style="color:var(--orange-l)">NNP</span></div>
-        <div class="prod-live">EN DIRECT</div>
-      </div>
-
-      <div class="prod-content" id="prodContent">
-        <div class="prod-loading">
-          <div class="prod-spin"></div>
-          <div class="prod-spin-txt">Génération en cours...</div>
-        </div>
-      </div>
-
-      <button class="refresh-btn" id="refreshBtn" onclick="loadProduction()" disabled>
-        🔄 Nouveaux conseils
-      </button>
-    </div>
-
-    <!-- SYSTÈME PARRAINAGE -->
-    <div class="section">
-      <div class="sec-title">🔗 Système de parrainage <span class="badge">3 niveaux</span></div>
-
-      <div class="parrain-card">
-        <div class="pc-title">💰 Comment gagner de l'argent</div>
-        <div class="pc-desc">
-          Invitez des personnes avec votre lien. Quand elles activent leur compte, vous gagnez automatiquement :
-        </div>
-        <div class="lv-grid">
-          <div class="lv-item"><div class="lv-val lv1">1 500F</div><div class="lv-lbl">Niveau 1<br>Direct</div></div>
-          <div class="lv-item"><div class="lv-val lv2">800F</div><div class="lv-lbl">Niveau 2<br>Indirect</div></div>
-          <div class="lv-item"><div class="lv-val lv3">400F</div><div class="lv-lbl">Niveau 3<br>Réseau</div></div>
-        </div>
-        <div class="ref-box">
-          <div class="ref-lbl">🔗 Votre lien unique</div>
-          <div class="ref-row">
-            <div class="ref-link" id="refLink">Chargement...</div>
-            <button class="ref-copy" id="copyBtn" onclick="copyRef()">📋</button>
-          </div>
-          <button class="share-btn" onclick="shareRef()">📤 Partager sur WhatsApp</button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- CONSEILS PRATIQUES -->
-    <div class="section">
-      <div class="sec-title">💡 Stratégies pour gagner plus</div>
-
-      <div class="conseil">
-        <div class="c-ico">📱</div>
-        <div class="c-body">
-          <div class="c-title">Partagez dans vos groupes WhatsApp</div>
-          <div class="c-desc">Un groupe de 50 personnes peut vous rapporter jusqu'à <strong style="color:var(--orange-l)">75 000 FCFA</strong> si 50 personnes activent leur compte.</div>
-        </div>
-      </div>
-
-      <div class="conseil">
-        <div class="c-ico">🎯</div>
-        <div class="c-body">
-          <div class="c-title">Ciblez les personnes motivées</div>
-          <div class="c-desc">Expliquez d'abord le système. Une personne convaincue parrainera à son tour et vous rapportera des <strong style="color:var(--cyan)">gains de niveau 2 et 3</strong>.</div>
-        </div>
-      </div>
-
-      <div class="conseil">
-        <div class="c-ico">📊</div>
-        <div class="c-body">
-          <div class="c-title">Suivez vos performances</div>
-          <div class="c-desc">Consultez la page <strong style="color:var(--orange-l)">Évolution</strong> pour voir l'historique complet de vos gains et filleuls en temps réel.</div>
-        </div>
-      </div>
-
-      <div class="conseil">
-        <div class="c-ico">⚡</div>
-        <div class="c-body">
-          <div class="c-title">Activez rapidement vos filleuls</div>
-          <div class="c-desc">Aidez vos filleuls à <strong style="color:var(--ok)">activer leur compte</strong> rapidement. Vous ne gagnez que lorsqu'ils paient les 3 100 FCFA.</div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="height:20px"></div>
   </div>
-</div>
 
-<!-- BOTTOM NAV -->
+  <!-- TÂCHES DU JOUR -->
+  <div class="tasks-sec">
+    <div class="sec-ttl">📋 Tâches du jour <span class="badge b-actif">Actif</span></div>
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <div class="prog-lbl" id="progLbl">0 / 3 tâches complétées</div>
+        <div class="prog-bonus" id="progBonus">Bonus : 0 F</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="task-card" id="t1" onclick="toggleTask(1)">
+      <div class="t-ico ti-or">🔗</div>
+      <div class="t-body">
+        <div class="t-title">Partager votre lien de parrainage</div>
+        <div class="t-desc">Envoyez votre lien à au moins 3 personnes (WhatsApp, Facebook...)</div>
+      </div>
+      <div class="t-check" id="c1">✓</div>
+    </div>
+    <div class="task-card" id="t2" onclick="toggleTask(2)">
+      <div class="t-ico ti-cy">📱</div>
+      <div class="t-body">
+        <div class="t-title">Publier sur les réseaux sociaux</div>
+        <div class="t-desc">Postez votre lien sur WhatsApp statut, Facebook ou TikTok</div>
+      </div>
+      <div class="t-check" id="c2">✓</div>
+    </div>
+    <div class="task-card" id="t3" onclick="toggleTask(3)">
+      <div class="t-ico ti-gn">👥</div>
+      <div class="t-body">
+        <div class="t-title">Suivre vos filleuls</div>
+        <div class="t-desc">Vérifiez si vos filleuls ont activé leur compte et encouragez-les</div>
+      </div>
+      <div class="t-check" id="c3">✓</div>
+    </div>
+  </div>
+
+  <!-- PARRAINAGE -->
+  <div class="ref-sec">
+    <div class="sec-ttl">🔗 Votre lien de parrainage <span class="badge b-dev">Actif</span></div>
+    <div class="ref-row">
+      <div class="ref-link" id="refLink">Chargement...</div>
+    </div>
+    <div class="ref-btns">
+      <button class="rbtn rb-copy" id="copyBtn" onclick="copyRef()">📋 Copier</button>
+      <button class="rbtn rb-share" onclick="shareRef()">📤 Partager</button>
+    </div>
+    <div style="height:14px"></div>
+    <div class="sec-ttl" style="margin-bottom:10px">💸 Commissions par niveau</div>
+    <div class="gt-row lv1"><div><div class="gt-lbl">👤 Niveau 1 — Filleul direct</div><div class="gt-desc">Quelqu'un s'inscrit avec votre lien et active son compte</div></div><div class="gt-amt">+1 500F</div></div>
+    <div class="gt-row lv2"><div><div class="gt-lbl">👥 Niveau 2 — Filleul de filleul</div><div class="gt-desc">Votre filleul parraine quelqu'un qui active</div></div><div class="gt-amt">+800F</div></div>
+    <div class="gt-row lv3"><div><div class="gt-lbl">🌐 Niveau 3 — Réseau étendu</div><div class="gt-desc">Le filleul de votre filleul parraine quelqu'un</div></div><div class="gt-amt">+400F</div></div>
+  </div>
+
+  <!-- EN PRODUCTION -->
+  <div class="prod-sec">
+    <div class="sec-ttl">🚀 En production <span class="badge b-actif">Disponible</span></div>
+
+    <div class="prod-banner">
+      <div class="pb-top">
+        <div class="pb-ico">✅</div>
+        <div><div class="pb-title">Plateforme NNP — Opérationnelle</div><div class="pb-sub">Toutes les fonctionnalités de base sont actives</div></div>
+      </div>
+      <div class="pb-desc">
+        La plateforme <strong>New Numeric Platform</strong> est officiellement en production.<br><br>
+        <strong>✅ Inscriptions ouvertes</strong> — Parrainez sans limite<br>
+        <strong>✅ Parrainage 3 niveaux</strong> — Gains automatiques dès activation<br>
+        <strong>✅ Paiements sous 24h</strong> — Mobile Money & Crypto<br>
+        <strong>✅ Tableau de bord temps réel</strong> — Suivez tout en direct<br>
+        <strong>✅ Support disponible</strong> — Réponse rapide garantie
+      </div>
+    </div>
+
+    <div class="pc-grid">
+      <div class="pc pc-ok"><div class="pc-ico">🔗</div><div class="pc-title">Parrainage 3 niveaux</div><div class="pc-desc">Gagnez sur 3 niveaux automatiquement</div><div class="pc-badge b-actif">✅ Actif</div></div>
+      <div class="pc pc-or"><div class="pc-ico">💳</div><div class="pc-title">Retraits Mobile Money</div><div class="pc-desc">Orange, MTN, Wave et Crypto</div><div class="pc-badge b-actif">✅ Actif</div></div>
+      <div class="pc pc-cy"><div class="pc-ico">📊</div><div class="pc-title">Dashboard temps réel</div><div class="pc-desc">Gains, filleuls et stats en direct</div><div class="pc-badge b-actif">✅ Actif</div></div>
+      <div class="pc pc-pu"><div class="pc-ico">🎯</div><div class="pc-title">Tâches quotidiennes</div><div class="pc-desc">Missions pour booster vos gains</div><div class="pc-badge b-actif">✅ Actif</div></div>
+      <div class="pc pc-or"><div class="pc-ico">🏆</div><div class="pc-title">Classement membres</div><div class="pc-desc">Primes aux meilleurs parrains</div><div class="pc-badge b-soon">🔜 Bientôt</div></div>
+      <div class="pc pc-cy"><div class="pc-ico">🎁</div><div class="pc-title">Bonus fidélité</div><div class="pc-desc">Récompenses membres actifs</div><div class="pc-badge b-soon">🔜 Bientôt</div></div>
+      <div class="pc pc-ok" style="grid-column:1/-1"><div class="pc-ico">📱</div><div class="pc-title">Application mobile NNP</div><div class="pc-desc">Android & iOS — Notifications push, accès rapide et fonctionnalités exclusives réservées aux membres de l'app</div><div class="pc-badge b-dev">⚙️ En développement</div></div>
+    </div>
+
+    <div class="countdown">
+      <div class="cd-title">⏰ Prochaine mise à jour majeure dans</div>
+      <div class="cd-time">
+        <div class="cd-unit"><div class="cd-val" id="cdJ">00</div><div class="cd-lbl">Jours</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-val" id="cdH">00</div><div class="cd-lbl">Heures</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-val" id="cdM">00</div><div class="cd-lbl">Min</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-val" id="cdS">00</div><div class="cd-lbl">Sec</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:20px"></div>
+</div></div>
+
 <div class="bot-nav">
   <a href="nnp-retrait.html" class="ni"><span class="ni-ico">💳</span><span class="ni-lbl">Retirer</span></a>
   <a href="nnp-profil.html" class="ni"><span class="ni-ico">👤</span><span class="ni-lbl">Profil</span></a>
-  <a href="nnp-gagner.html" class="ni ni-center active"><span class="ni-ico">💰</span><span class="ni-lbl">Gagner</span></a>
+  <a href="nnp-gagner.html" class="ni ni-center"><span class="ni-ico">💰</span><span class="ni-lbl">Gagner</span></a>
   <a href="nnp-evolution.html" class="ni"><span class="ni-ico">📈</span><span class="ni-lbl">Évolution</span></a>
   <a href="nnp-dashboard.html" class="ni"><span class="ni-ico">🏠</span><span class="ni-lbl">Accueil</span></a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const sb = supabase.createClient(
-  'https://wjvprhqdmithkltybdfd.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE'
-);
-
-const fmt = n => Number(n||0).toLocaleString('fr-FR');
-let refUrl = '';
-let userData = null;
+const sb=supabase.createClient('https://wjvprhqdmithkltybdfd.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE');
+const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+let refUrl='', tasks={1:false,2:false,3:false};
 
 async function getUid(){
-  try{
-    const{data:{session}}=await sb.auth.getSession();
-    if(session?.user?.id){ localStorage.setItem('nnp_uid',session.user.id); return session.user.id; }
-  }catch(e){}
-  const uid=localStorage.getItem('nnp_uid');
-  if(uid) return uid;
+  try{const{data:{session}}=await sb.auth.getSession();if(session?.user?.id){localStorage.setItem('nnp_uid',session.user.id);return session.user.id;}}catch(e){}
+  const uid=localStorage.getItem('nnp_uid');if(uid)return uid;
   const em=localStorage.getItem('nnp_email');
-  if(em){
-    const{data:u}=await sb.from('utilisateurs').select('id').eq('email',em).maybeSingle();
-    if(u?.id){ localStorage.setItem('nnp_uid',u.id); return u.id; }
-  }
+  if(em){const{data:u}=await sb.from('utilisateurs').select('id').eq('email',em).maybeSingle();if(u?.id){localStorage.setItem('nnp_uid',u.id);return u.id;}}
   return null;
 }
 
 async function init(){
-  const uid = await getUid();
-  if(!uid){ window.location.href='nnp-login.html'; return; }
-
-  const{data:u}=await sb.from('utilisateurs').select('nom,solde,total_filleuls,code_parrainage').eq('id',uid).maybeSingle();
-  if(!u) return;
-  userData = u;
-
-  document.getElementById('moSolde').textContent = fmt(u.solde||0);
-  document.getElementById('moFill').textContent  = u.total_filleuls||0;
-
-  const base = window.location.href.replace('nnp-gagner.html','').replace(/\?.*$/,'');
-  refUrl = base + 'nnp-inscription.html?ref=' + (u.code_parrainage||'');
-  document.getElementById('refLink').textContent = refUrl;
-
-  // Charger la production IA
-  loadProduction();
+  const uid=await getUid();
+  if(!uid){window.location.href='nnp-login.html';return;}
+  const{data:u}=await sb.from('utilisateurs').select('solde,solde_n1,solde_n2,solde_n3,code_parrainage').eq('id',uid).maybeSingle();
+  if(!u)return;
+  document.getElementById('heroSolde').textContent=fmt(u.solde||0);
+  document.getElementById('hsN1').textContent=fmt(u.solde_n1||0);
+  document.getElementById('hsN2').textContent=fmt(u.solde_n2||0);
+  document.getElementById('hsN3').textContent=fmt(u.solde_n3||0);
+  const base=window.location.href.replace('nnp-gagner.html','').replace(/\?.*$/,'');
+  refUrl=base+'nnp-inscription.html?ref='+(u.code_parrainage||'');
+  document.getElementById('refLink').textContent=refUrl;
+  const saved=JSON.parse(localStorage.getItem('nnp_tasks_'+todayKey())||'{}');
+  tasks={1:!!saved[1],2:!!saved[2],3:!!saved[3]};
+  [1,2,3].forEach(i=>{if(tasks[i])applyTask(i);});
+  updateProg();
 }
 
-// ── GÉNÉRATION IA AVEC CLAUDE API ──
-async function loadProduction(){
-  const btn = document.getElementById('refreshBtn');
-  const content = document.getElementById('prodContent');
-  btn.disabled = true;
+function todayKey(){return new Date().toISOString().slice(0,10);}
 
-  content.innerHTML = `<div class="prod-loading">
-    <div class="prod-spin"></div>
-    <div class="prod-spin-txt">Intelligence artificielle...</div>
-  </div>`;
-
-  const nom    = userData?.nom || 'utilisateur';
-  const solde  = fmt(userData?.solde||0);
-  const fill   = userData?.total_filleuls || 0;
-
-  const prompt = `Tu es le conseiller de la plateforme NNP (New Numeric Platform), un réseau de marketing d'affiliation africain.
-
-L'utilisateur s'appelle ${nom}. Son solde actuel est ${solde} FCFA. Il a ${fill} filleul(s) actif(s).
-
-Le système : activation à 3100 FCFA, gains : niveau 1 = 1500F, niveau 2 = 800F, niveau 3 = 400F.
-
-Génère un message de motivation personnalisé et pratique pour aujourd'hui. Le message doit :
-- Commencer par saluer ${nom} avec son prénom
-- Analyser sa situation actuelle (solde + filleuls)
-- Donner 3 conseils concrets pour aujourd'hui pour augmenter ses gains
-- Finir par une phrase de motivation courte et percutante
-- Être en français africain naturel et chaleureux
-- Maximum 200 mots
-- Ne pas utiliser de markdown (pas de **, pas de #, pas de listes avec tirets)
-- Utiliser des emojis naturellement intégrés dans le texte`;
-
-  try{
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await res.json();
-    const text = data?.content?.[0]?.text || '';
-
-    if(!text){
-      showFallback();
-      return;
-    }
-
-    // Affichage avec effet typewriter
-    content.innerHTML = '<div class="prod-text prod-typing" id="prodText"></div>';
-    const el = document.getElementById('prodText');
-    let i = 0;
-    const speed = 18;
-
-    function typeNext(){
-      if(i < text.length){
-        el.textContent += text[i];
-        i++;
-        setTimeout(typeNext, speed);
-      } else {
-        el.classList.remove('prod-typing');
-        btn.disabled = false;
-      }
-    }
-    typeNext();
-
-  }catch(e){
-    console.error('IA error:', e);
-    showFallback();
-  }
+function toggleTask(n){
+  tasks[n]=!tasks[n];applyTask(n);updateProg();
+  localStorage.setItem('nnp_tasks_'+todayKey(),JSON.stringify(tasks));
 }
 
-function showFallback(){
-  const nom  = userData?.nom?.split(' ')[0] || 'ami';
-  const fill = userData?.total_filleuls || 0;
-  const solde = fmt(userData?.solde||0);
+function applyTask(n){
+  const card=document.getElementById('t'+n),chk=document.getElementById('c'+n);
+  if(tasks[n]){card.classList.add('done');chk.style.background='var(--ok)';chk.style.borderColor='var(--ok)';chk.style.color='#fff';}
+  else{card.classList.remove('done');chk.style.background='';chk.style.borderColor='';chk.style.color='transparent';}
+}
 
-  const msgs = [
-    `Salut ${nom} ! 💪 Tu as ${fill} filleul(s) actif(s) et ${solde} FCFA dans ta poche. Continue comme ça !\n\n📱 Aujourd'hui, partage ton lien dans 3 groupes WhatsApp différents. Un seul filleul activé = 1 500 FCFA directement dans ton solde.\n\n🎯 Explique le système clairement : activation unique de 3 100F, et chaque personne qu'ils invitent à leur tour te rapporte 800F automatiquement.\n\n🔥 Rappelle-toi : ton réseau grandit pendant que tu dors. Chaque partage compte. Le succès vient à ceux qui agissent maintenant !`,
-    `${nom}, bonjour ! 🌟 Avec ${solde} FCFA de solde et ${fill} filleul(s), tu es sur la bonne voie !\n\n💡 Conseil 1 : Envoie ton lien à tes 5 meilleurs contacts aujourd'hui.\n\n💡 Conseil 2 : Explique-leur que c'est un investissement de 3 100F une seule fois, pas un abonnement.\n\n💡 Conseil 3 : Aide tes filleuls actuels à parrainer à leur tour — tu gagnes 800F sur chacun d'eux.\n\n🚀 L'argent suit l'action. Lance-toi maintenant !`,
-  ];
-
-  const text = msgs[Math.floor(Math.random()*msgs.length)];
-  const content = document.getElementById('prodContent');
-  content.innerHTML = '<div class="prod-text prod-typing" id="prodText"></div>';
-  const el = document.getElementById('prodText');
-  let i = 0;
-  function type(){ if(i<text.length){ el.textContent+=text[i]; i++; setTimeout(type,15); } else { el.classList.remove('prod-typing'); document.getElementById('refreshBtn').disabled=false; } }
-  type();
+function updateProg(){
+  const done=Object.values(tasks).filter(Boolean).length;
+  document.getElementById('progFill').style.width=(done/3*100)+'%';
+  document.getElementById('progLbl').textContent=done+' / 3 tâches complétées';
+  document.getElementById('progBonus').textContent=done===3?'🎉 Toutes les tâches complétées !':'Progression: '+Math.round(done/3*100)+'%';
 }
 
 function copyRef(){
-  if(!refUrl) return;
-  navigator.clipboard.writeText(refUrl).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.textContent='✅'; btn.classList.add('done');
-    setTimeout(()=>{ btn.textContent='📋'; btn.classList.remove('done'); },2500);
-  }).catch(()=>{
-    const ta=document.createElement('textarea'); ta.value=refUrl;
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    const btn=document.getElementById('copyBtn'); btn.textContent='✅';
-    setTimeout(()=>{ btn.textContent='📋'; },2500);
-  });
+  if(!refUrl)return;
+  const copy=t=>{if(navigator.clipboard)return navigator.clipboard.writeText(t);const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);return Promise.resolve();};
+  copy(refUrl).then(()=>{const b=document.getElementById('copyBtn');b.textContent='✅ Copié !';b.classList.add('done');setTimeout(()=>{b.textContent='📋 Copier';b.classList.remove('done');},2500);});
 }
 
 function shareRef(){
-  if(!refUrl) return;
-  const nom = userData?.nom||'';
-  const msg = `🚀 *Rejoins NNP — New Numeric Platform !*\n\n💰 Gagne de l'argent en parrainant tes amis !\n\n✅ Comment ça marche :\n1️⃣ Inscris-toi gratuitement\n2️⃣ Active ton compte avec seulement *3 100 FCFA* (une seule fois)\n3️⃣ Partage ton lien et gagne automatiquement !\n\n💵 *Gains par filleul actif :*\n👤 Niveau 1 → *+1 500 FCFA*\n👥 Niveau 2 → *+800 FCFA*\n🌐 Niveau 3 → *+400 FCFA*\n\n🔗 Mon lien :\n${refUrl}\n\n⚡ Ne rate pas cette opportunité !`;
-
-  if(navigator.share){
-    navigator.share({ title:'NNP Parrainage', text:msg });
-  } else {
-    navigator.clipboard.writeText(msg).then(()=>{
-      alert('✅ Message copié ! Colle-le sur WhatsApp.');
-    });
-  }
+  if(!refUrl)return;
+  const msg=`🚀 *Rejoins NNP — New Numeric Platform !*\n\n💰 Gagne de l'argent en parrainant tes proches !\n✅ Activation unique : seulement *3 100 FCFA*\n🎁 Chaque personne que tu invites = *+1 500 FCFA* pour toi !\n\n📊 *Système 3 niveaux :*\n👤 Niveau 1 → +1 500 F\n👥 Niveau 2 → +800 F\n🌐 Niveau 3 → +400 F\n\n🔗 Mon lien :\n${refUrl}\n\n⚡ Inscris-toi maintenant !`;
+  if(navigator.share){navigator.share({title:'NNP',text:msg});}
+  else{if(navigator.clipboard)navigator.clipboard.writeText(msg);alert('✅ Message copié ! Colle-le dans WhatsApp.');}
 }
 
-init();
+function startCountdown(){
+  const target=new Date();target.setDate(target.getDate()+30);
+  function tick(){
+    const d=target-new Date();if(d<=0)return;
+    document.getElementById('cdJ').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+    document.getElementById('cdH').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+    document.getElementById('cdM').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+    document.getElementById('cdS').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+}
+
+init();startCountdown();
 </script>
 </body>
 </html>
