@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NNP — Administration</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--orange:#ff8c00;--orange-l:#ffaa33;--cyan:#00c8ff;--navy:#060810;--card:#0e1220;--card2:#0b1019;--border:rgba(255,255,255,0.07);--text:#e8f0ff;--muted:rgba(255,255,255,0.38);--ok:#00e5a0;--error:#ff4d6d;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
 
 /* SIDEBAR */
-.sidebar{position:fixed;top:0;left:0;bottom:0;width:220px;background:linear-gradient(180deg,#0a0d1a,#06080f);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;padding:0;}
-.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);}
-.sb-logo-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:220px;background:linear-gradient(180deg,#0a0d1a,#06080f);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.sb-logo-row{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
 .bars{display:flex;align-items:flex-end;gap:2px;height:18px;}
 .bar{width:3px;border-radius:1px;}
 .b1{height:18px;background:linear-gradient(180deg,var(--cyan),#0044ff);}
@@ -23,106 +22,123 @@ html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-seri
 .b4{height:8px;background:rgba(0,200,255,.3);}
 .b5{height:18px;background:linear-gradient(180deg,var(--cyan),#0044ff);}
 .sb-nnp{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;background:linear-gradient(160deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.sb-admin-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--orange-l);text-transform:uppercase;margin-left:2px;}
-
-.sb-nav{flex:1;padding:14px 10px;overflow-y:auto;}
-.sb-section-title{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;color:rgba(255,255,255,.2);text-transform:uppercase;padding:8px 8px 6px;}
-.sb-item{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:10px;cursor:pointer;color:var(--muted);transition:all .2s;margin-bottom:2px;font-size:13px;font-weight:700;}
-.sb-item:hover{background:rgba(255,255,255,.05);color:#fff;}
-.sb-item.active{background:rgba(255,140,0,.1);color:var(--orange-l);}
-.sb-item .sico{font-size:16px;width:20px;text-align:center;}
-.sb-badge{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:10px;background:rgba(255,77,109,.15);color:#ff8fa3;}
+.sb-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--orange-l);text-transform:uppercase;}
+.sb-nav{flex:1;padding:12px 10px;overflow-y:auto;}
+.sb-sec{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;color:rgba(255,255,255,.2);text-transform:uppercase;padding:8px 8px 5px;}
+.sbi{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;color:var(--muted);transition:all .2s;margin-bottom:2px;font-size:13px;font-weight:700;border:none;background:none;width:100%;text-align:left;}
+.sbi:hover{background:rgba(255,255,255,.05);color:#fff;}
+.sbi.active{background:rgba(255,140,0,.1);color:var(--orange-l);}
+.sbi .ico{font-size:16px;width:20px;text-align:center;}
+.sb-badge{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:10px;background:rgba(255,77,109,.15);color:#ff8fa3;min-width:20px;text-align:center;}
 .sb-badge.orange{background:rgba(255,140,0,.15);color:var(--orange-l);}
 .sb-bottom{padding:12px 10px;border-top:1px solid var(--border);}
-.sb-logout{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;color:rgba(255,100,100,.6);font-size:13px;font-weight:700;transition:color .2s;}
+.sb-logout{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;color:rgba(255,100,100,.6);font-size:13px;font-weight:700;transition:color .2s;border:none;background:none;width:100%;}
 .sb-logout:hover{color:#ff6b6b;}
 
 /* MAIN */
-.main{margin-left:220px;min-height:100vh;padding:24px;}
-
-/* TOP BAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
-.page-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;}
+.main{margin-left:220px;min-height:100vh;padding:22px 20px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;}
 .page-title span{color:var(--orange);}
-.admin-badge{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.2);border-radius:10px;}
-.admin-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:blink 1.5s ease infinite;}
+.admin-info{display:flex;align-items:center;gap:10px;}
+.admin-dot{display:flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);border-radius:10px;}
+.admin-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ok);animation:blink 1.5s ease infinite;flex-shrink:0;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
-.admin-name{font-size:13px;font-weight:800;color:var(--orange-l);}
+.admin-dot span{font-size:12px;font-weight:800;color:var(--ok);}
+.refresh-btn{padding:7px 14px;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);border-radius:10px;color:var(--cyan);font-size:12px;font-weight:800;cursor:pointer;transition:background .2s;}
+.refresh-btn:hover{background:rgba(0,200,255,.15);}
 
 /* VIEWS */
-.view{display:none;}
+.view{display:none;animation:fadeU .3s ease;}
 .view.active{display:block;}
+@keyframes fadeU{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-/* STATS CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.stat-card{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;position:relative;overflow:hidden;}
-.stat-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;opacity:.5;}
-.sc-orange::before{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
-.sc-cyan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden;}
+.sc::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1.5px;opacity:.5;}
+.sc-or::before{background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.sc-cy::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
 .sc-ok::before{background:linear-gradient(90deg,transparent,var(--ok),transparent);}
-.sc-purple::before{background:linear-gradient(90deg,transparent,#a78bfa,transparent);}
-.stat-ico{font-size:22px;margin-bottom:8px;}
-.stat-val{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;line-height:1;}
-.stat-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+.sc-pu::before{background:linear-gradient(90deg,transparent,#a78bfa,transparent);}
+.sc-ico{font-size:20px;margin-bottom:6px;}
+.sc-val{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;line-height:1;}
+.sc-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
 
-/* TABLE */
-.table-wrap{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
-.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);}
-.table-title{font-size:14px;font-weight:900;color:#fff;}
-.table-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
-.search-row{padding:12px 18px;border-bottom:1px solid var(--border);}
-.search-input{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;outline:none;transition:border-color .2s;}
-.search-input:focus{border-color:var(--cyan);}
-.search-input::placeholder{color:rgba(255,255,255,.2);}
-table{width:100%;border-collapse:collapse;}
-th{padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border);}
-td{padding:12px 14px;font-size:12.5px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+/* TABLE WRAP */
+.tw{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.tw-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
+.tw-title{font-size:14px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px;}
+.tw-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+.search-wrap{padding:10px 16px;border-bottom:1px solid var(--border);}
+.search-inp{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.07);border-radius:9px;padding:8px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;outline:none;transition:border-color .2s;}
+.search-inp:focus{border-color:var(--cyan);}
+.search-inp::placeholder{color:rgba(255,255,255,.2);}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+th{padding:9px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:11px 12px;font-size:12.5px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:rgba(255,255,255,.02);}
+.empty-row td{text-align:center;color:var(--muted);padding:28px;font-size:13px;}
 
-/* STATUS BADGES */
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:600;}
-.b-pending{background:rgba(255,140,0,.12);color:var(--orange-l);border:1px solid rgba(255,140,0,.25);}
-.b-active{background:rgba(0,229,160,.1);color:var(--ok);border:1px solid rgba(0,229,160,.25);}
-.b-rejected{background:rgba(255,77,109,.1);color:#ff8fa3;border:1px solid rgba(255,77,109,.25);}
-.b-validated{background:rgba(0,200,255,.1);color:var(--cyan);border:1px solid rgba(0,200,255,.2);}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:600;white-space:nowrap;}
+.b-pend{background:rgba(255,140,0,.12);color:var(--orange-l);border:1px solid rgba(255,140,0,.25);}
+.b-actif{background:rgba(0,229,160,.1);color:var(--ok);border:1px solid rgba(0,229,160,.25);}
+.b-rejete{background:rgba(255,77,109,.1);color:#ff8fa3;border:1px solid rgba(255,77,109,.25);}
+.b-valide{background:rgba(0,200,255,.1);color:var(--cyan);border:1px solid rgba(0,200,255,.2);}
 
-/* ACTION BUTTONS */
-.action-btns{display:flex;gap:6px;}
-.btn-sm{padding:5px 12px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;}
-.btn-approve{background:rgba(0,229,160,.15);color:var(--ok);border:1px solid rgba(0,229,160,.3);}
-.btn-approve:hover{background:rgba(0,229,160,.25);}
-.btn-reject{background:rgba(255,77,109,.12);color:#ff8fa3;border:1px solid rgba(255,77,109,.25);}
-.btn-reject:hover{background:rgba(255,77,109,.22);}
-.btn-view{background:rgba(0,200,255,.1);color:var(--cyan);border:1px solid rgba(0,200,255,.2);}
-.btn-view:hover{background:rgba(0,200,255,.18);}
+/* ACTION BTNS */
+.act-btns{display:flex;gap:5px;flex-wrap:wrap;}
+.ab{padding:5px 11px;border:none;border-radius:7px;font-size:11px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;white-space:nowrap;}
+.ab-ok{background:rgba(0,229,160,.15);color:var(--ok);border:1px solid rgba(0,229,160,.3);}
+.ab-ok:hover{background:rgba(0,229,160,.25);}
+.ab-rej{background:rgba(255,77,109,.12);color:#ff8fa3;border:1px solid rgba(255,77,109,.25);}
+.ab-rej:hover{background:rgba(255,77,109,.22);}
+.ab-act{background:rgba(0,200,255,.1);color:var(--cyan);border:1px solid rgba(0,200,255,.2);}
+.ab-act:hover{background:rgba(0,200,255,.18);}
+.ab-susp{background:rgba(255,140,0,.1);color:var(--orange-l);border:1px solid rgba(255,140,0,.25);}
+.ab-susp:hover{background:rgba(255,140,0,.2);}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.on{display:flex;}
-.modal{background:linear-gradient(145deg,#0e1220,#0b1019);border:1px solid var(--border);border-radius:20px;padding:28px 26px;width:100%;max-width:460px;position:relative;animation:mfade .3s ease;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.on{display:flex;}
+.modal{background:linear-gradient(145deg,#0e1220,#0b1019);border:1px solid var(--border);border-radius:18px;padding:26px 24px;width:100%;max-width:440px;position:relative;animation:mfade .3s ease;}
 @keyframes mfade{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
-.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
-.modal-close:hover{color:#fff;}
-.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:4px;}
-.modal-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
-.modal-field{margin-bottom:14px;}
-.modal-label{font-size:10.5px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:5px;}
-.modal-val{font-size:14px;font-weight:700;color:#fff;word-break:break-all;}
-.modal-val.mono{font-family:'DM Mono',monospace;font-size:12px;color:var(--cyan);}
-.modal-actions{display:flex;gap:10px;margin-top:20px;}
-.modal-note{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;outline:none;resize:none;margin-top:10px;}
-.modal-note:focus{border-color:var(--orange);}
-.btn-modal{flex:1;padding:12px;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer;transition:all .2s;}
-.btn-approve-modal{background:linear-gradient(135deg,#00b87a,var(--ok));color:#fff;}
-.btn-reject-modal{background:linear-gradient(135deg,#e03050,var(--error));color:#fff;}
+.modal-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;}
+.modal-x:hover{color:#fff;}
+.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:3px;}
+.modal-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:18px;}
+.mf{margin-bottom:12px;}
+.mf-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:4px;}
+.mf-val{font-size:14px;font-weight:700;color:#fff;word-break:break-all;}
+.mf-val.mono{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--cyan);}
+.mnote{width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;outline:none;resize:none;margin-top:8px;}
+.mnote:focus{border-color:var(--orange);}
+.mactions{display:flex;gap:10px;margin-top:16px;}
+.mb{flex:1;padding:12px;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;cursor:pointer;transition:all .2s;}
+.mb-ok{background:linear-gradient(135deg,#00b87a,var(--ok));color:#fff;}
+.mb-ok:hover{opacity:.9;}
+.mb-rej{background:linear-gradient(135deg,#e03050,var(--error));color:#fff;}
+.mb-rej:hover{opacity:.9;}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;z-index:400;padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s;box-shadow:0 8px 30px rgba(0,0,0,.4);}
+.toast{position:fixed;bottom:20px;right:20px;z-index:400;padding:11px 18px;background:#0e1220;border:1px solid var(--border);border-radius:11px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .3s;box-shadow:0 8px 30px rgba(0,0,0,.5);pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
-/* RESPONSIVE */
-@media(max-width:768px){.sidebar{width:60px;}.sidebar .sb-item span:not(.sico){display:none;}.sidebar .sb-badge,.sidebar .sb-section-title,.sidebar .sb-admin-tag,.sidebar .sb-nnp,.sidebar .admin-name{display:none;}.main{margin-left:60px;}.stats-grid{grid-template-columns:1fr 1fr;}}
+/* LOADING */
+.loading{text-align:center;padding:30px;color:var(--muted);}
+.spin{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+@media(max-width:768px){
+  .sidebar{width:56px;}
+  .sidebar .sbi span:not(.ico){display:none;}
+  .sidebar .sb-badge,.sidebar .sb-sec,.sidebar .sb-tag,.sidebar .sb-nnp{display:none;}
+  .main{margin-left:56px;padding:16px 12px;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
@@ -134,18 +150,18 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="bars"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="bar b4"></div><div class="bar b5"></div></div>
       <div class="sb-nnp">NNP</div>
     </div>
-    <div class="sb-admin-tag">⚙ Administration</div>
+    <div class="sb-tag">⚙ Admin Panel</div>
   </div>
   <div class="sb-nav">
-    <div class="sb-section-title">Gestion</div>
-    <div class="sb-item active" onclick="showView('overview',this)"><span class="sico">📊</span><span>Vue générale</span></div>
-    <div class="sb-item" onclick="showView('activations',this)"><span class="sico">⚡</span><span>Activations</span><span class="sb-badge orange" id="sbPendingCount">0</span></div>
-    <div class="sb-item" onclick="showView('users',this)"><span class="sico">👥</span><span>Utilisateurs</span></div>
-    <div class="sb-item" onclick="showView('retraits',this)"><span class="sico">💳</span><span>Retraits</span><span class="sb-badge" id="sbRetraitCount">0</span></div>
-    <div class="sb-item" onclick="showView('gains',this)"><span class="sico">💰</span><span>Gains parrainage</span></div>
+    <div class="sb-sec">Gestion</div>
+    <button class="sbi active" onclick="show('overview',this)"><span class="ico">📊</span><span>Vue générale</span></button>
+    <button class="sbi" onclick="show('activations',this)"><span class="ico">⚡</span><span>Activations</span><span class="sb-badge orange" id="badgeAct">0</span></button>
+    <button class="sbi" onclick="show('users',this)"><span class="ico">👥</span><span>Utilisateurs</span></button>
+    <button class="sbi" onclick="show('retraits',this)"><span class="ico">💳</span><span>Retraits</span><span class="sb-badge" id="badgeRetr">0</span></button>
+    <button class="sbi" onclick="show('gains',this)"><span class="ico">💰</span><span>Gains</span></button>
   </div>
   <div class="sb-bottom">
-    <div class="sb-logout" onclick="logout()"><span>🚪</span><span>Déconnexion</span></div>
+    <button class="sb-logout" onclick="logout()"><span>🚪</span><span>Déconnexion</span></button>
   </div>
 </div>
 
@@ -153,291 +169,439 @@ tr:hover td{background:rgba(255,255,255,.02);}
 <div class="main">
   <div class="topbar">
     <div class="page-title" id="pageTitle">Vue <span>Générale</span></div>
-    <div class="admin-badge"><div class="dot"></div><div class="admin-name" id="adminName">Admin</div></div>
+    <div class="admin-info">
+      <button class="refresh-btn" onclick="refreshCurrent()">🔄 Actualiser</button>
+      <div class="admin-dot"><span id="adminName">Admin</span></div>
+    </div>
   </div>
 
-  <!-- ── OVERVIEW ── -->
+  <!-- OVERVIEW -->
   <div class="view active" id="view-overview">
     <div class="stats-grid">
-      <div class="stat-card sc-orange"><div class="stat-ico">👥</div><div class="stat-val" id="ovTotal">0</div><div class="stat-lbl">Utilisateurs total</div></div>
-      <div class="stat-card sc-ok"><div class="stat-ico">✅</div><div class="stat-val" id="ovActif">0</div><div class="stat-lbl">Comptes actifs</div></div>
-      <div class="stat-card sc-cyan"><div class="stat-ico">⏳</div><div class="stat-val" id="ovAttente">0</div><div class="stat-lbl">En attente</div></div>
-      <div class="stat-card sc-purple"><div class="stat-ico">💰</div><div class="stat-val" id="ovGains">0</div><div class="stat-lbl">Gains distribués (F)</div></div>
+      <div class="sc sc-or"><div class="sc-ico">👥</div><div class="sc-val" id="ov-total">—</div><div class="sc-lbl">Total inscrits</div></div>
+      <div class="sc sc-ok"><div class="sc-ico">✅</div><div class="sc-val" id="ov-actif">—</div><div class="sc-lbl">Comptes actifs</div></div>
+      <div class="sc sc-cy"><div class="sc-ico">⏳</div><div class="sc-val" id="ov-attente">—</div><div class="sc-lbl">En attente</div></div>
+      <div class="sc sc-pu"><div class="sc-ico">💰</div><div class="sc-val" id="ov-gains">—</div><div class="sc-lbl">Gains distribués (F)</div></div>
     </div>
-    <div class="table-wrap">
-      <div class="table-header"><div class="table-title">📋 Activations récentes</div><div class="table-count" id="recentCount"></div></div>
-      <table><thead><tr><th>Nom</th><th>Méthode</th><th>Montant</th><th>Statut</th><th>Date</th><th>Action</th></tr></thead>
-      <tbody id="recentActivations"></tbody></table>
+    <div class="tw">
+      <div class="tw-head"><div class="tw-title">⚡ Dernières activations</div><div class="tw-count" id="ov-count"></div></div>
+      <div class="table-scroll"><table><thead><tr><th>Nom</th><th>Email</th><th>Méthode</th><th>ID Transaction</th><th>Date</th><th>Statut</th><th>Action</th></tr></thead>
+      <tbody id="ov-tbody"><tr class="empty-row"><td colspan="7"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
     </div>
   </div>
 
-  <!-- ── ACTIVATIONS ── -->
+  <!-- ACTIVATIONS -->
   <div class="view" id="view-activations">
-    <div class="table-wrap">
-      <div class="table-header"><div class="table-title">⚡ Demandes d'activation</div><div class="table-count" id="actCount"></div></div>
-      <div class="search-row"><input class="search-input" placeholder="🔍 Rechercher par nom, méthode, ID transaction..." oninput="filterTable('actTbody',this.value)"></div>
-      <table><thead><tr><th>Nom</th><th>Tél</th><th>Méthode</th><th>Num/Wallet</th><th>ID Transaction</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
-      <tbody id="actTbody"></tbody></table>
+    <div class="tw">
+      <div class="tw-head"><div class="tw-title">⚡ Toutes les activations</div><div class="tw-count" id="act-count"></div></div>
+      <div class="search-wrap"><input class="search-inp" placeholder="🔍 Rechercher..." oninput="filter('act-tbody',this.value)"></div>
+      <div class="table-scroll"><table><thead><tr><th>Nom</th><th>Email</th><th>Méthode</th><th>Num/Wallet</th><th>ID Transaction</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody id="act-tbody"><tr class="empty-row"><td colspan="8"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
     </div>
   </div>
 
-  <!-- ── USERS ── -->
+  <!-- USERS -->
   <div class="view" id="view-users">
-    <div class="table-wrap">
-      <div class="table-header"><div class="table-title">👥 Tous les utilisateurs</div><div class="table-count" id="usersCount"></div></div>
-      <div class="search-row"><input class="search-input" placeholder="🔍 Rechercher par nom, email, pays..." oninput="filterTable('usersTbody',this.value)"></div>
-      <table><thead><tr><th>Nom</th><th>Email</th><th>Pays</th><th>Statut</th><th>Solde</th><th>Filleuls</th><th>Parrain</th><th>Date</th><th>Action</th></tr></thead>
-      <tbody id="usersTbody"></tbody></table>
+    <div class="tw">
+      <div class="tw-head"><div class="tw-title">👥 Utilisateurs</div><div class="tw-count" id="usr-count"></div></div>
+      <div class="search-wrap"><input class="search-inp" placeholder="🔍 Rechercher nom, email, pays..." oninput="filter('usr-tbody',this.value)"></div>
+      <div class="table-scroll"><table><thead><tr><th>Nom</th><th>Email</th><th>Tél</th><th>Pays</th><th>Statut</th><th>Solde</th><th>Filleuls</th><th>Code Parrain</th><th>Date</th><th>Action</th></tr></thead>
+      <tbody id="usr-tbody"><tr class="empty-row"><td colspan="10"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
     </div>
   </div>
 
-  <!-- ── RETRAITS ── -->
+  <!-- RETRAITS -->
   <div class="view" id="view-retraits">
-    <div class="table-wrap">
-      <div class="table-header"><div class="table-title">💳 Demandes de retrait</div><div class="table-count" id="retraitCount"></div></div>
-      <table><thead><tr><th>Nom</th><th>Montant</th><th>Méthode</th><th>Numéro</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead>
-      <tbody id="retraitTbody"></tbody></table>
+    <div class="tw">
+      <div class="tw-head"><div class="tw-title">💳 Demandes de retrait</div><div class="tw-count" id="retr-count"></div></div>
+      <div class="table-scroll"><table><thead><tr><th>Nom</th><th>Montant</th><th>Méthode</th><th>Numéro</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead>
+      <tbody id="retr-tbody"><tr class="empty-row"><td colspan="7"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
     </div>
   </div>
 
-  <!-- ── GAINS ── -->
+  <!-- GAINS -->
   <div class="view" id="view-gains">
-    <div class="table-wrap">
-      <div class="table-header"><div class="table-title">💰 Historique des gains parrainage</div><div class="table-count" id="gainsCount"></div></div>
-      <table><thead><tr><th>Bénéficiaire</th><th>Source (filleul)</th><th>Niveau</th><th>Montant</th><th>Date</th></tr></thead>
-      <tbody id="gainsTbody"></tbody></table>
+    <div class="tw">
+      <div class="tw-head"><div class="tw-title">💰 Gains parrainage</div><div class="tw-count" id="gai-count"></div></div>
+      <div class="table-scroll"><table><thead><tr><th>Bénéficiaire</th><th>Source (filleul)</th><th>Niveau</th><th>Montant</th><th>Date</th></tr></thead>
+      <tbody id="gai-tbody"><tr class="empty-row"><td colspan="5"><div class="loading"><div class="spin"></div></div></td></tr></tbody></table></div>
     </div>
   </div>
 </div>
 
-<!-- MODAL ACTIVATION -->
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+<!-- MODAL -->
+<div class="modal-bg" id="modal" onclick="closeModal(event)">
   <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('on')">✕</button>
-    <div class="modal-title" id="mTitle">Détails activation</div>
-    <div class="modal-sub" id="mSub"></div>
-    <div id="mBody"></div>
-    <textarea class="modal-note" id="mNote" placeholder="Note admin (optionnel)..." rows="2"></textarea>
-    <div class="modal-actions">
-      <button class="btn-modal btn-approve-modal" id="mApprove" onclick="validateActivation(true)">✅ Valider</button>
-      <button class="btn-modal btn-reject-modal" id="mReject" onclick="validateActivation(false)">❌ Rejeter</button>
+    <button class="modal-x" onclick="closeModal({target:document.getElementById('modal')})">✕</button>
+    <div class="modal-title" id="m-title">Validation activation</div>
+    <div class="modal-sub" id="m-sub"></div>
+    <div id="m-body"></div>
+    <textarea class="mnote" id="m-note" placeholder="Note admin (optionnel)..." rows="2"></textarea>
+    <div class="mactions">
+      <button class="mb mb-ok" id="m-approve" onclick="doValidate(true)">✅ Valider le compte</button>
+      <button class="mb mb-rej" id="m-reject" onclick="doValidate(false)">❌ Rejeter</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const{createClient}=supabase;
-const sb=createClient('https://erflpsvmzzzimwghtyws.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZmxwc3Ztenp6aW13Z2h0eXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTE3ODksImV4cCI6MjA5MTc2Nzc4OX0._EDOiDj__5qSxb0OIT59KNt-90elU0ZjECZGHZRkjrI');
+const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-let currentActId=null, currentUserId=null;
+let currentActId = null, currentUserId = null, currentView = 'overview';
 
-function fmt(n){return Number(n||0).toLocaleString('fr-FR');}
-function fmtDate(d){return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'});}
-function badge(s){const m={en_attente:'b-pending ⏳',actif:'b-active ✅',validé:'b-validated ✅',rejeté:'b-rejected ❌',suspendu:'b-rejected 🚫'};const[c,ic]=(m[s]||'b-pending ⏳').split(' ');return `<span class="badge ${c}">${ic} ${s}</span>`;}
+// ── UTILS ──
+const fmt   = n => Number(n||0).toLocaleString('fr-FR');
+const fdate = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+const ini   = s => (s||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
 
-function toast(msg,ok=true){const t=document.getElementById('toast');t.innerHTML=(ok?'✅ ':'⚠️ ')+msg;t.style.borderColor=ok?'rgba(0,229,160,.3)':'rgba(255,140,0,.3)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-
-function showView(id,el){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
-  document.getElementById('view-'+id).classList.add('active');
-  el.classList.add('active');
-  const titles={overview:'Vue <span style="color:var(--orange)">Générale</span>',activations:'⚡ <span style="color:var(--orange)">Activations</span>',users:'👥 <span style="color:var(--orange)">Utilisateurs</span>',retraits:'💳 <span style="color:var(--orange)">Retraits</span>',gains:'💰 <span style="color:var(--orange)">Gains parrainage</span>'};
-  document.getElementById('pageTitle').innerHTML=titles[id]||id;
-  if(id==='activations') loadActivations();
-  if(id==='users') loadUsers();
-  if(id==='retraits') loadRetraits();
-  if(id==='gains') loadGains();
+function badge(s){
+  const map={
+    'en_attente': ['b-pend','⏳ En attente'],
+    'actif':      ['b-actif','✅ Actif'],
+    'validé':     ['b-valide','✅ Validé'],
+    'rejeté':     ['b-rejete','❌ Rejeté'],
+    'suspendu':   ['b-rejete','🚫 Suspendu'],
+  };
+  const [cls,txt] = map[s] || ['b-pend', s];
+  return `<span class="badge ${cls}">${txt}</span>`;
 }
 
-function filterTable(tbodyId,q){
-  const rows=document.getElementById(tbodyId).querySelectorAll('tr');
-  const lq=q.toLowerCase();
-  rows.forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(lq)?'':'none';});
+function toast(msg, ok=true){
+  const t=document.getElementById('toast');
+  t.innerHTML=(ok?'✅ ':'⚠️ ')+msg;
+  t.style.borderColor=ok?'rgba(0,229,160,.3)':'rgba(255,140,0,.3)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+function filter(tbodyId, q){
+  document.querySelectorAll(`#${tbodyId} tr`).forEach(r=>{
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function empty(msg='Aucune donnée'){
+  return `<tr class="empty-row"><td colspan="20">${msg}</td></tr>`;
+}
+
+// ── NAVIGATION ──
+function show(id, el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.sbi').forEach(i=>i.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  el.classList.add('active');
+  currentView = id;
+  const titles = {
+    overview:    'Vue <span style="color:var(--orange)">Générale</span>',
+    activations: '⚡ <span style="color:var(--orange)">Activations</span>',
+    users:       '👥 <span style="color:var(--orange)">Utilisateurs</span>',
+    retraits:    '💳 <span style="color:var(--orange)">Retraits</span>',
+    gains:       '💰 <span style="color:var(--orange)">Gains</span>',
+  };
+  document.getElementById('pageTitle').innerHTML = titles[id]||id;
+  loadView(id);
+}
+
+function refreshCurrent(){ loadView(currentView); }
+
+function loadView(id){
+  if(id==='overview')    loadOverview();
+  if(id==='activations') loadActivations();
+  if(id==='users')       loadUsers();
+  if(id==='retraits')    loadRetraits();
+  if(id==='gains')       loadGains();
 }
 
 // ── OVERVIEW ──
 async function loadOverview(){
-  const{count:total}=await sb.from('utilisateurs').select('*',{count:'exact',head:true});
-  const{count:actif}=await sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('statut','actif');
-  const{count:attente}=await sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('statut','en_attente');
-  const{count:pending}=await sb.from('activations').select('*',{count:'exact',head:true}).eq('statut','en_attente');
-  const{count:retrPending}=await sb.from('retraits').select('*',{count:'exact',head:true}).eq('statut','en_attente');
+  try{
+    // Stats
+    const [r1,r2,r3,r4,r5,r6] = await Promise.all([
+      sb.from('utilisateurs').select('*',{count:'exact',head:true}),
+      sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('statut','actif'),
+      sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('statut','en_attente'),
+      sb.from('activations').select('*',{count:'exact',head:true}).eq('statut','en_attente'),
+      sb.from('retraits').select('*',{count:'exact',head:true}).eq('statut','en_attente'),
+      sb.from('parrainage_gains').select('montant'),
+    ]);
+    document.getElementById('ov-total').textContent   = r1.count||0;
+    document.getElementById('ov-actif').textContent   = r2.count||0;
+    document.getElementById('ov-attente').textContent = r3.count||0;
+    document.getElementById('badgeAct').textContent   = r4.count||0;
+    document.getElementById('badgeRetr').textContent  = r5.count||0;
+    const totalGains = (r6.data||[]).reduce((s,g)=>s+g.montant,0);
+    document.getElementById('ov-gains').textContent   = fmt(totalGains);
 
-  document.getElementById('ovTotal').textContent=total||0;
-  document.getElementById('ovActif').textContent=actif||0;
-  document.getElementById('ovAttente').textContent=attente||0;
-  document.getElementById('sbPendingCount').textContent=pending||0;
-  document.getElementById('sbRetraitCount').textContent=retrPending||0;
+    // Tableau récent
+    const {data:acts} = await sb.from('activations')
+      .select('id,user_id,methode,id_transaction,statut,created_at,nom_compte,utilisateurs(nom,email)')
+      .order('created_at',{ascending:false})
+      .limit(15);
 
-  const{data:gTotal}=await sb.from('parrainage_gains').select('montant');
-  const total_gains=(gTotal||[]).reduce((s,g)=>s+g.montant,0);
-  document.getElementById('ovGains').textContent=fmt(total_gains);
+    const tbody = document.getElementById('ov-tbody');
+    if(!acts||acts.length===0){ tbody.innerHTML=empty('Aucune activation pour le moment'); return; }
 
-  const{data:acts}=await sb.from('activations').select('*,utilisateurs(nom,telephone)').order('created_at',{ascending:false}).limit(10);
-  document.getElementById('recentCount').textContent=`${acts?.length||0} récentes`;
-  document.getElementById('recentActivations').innerHTML=(acts||[]).map(a=>`
-    <tr>
-      <td><strong>${a.utilisateurs?.nom||'—'}</strong></td>
-      <td>${a.methode}</td>
-      <td>${fmt(a.montant)} F</td>
-      <td>${badge(a.statut)}</td>
-      <td>${fmtDate(a.created_at)}</td>
-      <td>${a.statut==='en_attente'?`<button class="btn-sm btn-approve" onclick="openModal('${a.id}','${a.user_id}','${a.utilisateurs?.nom||''}','${a.methode}','${a.telephone}','${a.id_transaction}')">Gérer →</button>`:'—'}</td>
-    </tr>`).join('');
+    document.getElementById('ov-count').textContent = `${acts.length} récentes`;
+    tbody.innerHTML = acts.map(a=>`
+      <tr>
+        <td><strong>${a.utilisateurs?.nom||a.nom_compte||'—'}</strong></td>
+        <td style="font-size:11px;color:var(--muted)">${a.utilisateurs?.email||'—'}</td>
+        <td>${a.methode}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:10px;max-width:120px;word-break:break-all;color:var(--cyan)">${a.id_transaction||'—'}</td>
+        <td style="font-size:11px">${fdate(a.created_at)}</td>
+        <td>${badge(a.statut)}</td>
+        <td>${a.statut==='en_attente'
+          ? `<button class="ab ab-ok" onclick="openModal('${a.id}','${a.user_id}','${(a.utilisateurs?.nom||a.nom_compte||'').replace(/'/g,"\\'")}','${a.methode}','${a.nom_compte||''}','${a.id_transaction||''}')">Gérer →</button>`
+          : '—'
+        }</td>
+      </tr>`).join('');
+  }catch(e){
+    console.error('loadOverview error:',e);
+    document.getElementById('ov-tbody').innerHTML = empty('Erreur de chargement: '+e.message);
+  }
 }
 
 // ── ACTIVATIONS ──
 async function loadActivations(){
-  const{data:acts}=await sb.from('activations').select('*,utilisateurs(nom,telephone,email)').order('created_at',{ascending:false});
-  document.getElementById('actCount').textContent=`${acts?.length||0} demandes`;
-  document.getElementById('actTbody').innerHTML=(acts||[]).map(a=>`
-    <tr>
-      <td><strong>${a.utilisateurs?.nom||'—'}</strong><br><span style="font-size:10px;color:var(--muted)">${a.utilisateurs?.email||''}</span></td>
-      <td>${a.utilisateurs?.telephone||'—'}</td>
-      <td>${a.methode}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan)">${a.telephone}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:10px;max-width:140px;word-break:break-all">${a.id_transaction}</td>
-      <td>${fmtDate(a.created_at)}</td>
-      <td>${badge(a.statut)}</td>
-      <td>
-        ${a.statut==='en_attente'?`
-        <div class="action-btns">
-          <button class="btn-sm btn-approve" onclick="openModal('${a.id}','${a.user_id}','${(a.utilisateurs?.nom||'').replace(/'/g,"\\'")}','${a.methode}','${a.telephone}','${a.id_transaction}')">✅</button>
-          <button class="btn-sm btn-reject" onclick="openModal('${a.id}','${a.user_id}','${(a.utilisateurs?.nom||'').replace(/'/g,"\\'")}','${a.methode}','${a.telephone}','${a.id_transaction}')">❌</button>
-        </div>`:'—'}
-      </td>
-    </tr>`).join('');
+  try{
+    const {data:acts} = await sb.from('activations')
+      .select('id,user_id,methode,telephone,id_transaction,statut,nom_compte,created_at,utilisateurs(nom,email)')
+      .order('created_at',{ascending:false});
+
+    document.getElementById('act-count').textContent = `${acts?.length||0} demandes`;
+    const tbody = document.getElementById('act-tbody');
+    if(!acts||acts.length===0){ tbody.innerHTML=empty('Aucune activation'); return; }
+
+    tbody.innerHTML = acts.map(a=>`
+      <tr>
+        <td><strong>${a.utilisateurs?.nom||a.nom_compte||'—'}</strong></td>
+        <td style="font-size:11px;color:var(--muted)">${a.utilisateurs?.email||'—'}</td>
+        <td><span style="font-weight:700">${a.methode}</span></td>
+        <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan)">${a.telephone||'—'}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:10px;max-width:140px;word-break:break-all">${a.id_transaction||'—'}</td>
+        <td style="font-size:11px">${fdate(a.created_at)}</td>
+        <td>${badge(a.statut)}</td>
+        <td>
+          ${a.statut==='en_attente'?`
+          <div class="act-btns">
+            <button class="ab ab-ok" onclick="openModal('${a.id}','${a.user_id}','${(a.utilisateurs?.nom||a.nom_compte||'').replace(/'/g,"\\'")}','${a.methode}','${a.nom_compte||''}','${a.id_transaction||''}')">✅ Valider</button>
+            <button class="ab ab-rej" onclick="quickReject('${a.id}')">❌</button>
+          </div>`:'—'}
+        </td>
+      </tr>`).join('');
+  }catch(e){
+    console.error('loadActivations error:',e);
+    document.getElementById('act-tbody').innerHTML = empty('Erreur: '+e.message);
+  }
 }
 
 // ── USERS ──
 async function loadUsers(){
-  const{data:users}=await sb.from('utilisateurs').select('*').order('created_at',{ascending:false});
-  // Get parrain names
-  const parrainIds=[...new Set((users||[]).filter(u=>u.parrain_id).map(u=>u.parrain_id))];
-  let parrainMap={};
-  if(parrainIds.length>0){
-    const{data:parrains}=await sb.from('utilisateurs').select('id,nom').in('id',parrainIds);
-    (parrains||[]).forEach(p=>parrainMap[p.id]=p.nom);
+  try{
+    const {data:users} = await sb.from('utilisateurs')
+      .select('*')
+      .order('created_at',{ascending:false});
+
+    document.getElementById('usr-count').textContent = `${users?.length||0} utilisateurs`;
+    const tbody = document.getElementById('usr-tbody');
+    if(!users||users.length===0){ tbody.innerHTML=empty('Aucun utilisateur'); return; }
+
+    // Map parrains
+    const pids=[...new Set(users.filter(u=>u.parrain_id).map(u=>u.parrain_id))];
+    let pm={};
+    if(pids.length>0){
+      const{data:ps}=await sb.from('utilisateurs').select('id,nom').in('id',pids);
+      (ps||[]).forEach(p=>pm[p.id]=p.nom);
+    }
+
+    tbody.innerHTML = users.map(u=>`
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">${ini(u.nom)}</div>
+            <strong>${u.nom}</strong>
+          </div>
+        </td>
+        <td style="font-size:11px">${u.email}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:11px">${u.telephone||'—'}</td>
+        <td>${u.pays||'—'}</td>
+        <td>${badge(u.statut)}</td>
+        <td style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--orange-l)">${fmt(u.solde)} F</td>
+        <td style="text-align:center;font-weight:900">${u.total_filleuls||0}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan)">${u.code_parrainage||'—'}</td>
+        <td style="font-size:11px">${fdate(u.created_at)}</td>
+        <td>
+          <div class="act-btns">
+            ${u.statut!=='actif'?`<button class="ab ab-ok" onclick="setUserStatus('${u.id}','actif')">Activer</button>`:''}
+            ${u.statut==='actif'?`<button class="ab ab-susp" onclick="setUserStatus('${u.id}','suspendu')">Suspendre</button>`:''}
+          </div>
+        </td>
+      </tr>`).join('');
+  }catch(e){
+    console.error('loadUsers error:',e);
+    document.getElementById('usr-tbody').innerHTML = empty('Erreur: '+e.message);
   }
-  document.getElementById('usersCount').textContent=`${users?.length||0} utilisateurs`;
-  document.getElementById('usersTbody').innerHTML=(users||[]).map(u=>`
-    <tr>
-      <td><strong>${u.nom}</strong><br><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${u.code_parrainage||''}</span></td>
-      <td style="font-size:11px">${u.email}</td>
-      <td>${u.pays||'—'}</td>
-      <td>${badge(u.statut)}</td>
-      <td style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--orange-l)">${fmt(u.solde)} F</td>
-      <td style="text-align:center">${u.total_filleuls||0}</td>
-      <td style="font-size:11px;color:var(--muted)">${parrainMap[u.parrain_id]||'—'}</td>
-      <td style="font-size:11px">${fmtDate(u.created_at)}</td>
-      <td>
-        <div class="action-btns">
-          ${u.statut!=='actif'?`<button class="btn-sm btn-approve" onclick="toggleUserStatus('${u.id}','actif')">Activer</button>`:''}
-          ${u.statut==='actif'?`<button class="btn-sm btn-reject" onclick="toggleUserStatus('${u.id}','suspendu')">Suspendre</button>`:''}
-        </div>
-      </td>
-    </tr>`).join('');
 }
 
 // ── RETRAITS ──
 async function loadRetraits(){
-  const{data:retr}=await sb.from('retraits').select('*,utilisateurs(nom)').order('created_at',{ascending:false});
-  document.getElementById('retraitCount').textContent=`${retr?.length||0} demandes`;
-  document.getElementById('retraitTbody').innerHTML=(retr||[]).map(r=>`
-    <tr>
-      <td><strong>${r.utilisateurs?.nom||'—'}</strong></td>
-      <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--orange-l)">${fmt(r.montant)} F</td>
-      <td>${r.methode}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px">${r.numero_compte}</td>
-      <td>${badge(r.statut)}</td>
-      <td>${fmtDate(r.created_at)}</td>
-      <td>
-        ${r.statut==='en_attente'?`
-        <div class="action-btns">
-          <button class="btn-sm btn-approve" onclick="handleRetrait('${r.id}','${r.user_id}',${r.montant},true)">✅ Payer</button>
-          <button class="btn-sm btn-reject" onclick="handleRetrait('${r.id}','${r.user_id}',${r.montant},false)">❌</button>
-        </div>`:'—'}
-      </td>
-    </tr>`).join('');
+  try{
+    const {data:retr} = await sb.from('retraits')
+      .select('*,utilisateurs(nom)')
+      .order('created_at',{ascending:false});
+
+    document.getElementById('retr-count').textContent = `${retr?.length||0} demandes`;
+    const tbody = document.getElementById('retr-tbody');
+    if(!retr||retr.length===0){ tbody.innerHTML=empty('Aucun retrait'); return; }
+
+    tbody.innerHTML = retr.map(r=>`
+      <tr>
+        <td><strong>${r.utilisateurs?.nom||'—'}</strong></td>
+        <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--orange-l)">${fmt(r.montant)} F</td>
+        <td>${r.methode}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:11px">${r.numero_compte}</td>
+        <td>${badge(r.statut)}</td>
+        <td style="font-size:11px">${fdate(r.created_at)}</td>
+        <td>
+          ${r.statut==='en_attente'?`
+          <div class="act-btns">
+            <button class="ab ab-ok" onclick="handleRetrait('${r.id}','${r.user_id}',${r.montant},true)">✅ Payer</button>
+            <button class="ab ab-rej" onclick="handleRetrait('${r.id}','${r.user_id}',${r.montant},false)">❌</button>
+          </div>`:'—'}
+        </td>
+      </tr>`).join('');
+  }catch(e){
+    console.error('loadRetraits error:',e);
+    document.getElementById('retr-tbody').innerHTML = empty('Erreur: '+e.message);
+  }
 }
 
 // ── GAINS ──
 async function loadGains(){
-  const{data:gains}=await sb.from('parrainage_gains').select('*,bene:beneficiaire_id(nom),src:source_id(nom)').order('created_at',{ascending:false}).limit(100);
-  document.getElementById('gainsCount').textContent=`${gains?.length||0} gains`;
-  const lvlColors={1:'color:var(--orange-l)',2:'color:var(--cyan)',3:'color:#a78bfa'};
-  document.getElementById('gainsTbody').innerHTML=(gains||[]).map(g=>`
-    <tr>
-      <td><strong>${g.bene?.nom||'—'}</strong></td>
-      <td>${g.src?.nom||'—'}</td>
-      <td><span style="font-family:'DM Mono',monospace;font-size:11px;${lvlColors[g.niveau]||''}">Niveau ${g.niveau}</span></td>
-      <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;${lvlColors[g.niveau]||''}">+${fmt(g.montant)} F</td>
-      <td>${fmtDate(g.created_at)}</td>
-    </tr>`).join('');
+  try{
+    const {data:gains} = await sb.from('parrainage_gains')
+      .select('*,bene:beneficiaire_id(nom),src:source_id(nom)')
+      .order('created_at',{ascending:false})
+      .limit(100);
+
+    document.getElementById('gai-count').textContent = `${gains?.length||0} gains`;
+    const tbody = document.getElementById('gai-tbody');
+    if(!gains||gains.length===0){ tbody.innerHTML=empty('Aucun gain distribué'); return; }
+
+    const lv={1:'color:var(--orange-l)',2:'color:var(--cyan)',3:'color:#a78bfa'};
+    tbody.innerHTML = gains.map(g=>`
+      <tr>
+        <td><strong>${g.bene?.nom||'—'}</strong></td>
+        <td>${g.src?.nom||'—'}</td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:11px;${lv[g.niveau]||''}">Niveau ${g.niveau}</span></td>
+        <td style="font-family:'Bebas Neue',sans-serif;font-size:20px;${lv[g.niveau]||''}">+${fmt(g.montant)} F</td>
+        <td style="font-size:11px">${fdate(g.created_at)}</td>
+      </tr>`).join('');
+  }catch(e){
+    document.getElementById('gai-tbody').innerHTML = empty('Erreur: '+e.message);
+  }
 }
 
 // ── MODAL ──
-function openModal(actId,userId,nom,methode,telephone,txid){
+function openModal(actId,userId,nom,methode,nomCompte,txid){
   currentActId=actId; currentUserId=userId;
-  document.getElementById('mTitle').textContent='Validation activation';
-  document.getElementById('mSub').textContent=nom;
-  document.getElementById('mBody').innerHTML=`
-    <div class="modal-field"><div class="modal-label">Méthode</div><div class="modal-val">${methode}</div></div>
-    <div class="modal-field"><div class="modal-label">Numéro / Wallet</div><div class="modal-val mono">${telephone}</div></div>
-    <div class="modal-field"><div class="modal-label">ID Transaction</div><div class="modal-val mono">${txid}</div></div>
+  document.getElementById('m-title').textContent = 'Validation activation';
+  document.getElementById('m-sub').textContent = nom;
+  document.getElementById('m-body').innerHTML = `
+    <div class="mf"><div class="mf-label">Méthode</div><div class="mf-val">${methode}</div></div>
+    <div class="mf"><div class="mf-label">Nom compte</div><div class="mf-val">${nomCompte||'—'}</div></div>
+    <div class="mf"><div class="mf-label">ID Transaction</div><div class="mf-val mono">${txid||'—'}</div></div>
   `;
-  document.getElementById('mNote').value='';
+  document.getElementById('m-note').value='';
   document.getElementById('modal').classList.add('on');
 }
 
-function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('on');}
-
-async function validateActivation(approve){
-  if(!currentActId) return;
-  const note=document.getElementById('mNote').value;
-  const statut=approve?'validé':'rejeté';
-  await sb.from('activations').update({statut,note_admin:note,validated_at:new Date().toISOString()}).eq('id',currentActId);
-  if(approve){
-    await sb.from('utilisateurs').update({statut:'actif'}).eq('id',currentUserId);
-    // Déclencher les gains de parrainage
-    await sb.rpc('crediter_parrainage',{p_user_id:currentUserId});
-  }
-  document.getElementById('modal').classList.remove('on');
-  toast(approve?'✅ Compte activé et gains distribués !':'Activation rejetée',approve);
-  loadOverview();
-  loadActivations();
+function closeModal(e){
+  if(e.target===document.getElementById('modal')||e.target===document.querySelector('.modal-x'))
+    document.getElementById('modal').classList.remove('on');
 }
 
-async function toggleUserStatus(userId,statut){
+async function doValidate(approve){
+  if(!currentActId) return;
+  const note = document.getElementById('m-note').value;
+  const statut = approve ? 'validé' : 'rejeté';
+
+  try{
+    await sb.from('activations').update({
+      statut, note_admin:note, validated_at:new Date().toISOString()
+    }).eq('id',currentActId);
+
+    if(approve){
+      await sb.from('utilisateurs').update({statut:'actif'}).eq('id',currentUserId);
+      // Déclencher les gains de parrainage
+      try{ await sb.rpc('crediter_parrainage',{p_user_id:currentUserId}); }
+      catch(e){ console.warn('RPC gain warn:',e); }
+    }
+
+    document.getElementById('modal').classList.remove('on');
+    toast(approve ? '🎉 Compte activé et gains distribués !' : 'Activation rejetée', approve);
+    loadOverview();
+    loadActivations();
+  }catch(e){
+    toast('Erreur: '+e.message, false);
+  }
+}
+
+async function quickReject(actId){
+  if(!confirm('Rejeter cette activation ?')) return;
+  await sb.from('activations').update({statut:'rejeté'}).eq('id',actId);
+  toast('Activation rejetée', false);
+  loadActivations(); loadOverview();
+}
+
+async function setUserStatus(userId, statut){
   await sb.from('utilisateurs').update({statut}).eq('id',userId);
-  toast('Statut mis à jour : '+statut);
+  toast(`Statut mis à jour : ${statut}`);
   loadUsers();
 }
 
-async function handleRetrait(retrId,userId,montant,approve){
+async function handleRetrait(retrId, userId, montant, approve){
   if(approve){
     await sb.from('retraits').update({statut:'validé',validated_at:new Date().toISOString()}).eq('id',retrId);
-    await sb.from('utilisateurs').update({solde:sb.raw(`solde - ${montant}`)}).eq('id',userId);
-    toast('✅ Retrait validé');
+    // Déduire du solde
+    const {data:u}=await sb.from('utilisateurs').select('solde').eq('id',userId).single();
+    if(u) await sb.from('utilisateurs').update({solde:Math.max(0,(u.solde||0)-montant)}).eq('id',userId);
+    toast('✅ Retrait validé et solde déduit');
   } else {
     await sb.from('retraits').update({statut:'rejeté'}).eq('id',retrId);
-    toast('Retrait rejeté',false);
+    toast('Retrait rejeté', false);
   }
   loadRetraits();
 }
 
-async function logout(){await sb.auth.signOut();window.location.href='nnp-login.html';}
+async function logout(){
+  try{ await sb.auth.signOut(); }catch(e){}
+  localStorage.clear();
+  window.location.href='nnp-login.html';
+}
 
 // ── INIT ──
 async function init(){
-  const{data:{user}}=await sb.auth.getUser();
-  if(!user){window.location.href='nnp-login.html';return;}
-  document.getElementById('adminName').textContent=user.email?.split('@')[0]||'Admin';
+  try{
+    // Récupérer session ou localStorage
+    let email = '';
+    try{
+      const{data:{session}}=await sb.auth.getSession();
+      if(session?.user?.email) email=session.user.email;
+    }catch(e){}
+    if(!email) email=localStorage.getItem('nnp_email')||'';
+    document.getElementById('adminName').textContent = email.split('@')[0]||'Admin';
+  }catch(e){}
+
   loadOverview();
+
+  // Auto-refresh toutes les 30 secondes
+  setInterval(()=>{ if(currentView==='overview') loadOverview(); }, 30000);
 }
 
 init();
