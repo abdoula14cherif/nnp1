@@ -12,6 +12,29 @@ html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-seri
 body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(0,55,180,.15) 0%,transparent 60%);pointer-events:none;}
 .gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;}
 
+/* LOADING SCREEN */
+#loadScreen{position:fixed;inset:0;z-index:999;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.ld-logo{display:flex;align-items:center;gap:10px;}
+.ld-bars{display:flex;align-items:flex-end;gap:3px;height:26px;}
+.ldb{width:5px;border-radius:2px 2px 1px 1px;animation:bpop .6s cubic-bezier(.34,1.56,.64,1) both;}
+.ldb1{height:26px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.1s;}
+.ldb2{height:16px;background:linear-gradient(180deg,rgba(0,200,255,.6),rgba(0,68,255,.6));animation-delay:.15s;}
+.ldb3{height:22px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.2s;}
+.ldb4{height:11px;background:linear-gradient(180deg,rgba(0,200,255,.3),rgba(0,68,255,.3));animation-delay:.25s;}
+.ldb5{height:26px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.3s;box-shadow:0 0 10px rgba(0,200,255,.5);}
+@keyframes bpop{from{transform:scaleY(0);transform-origin:bottom;}to{transform:scaleY(1);transform-origin:bottom;}}
+.ld-nnp{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:5px;background:linear-gradient(160deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ld-spin{width:24px;height:24px;border:2.5px solid rgba(255,255,255,.15);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;}
+.ld-txt{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ERROR SCREEN */
+#errScreen{position:fixed;inset:0;z-index:998;background:var(--navy);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center;}
+.err-ico{font-size:48px;}
+.err-title{font-size:18px;font-weight:900;color:#fff;}
+.err-msg{font-size:13px;font-weight:600;color:var(--muted);max-width:300px;line-height:1.6;}
+.err-btn{padding:14px 32px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:900;cursor:pointer;margin-top:8px;}
+
 /* TOP BAR */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,15,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);}
 .burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:6px;-webkit-tap-highlight-color:transparent;}
@@ -62,7 +85,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .sb-logout:hover{color:#ff6b6b;}
 
 /* MAIN */
-.main{padding-top:66px;padding-bottom:calc(var(--nav-h) + 10px);min-height:100vh;position:relative;z-index:10;}
+.main{padding-top:66px;padding-bottom:calc(var(--nav-h)+10px);position:relative;z-index:10;}
 .cont{max-width:480px;margin:0 auto;padding:14px 14px 0;}
 
 /* BALANCE CARD */
@@ -93,6 +116,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .ref-copy:hover{background:rgba(0,200,255,.18);}
 .ref-copy.done{color:var(--ok);border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.08);}
 
+/* SHARE BTN */
+.share-btn{width:100%;margin-top:10px;padding:11px;background:linear-gradient(135deg,rgba(0,200,255,.1),rgba(0,85,255,.1));border:1px solid rgba(0,200,255,.2);border-radius:11px;color:var(--cyan);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.share-btn:hover{background:rgba(0,200,255,.15);}
+
 /* STATS */
 .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px;}
 .stat-c{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:15px 14px;position:relative;overflow:hidden;}
@@ -119,12 +146,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .fg1{color:var(--orange-l);}
 .fg2{color:var(--cyan);}
 .fg3{color:#a78bfa;}
-.empty-fill{text-align:center;padding:18px;color:var(--muted);font-size:13px;font-weight:600;}
-
-/* LOADING SPIN */
-.loading-row{text-align:center;padding:20px;color:var(--muted);}
-.spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
+.empty-fill{text-align:center;padding:20px;color:var(--muted);font-size:13px;font-weight:600;line-height:1.7;}
 
 /* BOTTOM NAV */
 .bot-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(10,15,30,.93);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-around;padding:0 6px;}
@@ -134,12 +156,31 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .ni-ico{font-size:20px;}
 .ni-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
 .ni-center{background:linear-gradient(135deg,var(--orange),var(--orange-l));border-radius:16px;padding:9px 18px;box-shadow:0 4px 20px rgba(255,140,0,.4);color:#fff!important;}
-.ni-center .ni-lbl{color:#fff;}
-.ni-center:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(255,140,0,.5);}
+.ni-center .ni-lbl,.ni-center .ni-ico{color:#fff;}
+.ni-center:hover{transform:translateY(-2px);}
 </style>
 </head>
 <body>
 <div class="gbg"></div>
+
+<!-- LOADING SCREEN -->
+<div id="loadScreen">
+  <div class="ld-logo">
+    <div class="ld-bars"><div class="ldb ldb1"></div><div class="ldb ldb2"></div><div class="ldb ldb3"></div><div class="ldb ldb4"></div><div class="ldb ldb5"></div></div>
+    <div class="ld-nnp">NNP</div>
+  </div>
+  <div class="ld-spin"></div>
+  <div class="ld-txt" id="ldTxt">Chargement...</div>
+</div>
+
+<!-- ERROR SCREEN -->
+<div id="errScreen">
+  <div class="err-ico">⚠️</div>
+  <div class="err-title">Erreur de chargement</div>
+  <div class="err-msg" id="errMsg">Une erreur est survenue. Veuillez vous reconnecter.</div>
+  <button class="err-btn" onclick="window.location.href='nnp-login.html'">🔑 Se reconnecter</button>
+  <button class="err-btn" style="background:rgba(255,255,255,.08);margin-top:8px" onclick="init()">🔄 Réessayer</button>
+</div>
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -203,20 +244,21 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
   <div class="sb-logout" onclick="logout()">🚪 Se déconnecter</div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <div class="main">
   <div class="cont">
 
+    <!-- BALANCE CARD -->
     <div class="bal-card">
       <div class="bal-top">
         <div class="bal-lbl">💼 Solde total</div>
         <div class="bal-dot">Actif</div>
       </div>
-      <div class="bal-main" id="balMain"><span id="balTotal">—</span> <span>FCFA</span></div>
+      <div class="bal-main"><span id="balTotal">0</span> <span>FCFA</span></div>
       <div class="bal-lvls">
-        <div class="bal-lv lv1"><div class="lv-v" id="balN1">—</div><div class="lv-l">Niveau 1</div></div>
-        <div class="bal-lv lv2"><div class="lv-v" id="balN2">—</div><div class="lv-l">Niveau 2</div></div>
-        <div class="bal-lv lv3"><div class="lv-v" id="balN3">—</div><div class="lv-l">Niveau 3</div></div>
+        <div class="bal-lv lv1"><div class="lv-v" id="balN1">0</div><div class="lv-l">Niveau 1</div></div>
+        <div class="bal-lv lv2"><div class="lv-v" id="balN2">0</div><div class="lv-l">Niveau 2</div></div>
+        <div class="bal-lv lv3"><div class="lv-v" id="balN3">0</div><div class="lv-l">Niveau 3</div></div>
       </div>
       <div class="ref-box">
         <div class="ref-lbl">🔗 Lien de parrainage</div>
@@ -224,22 +266,27 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
           <div class="ref-link" id="refLink">Chargement...</div>
           <button class="ref-copy" id="copyBtn" onclick="copyRef()">📋</button>
         </div>
+        <button class="share-btn" onclick="shareRef()">📤 Partager le lien</button>
       </div>
     </div>
 
+    <!-- STATS -->
     <div class="stats-row">
-      <div class="stat-c"><div class="stat-ico">👥</div><div class="stat-v" id="stFill">—</div><div class="stat-l">Filleuls directs</div></div>
-      <div class="stat-c"><div class="stat-ico">💸</div><div class="stat-v" id="stGains">—</div><div class="stat-l">Gains totaux</div></div>
-      <div class="stat-c"><div class="stat-ico">🌐</div><div class="stat-v" id="stReseau">—</div><div class="stat-l">Réseau total</div></div>
-      <div class="stat-c"><div class="stat-ico">📤</div><div class="stat-v" id="stRetr">—</div><div class="stat-l">Retraits validés</div></div>
+      <div class="stat-c"><div class="stat-ico">👥</div><div class="stat-v" id="stFill">0</div><div class="stat-l">Filleuls directs</div></div>
+      <div class="stat-c"><div class="stat-ico">💸</div><div class="stat-v" id="stGains">0</div><div class="stat-l">Gains totaux</div></div>
+      <div class="stat-c"><div class="stat-ico">🌐</div><div class="stat-v" id="stReseau">0</div><div class="stat-l">Réseau total</div></div>
+      <div class="stat-c"><div class="stat-ico">📤</div><div class="stat-v" id="stRetr">0</div><div class="stat-l">Retraits validés</div></div>
     </div>
 
+    <!-- FILLEULS -->
     <div class="fill-sec">
       <div class="fill-top">
         <div class="fill-title">👥 Mes filleuls</div>
         <div class="fill-sub" id="fillCount"></div>
       </div>
-      <div id="fillList"><div class="loading-row"><div class="spin"></div></div></div>
+      <div id="fillList">
+        <div class="empty-fill">⏳ Chargement...</div>
+      </div>
     </div>
 
     <div style="height:8px"></div>
@@ -261,132 +308,287 @@ const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-const fmt  = n => Number(n||0).toLocaleString('fr-FR');
-const ini  = s => (s||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-const fdate= d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+const fmt   = n => Number(n||0).toLocaleString('fr-FR');
+const ini   = s => (s||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+const fdate = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
 
-async function getUid(){
-  try{
-    const{data:{session}}=await sb.auth.getSession();
-    if(session?.user?.id){
-      localStorage.setItem('nnp_uid',session.user.id);
-      localStorage.setItem('nnp_nom',session.user.user_metadata?.nom||'');
+let refUrl = '';
+
+// ── Récupérer UID — 3 méthodes en cascade ──
+async function getUid() {
+  setLdTxt('Vérification session...');
+
+  // Méthode 1 : session Supabase active
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user?.id) {
+      console.log('UID via session:', session.user.id);
+      localStorage.setItem('nnp_uid',   session.user.id);
+      localStorage.setItem('nnp_email', session.user.email || '');
       return session.user.id;
     }
-  }catch(e){}
-  return localStorage.getItem('nnp_uid');
+  } catch(e) { console.warn('getSession error:', e.message); }
+
+  // Méthode 2 : localStorage
+  const lsUid = localStorage.getItem('nnp_uid');
+  if (lsUid) {
+    console.log('UID via localStorage:', lsUid);
+    return lsUid;
+  }
+
+  // Méthode 3 : chercher par email dans localStorage
+  const lsEmail = localStorage.getItem('nnp_email');
+  if (lsEmail) {
+    console.log('Cherche UID par email:', lsEmail);
+    try {
+      const { data: u } = await sb.from('utilisateurs').select('id').eq('email', lsEmail).maybeSingle();
+      if (u?.id) {
+        localStorage.setItem('nnp_uid', u.id);
+        return u.id;
+      }
+    } catch(e) { console.warn('Email lookup error:', e.message); }
+  }
+
+  return null;
 }
 
-async function init(){
+function setLdTxt(t) {
+  const el = document.getElementById('ldTxt');
+  if (el) el.textContent = t;
+}
+
+function showError(msg) {
+  document.getElementById('loadScreen').style.display = 'none';
+  const es = document.getElementById('errScreen');
+  es.style.display = 'flex';
+  document.getElementById('errMsg').textContent = msg;
+}
+
+function hideLoad() {
+  const ls = document.getElementById('loadScreen');
+  ls.style.opacity = '0';
+  ls.style.transition = 'opacity .4s';
+  setTimeout(() => { ls.style.display = 'none'; }, 400);
+}
+
+// ── INIT PRINCIPAL ──
+async function init() {
+  document.getElementById('loadScreen').style.display = 'flex';
+  document.getElementById('errScreen').style.display = 'none';
+
+  // 1. Récupérer UID
   const uid = await getUid();
-  if(!uid){ window.location.href='nnp-login.html'; return; }
+  if (!uid) {
+    showError('Session introuvable. Veuillez vous reconnecter.');
+    return;
+  }
 
-  // Charger profil
-  const{data:u, error}=await sb.from('utilisateurs').select('*').eq('id',uid).maybeSingle();
-  if(error||!u){ window.location.href='nnp-login.html'; return; }
-  if(u.statut==='en_attente'){ window.location.href='nnp-attente.html'; return; }
+  setLdTxt('Chargement du profil...');
 
-  // Sauvegarder
-  localStorage.setItem('nnp_nom',u.nom);
-  localStorage.setItem('nnp_email',u.email);
+  // 2. Charger le profil depuis Supabase
+  let u = null;
+  try {
+    const { data, error } = await sb
+      .from('utilisateurs')
+      .select('*')
+      .eq('id', uid)
+      .maybeSingle();
 
-  // UI
-  const av=ini(u.nom);
+    if (error) {
+      console.error('DB error:', error.message);
+      // Ne pas rediriger — essayer avec email
+      const lsEmail = localStorage.getItem('nnp_email');
+      if (lsEmail) {
+        const { data: d2 } = await sb.from('utilisateurs').select('*').eq('email', lsEmail).maybeSingle();
+        u = d2;
+        if (u) localStorage.setItem('nnp_uid', u.id);
+      }
+    } else {
+      u = data;
+    }
+  } catch(e) {
+    console.error('Fetch error:', e.message);
+    showError('Erreur réseau : ' + e.message);
+    return;
+  }
+
+  // 3. Si aucun profil trouvé
+  if (!u) {
+    showError('Profil introuvable. Essayez de vous reconnecter.');
+    return;
+  }
+
+  // 4. Vérifier statut
+  if (u.statut === 'en_attente') {
+    window.location.href = 'nnp-attente.html';
+    return;
+  }
+
+  // 5. Sauvegarder en localStorage
+  localStorage.setItem('nnp_uid',   u.id);
+  localStorage.setItem('nnp_nom',   u.nom);
+  localStorage.setItem('nnp_email', u.email);
+
+  setLdTxt('Affichage des données...');
+
+  // 6. Remplir l'interface
+  fillUI(u);
+
+  // 7. Charger stats async (sans bloquer)
+  loadStats(u.id);
+  loadFilleuls(u.id);
+
+  // 8. Masquer le loading
+  hideLoad();
+}
+
+// ── REMPLIR L'UI ──
+function fillUI(u) {
+  const av = ini(u.nom);
+
+  // Top bar
   document.getElementById('topName').textContent = u.nom.split(' ')[0];
   document.getElementById('topAv').textContent   = av;
   document.getElementById('sbName').textContent  = u.nom;
   document.getElementById('sbAv').textContent    = av;
 
-  // Solde
-  document.getElementById('balTotal').textContent = fmt(u.solde);
-  document.getElementById('balN1').textContent    = fmt(u.solde_n1);
-  document.getElementById('balN2').textContent    = fmt(u.solde_n2);
-  document.getElementById('balN3').textContent    = fmt(u.solde_n3);
+  // Soldes
+  document.getElementById('balTotal').textContent = fmt(u.solde    || 0);
+  document.getElementById('balN1').textContent    = fmt(u.solde_n1 || 0);
+  document.getElementById('balN2').textContent    = fmt(u.solde_n2 || 0);
+  document.getElementById('balN3').textContent    = fmt(u.solde_n3 || 0);
+  document.getElementById('stFill').textContent  = u.total_filleuls || 0;
+  document.getElementById('stGains').textContent = fmt(u.solde || 0);
 
   // Lien parrainage
-  const base = window.location.origin + (window.location.pathname.replace('nnp-dashboard.html',''));
-  const refUrl = `${base}nnp-inscription.html?ref=${u.code_parrainage||''}`;
+  const base = window.location.href.replace('nnp-dashboard.html','').replace(/\?.*$/,'');
+  refUrl = base + 'nnp-inscription.html?ref=' + (u.code_parrainage || '');
   document.getElementById('refLink').textContent = refUrl;
-
-  // Stats
-  document.getElementById('stFill').textContent  = fmt(u.total_filleuls);
-  document.getElementById('stGains').textContent = fmt(u.solde);
-
-  // Réseau total
-  const{count:reseauCount}=await sb.from('parrainage_gains')
-    .select('*',{count:'exact',head:true}).eq('beneficiaire_id',uid);
-  document.getElementById('stReseau').textContent = reseauCount||0;
-
-  // Retraits validés
-  const{count:retrCount}=await sb.from('retraits')
-    .select('*',{count:'exact',head:true}).eq('user_id',uid).eq('statut','validé');
-  document.getElementById('stRetr').textContent = retrCount||0;
-
-  // Filleuls
-  await loadFilleuls(uid);
 }
 
-async function loadFilleuls(uid){
-  const{data:gains}=await sb.from('parrainage_gains')
-    .select('source_id,niveau,montant,created_at')
-    .eq('beneficiaire_id',uid)
-    .order('created_at',{ascending:false})
-    .limit(30);
+// ── CHARGER STATS ──
+async function loadStats(uid) {
+  try {
+    const [r1, r2] = await Promise.all([
+      sb.from('parrainage_gains').select('*',{count:'exact',head:true}).eq('beneficiaire_id',uid),
+      sb.from('retraits').select('*',{count:'exact',head:true}).eq('user_id',uid).eq('statut','validé')
+    ]);
+    document.getElementById('stReseau').textContent = r1.count || 0;
+    document.getElementById('stRetr').textContent   = r2.count || 0;
+  } catch(e) { console.warn('Stats error:', e.message); }
+}
 
-  const list=document.getElementById('fillList');
-  if(!gains||gains.length===0){
-    list.innerHTML='<div class="empty-fill">🔗 Partagez votre lien pour gagner vos premiers filleuls</div>';
-    document.getElementById('fillCount').textContent='';
-    return;
+// ── CHARGER FILLEULS ──
+async function loadFilleuls(uid) {
+  const list = document.getElementById('fillList');
+  try {
+    const { data: gains, error } = await sb
+      .from('parrainage_gains')
+      .select('source_id, niveau, montant, created_at')
+      .eq('beneficiaire_id', uid)
+      .order('created_at', {ascending: false})
+      .limit(30);
+
+    if (error) throw error;
+
+    if (!gains || gains.length === 0) {
+      list.innerHTML = `<div class="empty-fill">
+        🔗 Partagez votre lien pour gagner vos premiers filleuls !<br>
+        <span style="font-size:11px;opacity:.6">Chaque filleul activé = +1 500 FCFA</span>
+      </div>`;
+      document.getElementById('fillCount').textContent = '';
+      return;
+    }
+
+    // Récupérer noms
+    const ids = [...new Set(gains.map(g => g.source_id))];
+    const { data: users } = await sb.from('utilisateurs').select('id,nom').in('id', ids);
+    const um = {};
+    (users || []).forEach(u => um[u.id] = u.nom);
+
+    document.getElementById('fillCount').textContent = `(${gains.length})`;
+    list.innerHTML = gains.map(g => {
+      const nom = um[g.source_id] || 'Utilisateur';
+      return `<div class="fill-item">
+        <div class="fi-av">${ini(nom)}</div>
+        <div style="flex:1">
+          <div class="fi-nom">${nom}</div>
+          <div class="fi-date">${fdate(g.created_at)}</div>
+        </div>
+        <span class="fi-lv fl${g.niveau}">Niv.${g.niveau}</span>
+        <div class="fi-gain fg${g.niveau}">+${fmt(g.montant)}F</div>
+      </div>`;
+    }).join('');
+
+  } catch(e) {
+    console.error('Filleuls error:', e.message);
+    list.innerHTML = `<div class="empty-fill">⚠️ Erreur de chargement des filleuls</div>`;
   }
-
-  // Noms des sources
-  const ids=[...new Set(gains.map(g=>g.source_id))];
-  const{data:users}=await sb.from('utilisateurs').select('id,nom').in('id',ids);
-  const um={};(users||[]).forEach(u=>um[u.id]=u.nom);
-
-  document.getElementById('fillCount').textContent=`(${gains.length})`;
-  list.innerHTML=gains.map(g=>{
-    const nom=um[g.source_id]||'Anonyme';
-    return `<div class="fill-item">
-      <div class="fi-av">${ini(nom)}</div>
-      <div style="flex:1">
-        <div class="fi-nom">${nom}</div>
-        <div class="fi-date">${fdate(g.created_at)}</div>
-      </div>
-      <span class="fi-lv fl${g.niveau}">Niv.${g.niveau}</span>
-      <div class="fi-gain fg${g.niveau}">+${fmt(g.montant)}F</div>
-    </div>`;
-  }).join('');
 }
 
-function copyRef(){
-  const link=document.getElementById('refLink').textContent;
-  navigator.clipboard.writeText(link).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.textContent='✅';btn.classList.add('done');
-    setTimeout(()=>{btn.textContent='📋';btn.classList.remove('done');},2500);
+// ── COPIER / PARTAGER ──
+function copyRef() {
+  if (!refUrl) return;
+  navigator.clipboard.writeText(refUrl).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('done'); }, 2500);
+  }).catch(() => {
+    // Fallback pour les navigateurs sans clipboard
+    const ta = document.createElement('textarea');
+    ta.value = refUrl;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅';
+    setTimeout(() => { btn.textContent = '📋'; }, 2500);
   });
 }
 
-function toggleMenu(){
-  const s=document.getElementById('sidebar'),o=document.getElementById('overlay'),b=document.getElementById('burgerBtn');
-  s.classList.toggle('open');o.classList.toggle('on');b.classList.toggle('open');
+function shareRef() {
+  if (!refUrl) return;
+  const nom = localStorage.getItem('nnp_nom') || '';
+  const msg = `🚀 Rejoins NNP avec mon lien !\n\n💰 Gagne de l'argent en parrainant tes amis\n✅ Activation : 3 100 FCFA une seule fois\n🎁 Tu me donnes +1 500F en t'inscrivant !\n\n🔗 ${refUrl}`;
+
+  if (navigator.share) {
+    navigator.share({ title: 'NNP — Parrainage', text: msg });
+  } else {
+    navigator.clipboard.writeText(msg).then(() => {
+      alert('✅ Message copié ! Colle-le sur WhatsApp.');
+    });
+  }
 }
 
-function toggleVideo(el){
-  const sub=document.getElementById('videoSub'),arr=document.getElementById('vArr');
-  sub.classList.toggle('open');arr.textContent=sub.classList.contains('open')?'▲':'▼';
+// ── MENU ──
+function toggleMenu() {
+  const s = document.getElementById('sidebar');
+  const o = document.getElementById('overlay');
+  const b = document.getElementById('burgerBtn');
+  s.classList.toggle('open');
+  o.classList.toggle('on');
+  b.classList.toggle('open');
 }
 
-async function logout(){
-  try{await sb.auth.signOut();}catch(e){}
+function toggleVideo(el) {
+  const sub = document.getElementById('videoSub');
+  const arr = document.getElementById('vArr');
+  sub.classList.toggle('open');
+  arr.textContent = sub.classList.contains('open') ? '▲' : '▼';
+}
+
+// ── LOGOUT ──
+async function logout() {
+  try { await sb.auth.signOut(); } catch(e) {}
   localStorage.removeItem('nnp_uid');
   localStorage.removeItem('nnp_nom');
   localStorage.removeItem('nnp_email');
-  window.location.href='nnp-login.html';
+  window.location.href = 'nnp-login.html';
 }
 
+// ── LANCER ──
 init();
 </script>
 </body>
