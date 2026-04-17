@@ -11,10 +11,10 @@
 html,body{min-height:100vh;background:var(--navy);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 50% at 50% -5%,rgba(255,140,0,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 0% 100%,rgba(0,85,200,.15) 0%,transparent 60%);pointer-events:none;}
 .gbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;}
-.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 16px 52px;}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:30px 16px 52px;}
 
 /* LOGO */
-.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:20px;animation:fadeD .7s ease both;}
+.lhdr{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:18px;}
 .lrow{display:flex;align-items:center;gap:10px;}
 .lbars{display:flex;align-items:flex-end;gap:3px;height:24px;}
 .lb{width:4px;border-radius:2px 2px 1px 1px;animation:bpop .6s cubic-bezier(.34,1.56,.64,1) both;}
@@ -24,26 +24,49 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .lb4{height:10px;background:linear-gradient(180deg,rgba(0,200,255,.3),rgba(0,68,255,.3));animation-delay:.25s;}
 .lb5{height:24px;background:linear-gradient(180deg,var(--cyan),#0044ff);animation-delay:.3s;box-shadow:0 0 8px rgba(0,200,255,.5);}
 @keyframes bpop{from{transform:scaleY(0);transform-origin:bottom;}to{transform:scaleY(1);transform-origin:bottom;}}
-.lnnp{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:5px;line-height:1;background:linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(0,200,255,.3));}
+.lnnp{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:5px;line-height:1;background:linear-gradient(160deg,#fff 0%,#c8f0ff 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .lsub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(0,200,255,.4);text-transform:uppercase;}
-
-/* WELCOME BANNER */
-.welcome{width:100%;max-width:500px;background:linear-gradient(135deg,rgba(255,140,0,.12),rgba(0,200,255,.08));border:1px solid rgba(255,140,0,.25);border-radius:18px;padding:18px 20px;margin-bottom:18px;animation:fadeU .7s .05s ease both;}
-.welcome-title{font-size:16px;font-weight:900;color:#fff;margin-bottom:8px;}
-.welcome-title span{color:var(--orange-l);}
-.welcome-body{font-size:13px;font-weight:600;color:rgba(255,255,255,.65);line-height:1.7;}
-.welcome-body .hi{font-size:15px;font-weight:900;color:#fff;display:block;margin-bottom:6px;}
-.welcome-steps{display:flex;flex-direction:column;gap:5px;margin-top:10px;}
-.ws{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.6);}
-.ws .wico{font-size:14px;margin-top:1px;flex-shrink:0;}
 
 /* PRIX BADGE */
 .price-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;background:linear-gradient(135deg,rgba(255,140,0,.15),rgba(255,170,51,.1));border:1px solid rgba(255,140,0,.35);border-radius:40px;margin-bottom:18px;animation:fadeD .7s .1s ease both;}
 .price-val{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--orange-l);}
 .price-label{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:2px;color:rgba(255,140,0,.7);text-transform:uppercase;}
 
-/* CARD */
-.card{width:100%;max-width:500px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:22px;padding:26px 22px 30px;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 50px rgba(120,60,0,.1),0 24px 50px rgba(0,0,0,.5);animation:fadeU .8s ease .15s both;}
+/* ══ ÉTAPES GUIDE ══ */
+.guide{width:100%;max-width:500px;margin-bottom:18px;animation:fadeU .6s ease both;}
+
+.guide-title{font-size:15px;font-weight:900;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.guide-title .gt-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;padding:4px 10px;background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.3);border-radius:20px;color:var(--orange-l);text-transform:uppercase;}
+
+.step-guide{display:flex;flex-direction:column;gap:10px;}
+
+.sg-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid transparent;transition:all .2s;}
+.sg-item.s-done{background:rgba(0,229,160,.06);border-color:rgba(0,229,160,.2);}
+.sg-item.s-active{background:rgba(255,140,0,.08);border-color:rgba(255,140,0,.35);box-shadow:0 0 16px rgba(255,140,0,.08);}
+.sg-item.s-wait{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07);}
+
+.sg-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;flex-shrink:0;font-weight:900;}
+.s-done .sg-num{background:rgba(0,229,160,.15);color:var(--ok);border:1.5px solid rgba(0,229,160,.4);}
+.s-active .sg-num{background:rgba(255,140,0,.2);color:var(--orange-l);border:1.5px solid rgba(255,140,0,.5);}
+.s-wait .sg-num{background:rgba(255,255,255,.06);color:var(--muted);border:1.5px solid rgba(255,255,255,.1);}
+
+.sg-body{flex:1;}
+.sg-label{font-size:14px;font-weight:900;margin-bottom:3px;}
+.s-done .sg-label{color:var(--ok);}
+.s-active .sg-label{color:var(--orange-l);}
+.s-wait .sg-label{color:rgba(255,255,255,.5);}
+.sg-desc{font-size:12px;font-weight:600;color:var(--muted);line-height:1.6;}
+.sg-desc strong{color:var(--text);}
+
+/* WARNING BOX */
+.warning-box{width:100%;max-width:500px;background:rgba(255,77,109,.07);border:1.5px solid rgba(255,77,109,.25);border-radius:16px;padding:14px 16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;animation:fadeU .6s .05s ease both;}
+.wb-ico{font-size:22px;flex-shrink:0;margin-top:1px;}
+.wb-body{}
+.wb-title{font-size:13px;font-weight:900;color:#ff8fa3;margin-bottom:4px;}
+.wb-desc{font-size:12px;font-weight:600;color:rgba(255,143,163,.7);line-height:1.6;}
+
+/* CARD PRINCIPALE */
+.card{width:100%;max-width:500px;background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:22px;padding:22px 20px 26px;position:relative;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03),0 0 50px rgba(120,60,0,.1),0 24px 50px rgba(0,0,0,.5);animation:fadeU .8s ease .1s both;}
 .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--orange-l),transparent);opacity:.6;}
 .cn{position:absolute;width:13px;height:13px;}
 .ctl{top:11px;left:11px;border-top:1.5px solid rgba(255,140,0,.4);border-left:1.5px solid rgba(255,140,0,.4);}
@@ -51,29 +74,39 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradi
 .cbl{bottom:11px;left:11px;border-bottom:1.5px solid rgba(0,200,255,.3);border-left:1.5px solid rgba(0,200,255,.3);}
 .cbr{bottom:11px;right:11px;border-bottom:1.5px solid rgba(0,200,255,.3);border-right:1.5px solid rgba(0,200,255,.3);}
 
-.ctitle{font-size:18px;font-weight:900;color:#fff;margin-bottom:2px;}
+.ctitle{font-size:17px;font-weight:900;color:#fff;margin-bottom:2px;}
 .ctitle span{color:var(--orange-l);}
-.cstep{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:18px;}
+.cstep{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
 
 /* PAYMENT CARDS */
-.pay-title{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:10px;}
-.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;}
+.pay-section-title{font-size:11px;font-weight:800;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.pay-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
+
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px;}
 .pm{background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:13px;padding:13px 12px 11px;cursor:pointer;transition:all .2s;position:relative;-webkit-tap-highlight-color:transparent;}
-.pm:hover,.pm:active{border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.04);}
+.pm:active{transform:scale(.98);}
 .pm.selected{border-color:var(--orange);background:rgba(255,140,0,.08);box-shadow:0 0 16px rgba(255,140,0,.12);}
 .pm-head{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
 .pm-icon{font-size:20px;}
 .pm-name{font-size:12px;font-weight:800;color:#fff;}
-.pm-number{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--orange-l);margin-bottom:2px;}
+.pm-number{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;color:var(--orange-l);margin-bottom:2px;}
 .pm-owner{font-size:10.5px;color:var(--muted);}
 .pm.full{grid-column:1/-1;}
 .pm-addr{font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);word-break:break-all;margin-top:4px;line-height:1.4;}
-.copy-btn{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 10px;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);border-radius:8px;color:var(--cyan);font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Mono',monospace;letter-spacing:1px;transition:background .2s;}
+.copy-btn{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 10px;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2);border-radius:8px;color:var(--cyan);font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Mono',monospace;transition:background .2s;}
 .copy-btn:hover{background:rgba(0,200,255,.16);}
 .copy-btn.done{color:var(--ok);border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.08);}
 
+/* CHECKMARK CONFIRMATION */
+.confirm-check{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,140,0,.06);border:1.5px solid rgba(255,140,0,.2);border-radius:12px;margin-bottom:16px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.check-box{width:22px;height:22px;border:2px solid rgba(255,140,0,.4);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
+.check-box.checked{background:var(--orange);border-color:var(--orange);}
+.check-box.checked::after{content:'✓';color:#fff;font-size:13px;font-weight:900;}
+.check-text{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.5;}
+.check-text strong{color:var(--orange-l);}
+
 /* SEP */
-.sep{display:flex;align-items:center;gap:10px;margin:2px 0 16px;}
+.sep{display:flex;align-items:center;gap:10px;margin:2px 0 14px;}
 .sl{flex:1;height:1px;background:rgba(255,255,255,.07);}
 .st{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.2);text-transform:uppercase;}
 
@@ -98,18 +131,18 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
 @keyframes slin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
 
 /* BTN */
-.btn{width:100%;padding:14px;margin-top:6px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 26px rgba(255,140,0,.35);}
+.btn{width:100%;padding:14px;margin-top:6px;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,opacity .2s;box-shadow:0 4px 26px rgba(255,140,0,.35);}
 .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s;}
 .btn:hover::before{left:100%;}
-.btn:hover{transform:translateY(-1px);}
-.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn:hover:not(:disabled){transform:translateY(-1px);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
 .bi{display:flex;align-items:center;justify-content:center;gap:10px;}
 .sp{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 @keyframes fadeU{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeD{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:480px){.card{padding:20px 14px 26px;}.pay-methods{grid-template-columns:1fr;}.pm.full{grid-column:1;}}
+@media(max-width:480px){.card{padding:18px 14px 22px;}.pay-methods{grid-template-columns:1fr;}.pm.full{grid-column:1;}}
 </style>
 </head>
 <body>
@@ -125,37 +158,73 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
     <div class="lsub">New Numeric Platform</div>
   </div>
 
-  <!-- WELCOME MESSAGE -->
-  <div class="welcome">
-    <div class="welcome-title">🎉 Bienvenue sur <span>NNP</span> !</div>
-    <div class="welcome-body">
-      <span class="hi" id="welcomeName">Bonjour 👋</span>
-      Tu as rejoint la <strong>New Numeric Platform</strong> — la plateforme de parrainage qui te permet de gagner de l'argent réel en invitant tes proches.
-      <div class="welcome-steps">
-        <div class="ws"><span class="wico">✅</span><span>Ton compte est créé avec succès</span></div>
-        <div class="ws"><span class="wico">💳</span><span>Active ton compte en envoyant <strong>3 100 FCFA</strong> via l'un des moyens ci-dessous</span></div>
-        <div class="ws"><span class="wico">🔗</span><span>Partage ton lien unique et gagne <strong>1 500F</strong> par filleul direct</span></div>
-        <div class="ws"><span class="wico">📈</span><span>Système 3 niveaux : Niv.1 = 1 500F · Niv.2 = 800F · Niv.3 = 400F</span></div>
-        <div class="ws"><span class="wico">⏳</span><span>Après paiement, attends la validation admin (sous 24h)</span></div>
+  <!-- PRIX -->
+  <div class="price-badge">
+    <div class="price-val">3 100 F</div>
+    <div class="price-label">Frais d'activation<br>unique</div>
+  </div>
+
+  <!-- ⚠️ AVERTISSEMENT IMPORTANT -->
+  <div class="warning-box">
+    <div class="wb-ico">⚠️</div>
+    <div class="wb-body">
+      <div class="wb-title">Important — Lisez avant de continuer</div>
+      <div class="wb-desc">
+        Vous devez <strong style="color:#ff8fa3">d'abord envoyer l'argent</strong> via l'un des moyens ci-dessous, 
+        puis remplir le formulaire avec la preuve de paiement.<br><br>
+        <strong style="color:#ff8fa3">⛔ Ne remplissez pas le formulaire sans avoir payé.</strong><br>
+        Tout faux dossier sera rejeté et votre compte suspendu.
       </div>
     </div>
   </div>
 
-  <!-- PRIX -->
-  <div class="price-badge">
-    <div class="price-val">3 100 F</div>
-    <div class="price-label">Activation<br>unique</div>
+  <!-- 📋 GUIDE ÉTAPES -->
+  <div class="guide">
+    <div class="guide-title">
+      📋 Comment activer votre compte
+      <span class="gt-badge">3 étapes</span>
+    </div>
+    <div class="step-guide">
+
+      <div class="sg-item s-done">
+        <div class="sg-num">✅</div>
+        <div class="sg-body">
+          <div class="sg-label">Étape 1 — Inscription terminée</div>
+          <div class="sg-desc">Votre compte a été créé avec succès. Vous pouvez maintenant procéder au paiement.</div>
+        </div>
+      </div>
+
+      <div class="sg-item s-active">
+        <div class="sg-num">2</div>
+        <div class="sg-body">
+          <div class="sg-label">Étape 2 — Envoyez 3 100 FCFA ← Faites ça maintenant</div>
+          <div class="sg-desc">
+            Choisissez un moyen de paiement ci-dessous et envoyez <strong>exactement 3 100 FCFA</strong> au numéro indiqué.<br>
+            ➡️ <strong>Notez bien l'ID ou le numéro de transaction</strong> qui s'affiche après l'envoi — vous en aurez besoin à l'étape 3.
+          </div>
+        </div>
+      </div>
+
+      <div class="sg-item s-wait">
+        <div class="sg-num">3</div>
+        <div class="sg-body">
+          <div class="sg-label">Étape 3 — Remplissez le formulaire de confirmation</div>
+          <div class="sg-desc">Après avoir envoyé l'argent, revenez ici et remplissez le formulaire avec votre nom, numéro et <strong>l'ID de transaction</strong>.</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <!-- CARD -->
+  <!-- CARD PAIEMENT -->
   <div class="card">
     <div class="cn ctl"></div><div class="cn ctr"></div><div class="cn cbl"></div><div class="cn cbr"></div>
 
-    <div class="ctitle">⚡ Activer mon <span>compte</span></div>
-    <div class="cstep">📋 Étape 2/2 — Paiement & confirmation</div>
+    <div class="ctitle">💳 Moyens de <span>paiement</span></div>
+    <div class="cstep">Choisissez et envoyez avant de remplir le formulaire</div>
 
     <!-- MÉTHODES -->
-    <div class="pay-title">📲 Choisissez votre méthode</div>
+    <div class="pay-section-title">📲 Mobil Money</div>
     <div class="pay-methods">
 
       <div class="pm" onclick="selPay(this,'Orange Money')">
@@ -170,24 +239,35 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
         <div class="pm-owner">Jean Jacques Rousseau</div>
       </div>
 
+      <div class="pay-section-title" style="grid-column:1/-1;margin-top:4px;">🔐 Crypto</div>
+
       <div class="pm full" onclick="selPay(this,'USDT BSC')">
         <div class="pm-head"><span class="pm-icon">💚</span><span class="pm-name">USDT (BSC — BEP20)</span></div>
         <div class="pm-addr">0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB</div>
-        <span class="copy-btn" onclick="copyAddr(event,'0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB',this)">📋 Copier</span>
+        <button class="copy-btn" onclick="copyAddr(event,'0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB',this)">📋 Copier l'adresse</button>
       </div>
 
       <div class="pm full" onclick="selPay(this,'Bitcoin BTC')">
         <div class="pm-head"><span class="pm-icon">₿</span><span class="pm-name">Bitcoin (BTC)</span></div>
         <div class="pm-addr">bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x</div>
-        <span class="copy-btn" onclick="copyAddr(event,'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x',this)">📋 Copier</span>
+        <button class="copy-btn" onclick="copyAddr(event,'bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x',this)">📋 Copier l'adresse</button>
       </div>
 
       <div class="pm full" onclick="selPay(this,'Solana SOL')">
         <div class="pm-head"><span class="pm-icon">🟣</span><span class="pm-name">Solana (SOL)</span></div>
         <div class="pm-addr">JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ</div>
-        <span class="copy-btn" onclick="copyAddr(event,'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ',this)">📋 Copier</span>
+        <button class="copy-btn" onclick="copyAddr(event,'JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ',this)">📋 Copier l'adresse</button>
       </div>
 
+    </div>
+
+    <!-- ✅ CASE À COCHER OBLIGATOIRE -->
+    <div class="confirm-check" id="confirmCheck" onclick="toggleCheck()">
+      <div class="check-box" id="checkBox"></div>
+      <div class="check-text">
+        ✅ J'ai bien envoyé <strong>3 100 FCFA</strong> et j'ai noté mon <strong>ID de transaction</strong>. 
+        Je suis prêt(e) à remplir le formulaire.
+      </div>
     </div>
 
     <div class="sep"><div class="sl"></div><div class="st">Confirmer le paiement</div><div class="sl"></div></div>
@@ -211,8 +291,8 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
         </div>
       </div>
       <div class="f">
-        <label><span class="req">*</span> Nom sur le compte / Wallet</label>
-        <div class="iw"><span class="ic">👤</span><input type="text" id="nom_compte" placeholder="Nom utilisé pour le paiement"></div>
+        <label><span class="req">*</span> Nom sur le compte / Wallet expéditeur</label>
+        <div class="iw"><span class="ic">👤</span><input type="text" id="nom_compte" placeholder="Votre nom utilisé pour le paiement"></div>
       </div>
       <div class="f">
         <label><span class="req">*</span> Numéro / Adresse expéditeur</label>
@@ -220,13 +300,22 @@ input:focus,select:focus{border-color:var(--orange);background:rgba(255,140,0,.0
       </div>
       <div class="f">
         <label><span class="req">*</span> ID / Hash de transaction</label>
-        <div class="iw"><span class="ic">🔑</span><input type="text" id="txid" placeholder="ID ou hash de la transaction"></div>
+        <div class="iw"><span class="ic">🔑</span><input type="text" id="txid" placeholder="Ex: MP250417.1234.A56789 ou hash crypto"></div>
+        <div style="font-size:10.5px;color:var(--muted);padding:4px 2px;line-height:1.5;">
+          📌 Pour Mobile Money : l'ID s'affiche dans le SMS de confirmation.<br>
+          📌 Pour crypto : copiez le hash de la transaction.
+        </div>
       </div>
     </div>
 
-    <button class="btn" id="sbtn" onclick="go()">
+    <button class="btn" id="sbtn" onclick="go()" disabled>
       <div class="bi"><div class="sp" id="sp"></div><span id="bt">📤 Soumettre le paiement</span></div>
     </button>
+
+    <div style="margin-top:10px;text-align:center;font-size:11px;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace;line-height:1.6">
+      Après soumission, votre dossier sera vérifié par un admin.<br>
+      Validation sous 24h maximum.
+    </div>
 
   </div>
 
@@ -238,105 +327,120 @@ const SUPA_URL = 'https://wjvprhqdmithkltybdfd.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdnByaHFkbWl0aGtsdHliZGZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODMzMDQsImV4cCI6MjA5MTg1OTMwNH0.H5pGOD_oDjymwBP27RK7_yuogSW5wA7FE8McQxcd7WE';
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-// ── Récupérer user_id : session OU localStorage ──
-async function getUserId() {
-  // 1. Essayer la session active
-  try {
-    const { data: { session } } = await sb.auth.getSession();
-    if (session?.user?.id) {
-      localStorage.setItem('nnp_uid', session.user.id);
-      localStorage.setItem('nnp_nom', session.user.user_metadata?.nom || '');
-      return session.user.id;
-    }
-  } catch(e) { console.warn('Session check:', e); }
+let hasPaid = false;
 
-  // 2. Fallback : localStorage
-  const uid = localStorage.getItem('nnp_uid');
-  if (uid) return uid;
-
-  return null;
-}
-
-// ── Init page ──
-async function initPage() {
-  const uid = await getUserId();
-  const nom = localStorage.getItem('nnp_nom') || '';
-  if (nom) {
-    document.getElementById('welcomeName').textContent = `Bonjour ${nom} 👋`;
-  }
-
-  if (!uid) {
-    // Pas de session : afficher avertissement mais laisser continuer
-    console.warn('No session found, will use email fallback');
+// ── Case à cocher obligatoire ──
+function toggleCheck(){
+  hasPaid = !hasPaid;
+  const box = document.getElementById('checkBox');
+  const btn = document.getElementById('sbtn');
+  box.classList.toggle('checked', hasPaid);
+  btn.disabled = !hasPaid;
+  if(hasPaid){
+    // Faire défiler vers le formulaire
+    setTimeout(()=>{
+      document.getElementById('methode').scrollIntoView({behavior:'smooth', block:'center'});
+    }, 200);
   }
 }
 
-function selPay(el, name) {
+// ── Sélectionner méthode ──
+function selPay(el, name){
   document.querySelectorAll('.pm').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById('methode').value = name;
 }
 
-function copyAddr(e, addr, btn) {
+// ── Copier adresse ──
+function copyAddr(e, addr, btn){
   e.stopPropagation();
-  navigator.clipboard.writeText(addr).then(() => {
+  navigator.clipboard.writeText(addr).then(()=>{
     btn.textContent = '✅ Copié !';
     btn.classList.add('done');
-    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('done'); }, 2000);
+    setTimeout(()=>{ btn.textContent = '📋 Copier l\'adresse'; btn.classList.remove('done'); }, 2500);
+  }).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = addr; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = '✅ Copié !';
+    setTimeout(()=>{ btn.textContent = '📋 Copier l\'adresse'; }, 2500);
   });
 }
 
-function al(msg, t = 'err') {
+// ── Alerte ──
+function al(msg, t='err'){
   const b = document.getElementById('ab');
-  b.className = 'alert ' + t;
-  b.innerHTML = (t === 'err' ? '⚠️ ' : '✅ ') + msg;
+  b.className = 'alert '+t;
+  b.innerHTML = (t==='err' ? '⚠️ ' : '✅ ') + msg;
   b.style.display = 'flex';
-  b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  b.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-function setLoad(on) {
-  const btn = document.getElementById('sbtn'), sp = document.getElementById('sp'), tx = document.getElementById('bt');
+// ── Loading ──
+function setLoad(on){
+  const btn=document.getElementById('sbtn'), sp=document.getElementById('sp'), tx=document.getElementById('bt');
   btn.disabled = on;
   sp.style.display = on ? 'block' : 'none';
   tx.textContent = on ? 'Envoi en cours...' : '📤 Soumettre le paiement';
 }
 
-async function go() {
+// ── Récupérer UID ──
+async function getUid(){
+  try{
+    const {data:{session}} = await sb.auth.getSession();
+    if(session?.user?.id){
+      localStorage.setItem('nnp_uid', session.user.id);
+      return session.user.id;
+    }
+  }catch(e){}
+  const lsUid = localStorage.getItem('nnp_uid');
+  if(lsUid) return lsUid;
+  const lsEmail = localStorage.getItem('nnp_email');
+  if(lsEmail){
+    const {data:u} = await sb.from('utilisateurs').select('id').eq('email',lsEmail).maybeSingle();
+    if(u?.id){ localStorage.setItem('nnp_uid', u.id); return u.id; }
+  }
+  return null;
+}
+
+// ── Soumettre ──
+async function go(){
+  if(!hasPaid) return al('Veuillez d\'abord cocher la case confirmant que vous avez envoyé le paiement.');
+
   const methode    = document.getElementById('methode').value;
   const nom_compte = document.getElementById('nom_compte').value.trim();
   const numero     = document.getElementById('numero').value.trim();
   const txid       = document.getElementById('txid').value.trim();
 
-  if (!methode)    return al('Veuillez sélectionner votre méthode de paiement.');
-  if (!nom_compte) return al('Veuillez entrer le nom du compte utilisé.');
-  if (!numero)     return al('Veuillez entrer votre numéro ou adresse.');
-  if (!txid)       return al('Veuillez entrer l\'ID ou hash de transaction.');
+  if(!methode)    return al('Veuillez sélectionner la méthode utilisée.');
+  if(!nom_compte) return al('Veuillez entrer le nom utilisé pour le paiement.');
+  if(!numero)     return al('Veuillez entrer votre numéro ou adresse.');
+  if(!txid)       return al('Veuillez entrer l\'ID ou hash de transaction.');
+  if(txid.length < 4) return al('L\'ID de transaction semble trop court. Vérifiez le SMS reçu.');
 
   setLoad(true);
 
-  try {
-    // Récupérer l'ID utilisateur (session ou localStorage)
-    let uid = await getUserId();
+  try{
+    let uid = await getUid();
 
-    // Si toujours pas d'ID, chercher via email dans localStorage
-    if (!uid) {
-      const email = localStorage.getItem('nnp_email');
-      if (email) {
-        const { data: u } = await sb
-          .from('utilisateurs')
-          .select('id')
-          .eq('email', email)
-          .maybeSingle();
-        if (u) uid = u.id;
-      }
-    }
-
-    if (!uid) {
+    if(!uid){
       return al('Session introuvable. <a href="nnp-login.html" style="color:var(--cyan)">Reconnectez-vous →</a>');
     }
 
-    // Insérer l'activation SANS dépendre de auth.getUser()
-    const { error } = await sb.from('activations').insert({
+    // Vérifier si une activation existe déjà en_attente
+    const {data:existing} = await sb.from('activations')
+      .select('id,statut')
+      .eq('user_id', uid)
+      .eq('statut','en_attente')
+      .maybeSingle();
+
+    if(existing){
+      al('✅ Vous avez déjà une demande en attente de validation. Patientez !', 'ok');
+      setTimeout(()=>{ window.location.href = 'nnp-attente.html'; }, 2000);
+      return;
+    }
+
+    const {error} = await sb.from('activations').insert({
       user_id:        uid,
       methode:        methode,
       nom_compte:     nom_compte,
@@ -347,23 +451,28 @@ async function go() {
       created_at:     new Date().toISOString()
     });
 
-    if (error) {
-      console.error('Insert error:', error);
-      throw new Error(error.message);
-    }
+    if(error) throw error;
 
-    al('✅ Paiement soumis avec succès ! Redirection...', 'ok');
-    setTimeout(() => { window.location.href = 'nnp-attente.html'; }, 2000);
+    al('✅ Dossier soumis avec succès ! En attente de validation...', 'ok');
+    setTimeout(()=>{ window.location.href = 'nnp-attente.html'; }, 2200);
 
-  } catch(e) {
+  }catch(e){
     console.error('Activation error:', e);
-    al('Erreur : ' + (e.message || 'Veuillez réessayer.'));
+    al('Erreur : '+(e.message||'Veuillez réessayer.'));
     setLoad(false);
   }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-initPage();
+document.addEventListener('keydown', e => { if(e.key==='Enter' && hasPaid) go(); });
+
+// Afficher nom utilisateur si dispo
+window.addEventListener('load', ()=>{
+  const nom = localStorage.getItem('nnp_nom');
+  if(nom){
+    const desc = document.querySelector('.sg-item.s-active .sg-desc');
+    if(desc) desc.innerHTML = desc.innerHTML.replace('Choisissez', `<strong style="color:var(--orange-l)">${nom}</strong>, choisissez`);
+  }
+});
 </script>
 </body>
 </html>
